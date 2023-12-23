@@ -1,0 +1,44 @@
+{
+  "logNode": {
+    "name": "日志",
+    "msg": ""
+  },
+  "waitNode": {
+    "name": "等待(秒)",
+    "min_time": "1",
+    "max_time": "3"
+  },
+  "weightNode": {
+    "name": "权重(1-1000)",
+    "weight": "50"
+  },
+  "isActiveNode": {
+    "name": "是否激活",
+    "path": ""
+  },
+  "sequenceNode": {
+    "name": "顺序节点"
+  },
+  "selectorNode": {
+    "name": "选择节点"
+  },
+  "parallelNode": {
+    "name": "并行节点"
+  },
+  "inverterNode": {
+    "name": "非"
+  },
+  "randomPositionNode": {
+    "name": "随机位置"
+  },
+  "moveToPositionNode": {
+    "name": "移动到位置"
+  },
+  "isInViewNode": {
+    "name": "在视野内",
+    "ViewRange": "5"
+  },
+  "attackNode": {
+    "name": "攻击"
+  }
+}

@@ -1,0 +1,14 @@
+.idea
+.svn
+Library
+Logs
+obj
+Temp
+UserSettings
+*.csproj
+*.sln
+Assets/StreamingAssets
+Assets/StreamingAssets.meta
+ProjectSettings/ProjectVersion.txt
+Packages/packages-lock.json
+Packages/manifest.json
