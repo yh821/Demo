@@ -4,7 +4,7 @@
 --- DateTime: 2020/10/26 11:06
 ---
 
-require("behavior/behaviorConfig")
+require("behavior/BehaviorConfig")
 
 ---@class BehaviorManager
 BehaviorManager = {}

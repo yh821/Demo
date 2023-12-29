@@ -24,3 +24,8 @@ TouchEventType = {
 
     UI_CLICK = "ui_click",
 }
+
+SystemEventType = {
+    GAME_FOCUS = "game_focus",
+    GAME_PAUSE = "game_pause",
+}

@@ -26,7 +26,7 @@ using System.Collections.Generic;
 namespace LuaInterface
 {
     public class LuaObjectPool
-    {        
+    {
         class PoolNode
         {
             public int index;
@@ -41,8 +41,10 @@ namespace LuaInterface
 
         private List<PoolNode> list;
         //同lua_ref策略，0作为一个回收链表头，不使用这个位置
-        private PoolNode head = null;   
+        private PoolNode head = null;
         private int count = 0;
+        private int collectStep = 2;
+        private int collectedIndex = -1;
 
         public LuaObjectPool()
         {
@@ -55,7 +57,7 @@ namespace LuaInterface
 
         public object this[int i]
         {
-            get 
+            get
             {
                 if (i > 0 && i < count)
                 {
@@ -97,9 +99,9 @@ namespace LuaInterface
         {
             if (index > 0 && index < count)
             {
-                return list[index].obj;                
+                return list[index].obj;
             }
-            
+
             return null;
         }
 
@@ -108,7 +110,7 @@ namespace LuaInterface
             if (pos > 0 && pos < count)
             {
                 object o = list[pos].obj;
-                list[pos].obj = null;                
+                list[pos].obj = null;
                 list[pos].index = head.index;
                 head.index = pos;
 
@@ -128,6 +130,28 @@ namespace LuaInterface
             }
 
             return null;
+        }
+
+        public void StepCollect(Action<object, int> collectListener)
+        {
+            collectedIndex++;
+            for (int i = 0; i < collectStep; i++)
+            {
+                collectedIndex += i;
+                if (collectedIndex >= count)
+                {
+                    collectedIndex = -1;
+                    return;
+                }
+
+                var node = list[collectedIndex];
+                var o = node.obj;
+                if (o != null && o.Equals(null))
+                {
+                    node.obj = null;
+                    collectListener?.Invoke(o, collectedIndex);
+                }
+            }
         }
 
         public object Replace(int pos, object o)

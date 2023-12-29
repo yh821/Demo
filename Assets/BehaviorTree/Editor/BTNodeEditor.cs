@@ -195,12 +195,12 @@ namespace BT
 			{
 				if (GUILayout.Button("JsonBT目录"))
 				{
-					System.Diagnostics.Process.Start(BtHelper.jsonPath);
+					System.Diagnostics.Process.Start(BtHelper.JsonPath);
 				}
 
 				if (GUILayout.Button("LuaBT目录"))
 				{
-					System.Diagnostics.Process.Start(BtHelper.behaviorPath);
+					System.Diagnostics.Process.Start(BtHelper.BehaviorPath);
 				}
 			}
 			EditorGUILayout.EndHorizontal();
@@ -213,7 +213,7 @@ namespace BT
 			{
 				mLastSelectJson = mCurSelectJson;
 				var fileName = mAllShowJsons[mCurSelectJson];
-				var file = Path.Combine(BtHelper.jsonPath, $"{fileName}.json");
+				var file = Path.Combine(BtHelper.JsonPath, $"{fileName}.json");
 				mBehaviourTree = BtHelper.LoadBehaviorTree(file);
 				if (mBehaviourTree == null)
 				{
@@ -238,7 +238,7 @@ namespace BT
 						GUILayout.Width(BTN_ICON_WIDTH)))
 					{
 						var fileName = mAllShowJsons[mCurSelectJson];
-						var filePath = Path.Combine(BtHelper.jsonPath, $"{fileName}.json");
+						var filePath = Path.Combine(BtHelper.JsonPath, $"{fileName}.json");
 						File.Delete(filePath);
 						LoadBehaviorTree();
 					}
@@ -259,7 +259,7 @@ namespace BT
 					if (mBehaviourTree != null && mBehaviourTree.BrokenNodeDict.Count > 0)
 						EditorUtility.DisplayDialog("提示", "有节点未连上", "确定");
 					else
-						BtHelper.SaveBTData(mBehaviourTree);
+						BtHelper.SaveBtData(mBehaviourTree);
 				}
 
 				GUI.color = Color.white;
@@ -297,14 +297,14 @@ namespace BT
 					{
 						if (GUILayout.Button("选中脚本"))
 						{
-							var file = FileUtil.GetProjectRelativePath(Path.Combine(BtHelper.nodePath,
+							var file = FileUtil.GetProjectRelativePath(Path.Combine(BtHelper.NodePath,
 								data.type + ".lua"));
 							var lua = AssetDatabase.LoadAssetAtPath<Object>(file);
 							Selection.activeObject = lua;
 						}
 
 						if (GUILayout.Button("编辑脚本"))
-							System.Diagnostics.Process.Start(Path.Combine(BtHelper.nodePath, data.type + ".lua"));
+							System.Diagnostics.Process.Start(Path.Combine(BtHelper.NodePath, data.type + ".lua"));
 						// BtHelper.OpenFile(Path.Combine(BtHelper.nodePath, data.type + ".lua"));
 					}
 
@@ -332,7 +332,7 @@ namespace BT
 
 		private void LoadBehaviorTree()
 		{
-			var files = Directory.GetFiles(BtHelper.jsonPath, "*.json", SearchOption.AllDirectories);
+			var files = Directory.GetFiles(BtHelper.JsonPath, "*.json", SearchOption.AllDirectories);
 			var fileNames = new List<string>();
 			foreach (var file in files)
 				fileNames.Add(Path.GetFileNameWithoutExtension(file));
@@ -344,7 +344,7 @@ namespace BT
 
 		private void DrawRootInspector(BtNodeData data)
 		{
-			bool reStart = false;
+			var reStart = false;
 			if (data.data != null && data.data.TryGetValue("restart", out var value))
 				reStart = value == "1";
 			reStart = EditorGUILayout.Toggle("restart", reStart);
@@ -353,7 +353,7 @@ namespace BT
 
 		private void DrawCompositeInspector(BtNodeData data)
 		{
-			AbortType abortType = AbortType.None;
+			var abortType = AbortType.None;
 			if (data.data != null && data.data.TryGetValue("abort", out var value))
 				AbortType.TryParse(value, out abortType);
 			abortType = (AbortType) EditorGUILayout.EnumPopup("abortType", abortType);
@@ -442,7 +442,7 @@ namespace BT
 				BtHelper.CleanPath();
 			if (GUILayout.Button("读取配置"))
 			{
-				mOptions = BtHelper.ReadBTNodeOption();
+				mOptions = BtHelper.ReadBtNodeOption();
 			}
 
 			GUI.color = Color.green;
@@ -585,7 +585,7 @@ namespace BT
 
 		public BtGrid()
 		{
-			var path = BtHelper.toolPath + "/GUI/background.png";
+			var path = BtHelper.ToolPath + "/GUI/background.png";
 			path = FileUtil.GetProjectRelativePath(path);
 			_background = AssetDatabase.LoadAssetAtPath<Texture>(path);
 		}
@@ -756,8 +756,7 @@ namespace BT
 			else
 			{
 				GUI.Label(Graph.NodeRect, "", style);
-				GUI.Label(Graph.IconRect, icon);
-				GUI.Label(Graph.LabelRect, showLabel);
+				GUI.DrawTexture(Graph.IconRect, icon);
 			}
 
 			if (BtEditorWindow.IsShowPos)
@@ -1028,7 +1027,10 @@ namespace BT
 			get
 			{
 				var rect = NodeRect;
-				return new Rect(rect.x, rect.y, rect.width, BtConst.IconSize);
+				var w = BtConst.IconSize;
+				var x = rect.x + (rect.width - w) / 2;
+				var y = rect.y + (rect.height - w) / 2;
+				return new Rect(x, y, w, w);
 			}
 		}
 
@@ -1082,5 +1084,4 @@ namespace BT
 			new Rect(NodeRect.x - BtConst.LinePointLength / 2, NodeRect.y - 8,
 				BtConst.LinePointLength, BtConst.LinePointLength);
 	}
-
 }

@@ -22,12 +22,13 @@ public class TextureAssetImporter : AssetPostprocessor
 			{TextureImporterType.NormalMap, TextureImporterFormat.ASTC_8x8}
 		};
 
-	void OnPreprocessTexture()
+	private void OnPreprocessTexture()
 	{
 		var importer = (TextureImporter) assetImporter;
 		if (importer.hideFlags == HideFlags.NotEditable) return;
 		if (!importer.assetPath.StartsWith("Assets/")) return;
 		if (importer.assetPath.StartsWith("Assets/.")) return;
+		if (importer.assetPath.Contains("/Editor/")) return;
 		if (tempIgnoreAssets.Contains(importer.assetPath)) return;
 
 		PreprocessTextureType(importer);
@@ -37,7 +38,7 @@ public class TextureAssetImporter : AssetPostprocessor
 		PreprocessPlatform(importer);
 	}
 
-	void PreprocessTextureType(TextureImporter importer)
+	private void PreprocessTextureType(TextureImporter importer)
 	{
 		var assetPath = importer.assetPath;
 		if (assetPath.StartsWith(RawImagesDir))
@@ -48,7 +49,7 @@ public class TextureAssetImporter : AssetPostprocessor
 			importer.textureType = TextureImporterType.Sprite;
 	}
 
-	void PreprocessReadable(TextureImporter importer)
+	private void PreprocessReadable(TextureImporter importer)
 	{
 		if (importer.assetPath.StartsWith(FontsDir))
 			importer.isReadable = true;
@@ -56,13 +57,13 @@ public class TextureAssetImporter : AssetPostprocessor
 			importer.isReadable = false;
 	}
 
-	void PreprocessFilterMode(TextureImporter importer)
+	private void PreprocessFilterMode(TextureImporter importer)
 	{
 		if (importer.textureType == TextureImporterType.Sprite)
 			importer.filterMode = FilterMode.Bilinear;
 	}
 
-	void PreprocessAdvanced(TextureImporter importer)
+	private void PreprocessAdvanced(TextureImporter importer)
 	{
 		if (importer.assetPath.StartsWith(RawImagesDir))
 		{
@@ -72,12 +73,11 @@ public class TextureAssetImporter : AssetPostprocessor
 		}
 	}
 
-	void PreprocessPlatform(TextureImporter importer)
+	private void PreprocessPlatform(TextureImporter importer)
 	{
 		if (importer.textureType == TextureImporterType.Sprite)
 			return;
-		var noCompress = importer.assetPath.Contains("/Editor/")
-		                 || importer.textureType == TextureImporterType.GUI
+		var noCompress = importer.textureType == TextureImporterType.GUI
 		                 || importer.textureType == TextureImporterType.SingleChannel;
 		var defaultSettings = importer.GetDefaultPlatformTextureSettings();
 		if (noCompress || defaultSettings.format == TextureImporterFormat.Alpha8)
@@ -105,20 +105,20 @@ public class TextureAssetImporter : AssetPostprocessor
 		}
 	}
 
-	static TextureImporterFormat GetCompressType(TextureImporterType type)
+	private static TextureImporterFormat GetCompressType(TextureImporterType type)
 	{
 		if (compressRules.TryGetValue(type, out var format))
 			return format;
 		return TextureImporterFormat.ASTC_6x6;
 	}
 
-	bool PreprocessUnifyPlatform(TextureImporter importer, TextureImporterPlatformSettings settings)
+	private bool PreprocessUnifyPlatform(TextureImporter importer, TextureImporterPlatformSettings settings)
 	{
 		var format = GetCompressType(importer.textureType);
 		return false;
 	}
 
-	bool PreprocessTextureMaxSize(TextureImporter importer, TextureImporterPlatformSettings settings)
+	private bool PreprocessTextureMaxSize(TextureImporter importer, TextureImporterPlatformSettings settings)
 	{
 		var dirty = importer.textureType == TextureImporterType.NormalMap
 		            || importer.assetPath.StartsWith(AssetBundleImporter.ActorDir);
@@ -130,7 +130,7 @@ public class TextureAssetImporter : AssetPostprocessor
 	}
 
 
-	void OnPostprocessTexture(Texture2D texture)
+	private void OnPostprocessTexture(Texture2D texture)
 	{
 		var importer = (TextureImporter) assetImporter;
 		if (tempIgnoreAssets.Contains(importer.assetPath)) return;
@@ -141,7 +141,7 @@ public class TextureAssetImporter : AssetPostprocessor
 		ProcessNoPackTips(importer, texture);
 	}
 
-	void PostprocessResize2POT(TextureImporter importer, Texture2D texture)
+	private void PostprocessResize2POT(TextureImporter importer, Texture2D texture)
 	{
 		if (string.IsNullOrEmpty(importer.spritePackingTag))
 			return;
@@ -166,12 +166,12 @@ public class TextureAssetImporter : AssetPostprocessor
 		tempIgnoreAssets.Remove(importer.assetPath);
 	}
 
-	private void ProcessNoPackTips(TextureImporter importer, Texture2D texture)
+	private void ProcessNoPackTips(TextureImporter importer, Texture texture)
 	{
-		var assetPath = importer.assetPath;
-		if (!assetPath.StartsWith(UIsDir)
+		var path = importer.assetPath;
+		if (!path.StartsWith(UIsDir)
 		    || importer.textureType != TextureImporterType.Sprite
-		    || assetPath.ToLower().Contains(NoPack))
+		    || path.ToLower().Contains(NoPack))
 			return;
 		if (texture.width > 1024 || texture.height > 1024)
 			Debug.LogError(

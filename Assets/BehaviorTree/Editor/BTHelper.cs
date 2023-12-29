@@ -15,7 +15,7 @@ namespace BT
 		private static string _jsonPath = string.Empty;
 		private static string _nodePath = string.Empty;
 
-		public static string toolPath
+		public static string ToolPath
 		{
 			get
 			{
@@ -26,7 +26,7 @@ namespace BT
 			}
 		}
 
-		public static string behaviorPath
+		public static string BehaviorPath
 		{
 			get
 			{
@@ -37,18 +37,18 @@ namespace BT
 			}
 		}
 
-		public static string jsonPath
+		public static string JsonPath
 		{
 			get
 			{
 				if (!string.IsNullOrEmpty(_jsonPath)) return _jsonPath;
-				_jsonPath = Path.Combine(toolPath, "Json");
+				_jsonPath = Path.Combine(ToolPath, "Json");
 				_jsonPath = _jsonPath.Replace('\\', '/');
 				return _jsonPath;
 			}
 		}
 
-		public static string nodePath
+		public static string NodePath
 		{
 			get
 			{
@@ -66,67 +66,65 @@ namespace BT
 			_nodePath = string.Empty;
 		}
 
-		private static readonly Dictionary<string, string> mNodeTypeDict = new Dictionary<string, string>();
+		private static readonly Dictionary<string, string> MNodeTypeDict = new Dictionary<string, string>();
 
 		private static Dictionary<string, Dictionary<string, string>> _nodeOptions;
-		public static Dictionary<string, Dictionary<string, string>> nodeOptions => _nodeOptions ??= ReadBTNodeOption();
+		public static Dictionary<string, Dictionary<string, string>> NodeOptions => _nodeOptions ??= ReadBtNodeOption();
 
 		public static string GenerateUniqueStringId()
 		{
 			return Guid.NewGuid().ToString("N");
 		}
 
-		public static void SaveBTData(BehaviourTree tree)
+		public static void SaveBtData(BehaviourTree tree)
 		{
-			if (tree != null)
+			if (tree == null) return;
+			FlushNodeData(tree.Root);
+			var content = JsonConvert.SerializeObject(tree.Root.Data, Formatting.Indented);
+			File.WriteAllText(Path.Combine(JsonPath, $"{tree.Name}.json"), content);
+
+			var luaData = SwitchToLua(tree.Root.Data);
+			content = JsonConvert.SerializeObject(luaData, Formatting.Indented);
+
+			content = content.Replace("[", "{");
+			content = content.Replace("]", "}");
+			content = content.Replace(":", "=");
+			var mc = Regex.Matches(content, "\"[a-zA-Z0-9_]+\"=");
+			foreach (Match m in mc)
 			{
-				FlushNodeData(tree.Root);
-				var content = JsonConvert.SerializeObject(tree.Root.Data, Formatting.Indented);
-				File.WriteAllText(Path.Combine(jsonPath, $"{tree.Name}.json"), content);
-
-				var luaData = SwitchToLua(tree.Root.Data);
-				content = JsonConvert.SerializeObject(luaData, Formatting.Indented);
-
-				content = content.Replace("[", "{");
-				content = content.Replace("]", "}");
-				content = content.Replace(":", "=");
-				var mc = Regex.Matches(content, "\"[a-zA-Z0-9_]+\"=");
-				foreach (Match m in mc)
-				{
-					var word = m.Value.Replace("\"", "");
-					content = content.Replace(m.Value, word);
-				}
-
-				mc = Regex.Matches(content, "\\s*[a-zA-Z0-9_]+= null,?");
-				foreach (Match m in mc)
-				{
-					content = content.Replace(m.Value, "");
-				}
-
-				mc = Regex.Matches(content, "= \"[\\d.]+\",?");
-				foreach (Match m in mc)
-				{
-					var word = m.Value.Replace("\"", "");
-					content = content.Replace(m.Value, word);
-				}
-
-				mc = Regex.Matches(content, "= \"{\\S+}\"");
-				foreach (Match m in mc)
-				{
-					var word = m.Value.Replace("\\", "");
-					word = " =" + word.Substring(3, word.Length - 4);
-					content = content.Replace(m.Value, word);
-				}
-
-				content = $"local __bt__ = {content}\nreturn __bt__";
-				File.WriteAllText(Path.Combine(behaviorPath, $"{tree.Name}.lua"), content);
+				var word = m.Value.Replace("\"", "");
+				content = content.Replace(m.Value, word);
 			}
+
+			mc = Regex.Matches(content, "\\s*[a-zA-Z0-9_]+= null,?");
+			foreach (Match m in mc)
+			{
+				content = content.Replace(m.Value, "");
+			}
+
+			mc = Regex.Matches(content, "= \"[\\d.]+\",?");
+			foreach (Match m in mc)
+			{
+				var word = m.Value.Replace("\"", "");
+				content = content.Replace(m.Value, word);
+			}
+
+			mc = Regex.Matches(content, "= \"{\\S+}\"");
+			foreach (Match m in mc)
+			{
+				var word = m.Value.Replace("\\", "");
+				word = " =" + word.Substring(3, word.Length - 4);
+				content = content.Replace(m.Value, word);
+			}
+
+			content = $"local __bt__ = {content}\nreturn __bt__";
+			File.WriteAllText(Path.Combine(BehaviorPath, $"{tree.Name}.lua"), content);
 		}
 
 		public static void FlushNodeData(BtNode node)
 		{
 			WalkNodeData(node);
-			node_index = 0;
+			_nodeIndex = 0;
 			WalkNodeIndex(node);
 		}
 
@@ -145,10 +143,10 @@ namespace BT
 			}
 		}
 
-		private static int node_index;
+		private static int _nodeIndex;
 		public static void WalkNodeIndex(BtNode node)
 		{
-			node.Data.index = node_index++;
+			node.Data.index = _nodeIndex++;
 			if (node.IsHaveChild)
 				foreach (var child in node.ChildNodeList)
 					WalkNodeIndex(child);
@@ -203,9 +201,9 @@ namespace BT
 			return tree;
 		}
 
-		public static Dictionary<string, Dictionary<string, string>> ReadBTNodeOption()
+		public static Dictionary<string, Dictionary<string, string>> ReadBtNodeOption()
 		{
-			var file = Path.Combine(toolPath, "BTNodeOption.json");
+			var file = Path.Combine(ToolPath, "BTNodeOption.json");
 			if (File.Exists(file))
 			{
 				var content = File.ReadAllText(file);
@@ -218,7 +216,7 @@ namespace BT
 		public static void WriteBtNodeOption(Dictionary<string, Dictionary<string, string>> data)
 		{
 			var content = JsonConvert.SerializeObject(data, Formatting.Indented);
-			File.WriteAllText(Path.Combine(toolPath, "BTNodeOption.json"), content);
+			File.WriteAllText(Path.Combine(ToolPath, "BTNodeOption.json"), content);
 			_nodeOptions = null;
 		}
 
@@ -238,9 +236,9 @@ namespace BT
 		public static BtNode AddChildNode(BehaviourTree owner, BtNode parent, string file)
 		{
 			var pos = parent.Graph.RealRect.position;
-			if (!mNodeTypeDict.ContainsKey(file))
+			if (!MNodeTypeDict.ContainsKey(file))
 				throw new ArgumentNullException(file, "找不到该类型");
-			var data = new BtNodeData(file, mNodeTypeDict[file], pos.x,
+			var data = new BtNodeData(file, MNodeTypeDict[file], pos.x,
 				pos.y + BtConst.DefaultHeight + BtConst.DefaultSpacingY);
 			parent.Data.AddChild(data);
 			return AddChildNode(owner, parent, data);
@@ -298,15 +296,15 @@ namespace BT
 
 		public static void LoadNodeFile()
 		{
-			mNodeTypeDict.Clear();
-			var files = Directory.GetFiles(nodePath, "*.lua", SearchOption.AllDirectories);
+			MNodeTypeDict.Clear();
+			var files = Directory.GetFiles(NodePath, "*.lua", SearchOption.AllDirectories);
 			foreach (var file in files)
 			{
 				var sortPath = file.Replace("\\", "/");
-				sortPath = sortPath.Replace(nodePath + "/", "");
+				sortPath = sortPath.Replace(NodePath + "/", "");
 				var fileName = Path.GetFileNameWithoutExtension(file);
 				var type = sortPath.Substring(0, sortPath.LastIndexOf('.'));
-				mNodeTypeDict.Add(fileName, type);
+				MNodeTypeDict.Add(fileName, type);
 			}
 		}
 
@@ -315,9 +313,9 @@ namespace BT
 			var key = node.NodeName;
 			if (key == BtConst.RootName)
 				return new Root(node);
-			if (mNodeTypeDict.ContainsKey(key))
+			if (MNodeTypeDict.ContainsKey(key))
 			{
-				var type = mNodeTypeDict[key];
+				var type = MNodeTypeDict[key];
 				if (type.StartsWith("actions/"))
 					return new Action(node);
 				if (type.StartsWith("conditions/"))
@@ -336,7 +334,7 @@ namespace BT
 			var menu = new GenericMenu();
 			if (node.ChildNodeList.Count < node.TaskType.CanAddNodeCount)
 			{
-				foreach (var kv in mNodeTypeDict)
+				foreach (var kv in MNodeTypeDict)
 				{
 					//var data = kv.Key.Replace("Node", "")
 					menu.AddItem(new GUIContent(kv.Value), false, callback, kv.Key);
@@ -362,7 +360,7 @@ namespace BT
 		public static void SetNodeDefaultData(BtNode node, string name)
 		{
 			var data = node.Data;
-			var options = nodeOptions;
+			var options = NodeOptions;
 			if (options.TryGetValue(name, out var option))
 			{
 				foreach (var kv in option)

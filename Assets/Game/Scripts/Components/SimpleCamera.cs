@@ -23,7 +23,7 @@ public class SimpleCamera : MonoBehaviour
 	public Vector3 targetOffset;
 	private Vector3 _lastTargetPos;
 
-	private float _distance = 10;
+	public float Distance { get; set; } = 10;
 	private float _oldDistance;
 
 	public Vector2 angle;
@@ -35,7 +35,7 @@ public class SimpleCamera : MonoBehaviour
 	private void Awake()
 	{
 		_cachedTransform = transform;
-		_oldDistance = _distance;
+		_oldDistance = Distance;
 		_oldAngle = angle;
 
 		//监听由lua添加
@@ -75,11 +75,11 @@ public class SimpleCamera : MonoBehaviour
 			{
 				pitch = angle.x <= minAngle;
 				if (pitch && _touchGroundDis <= 0)
-					_touchGroundDis = Mathf.Min(_distance, maxDistance);
+					_touchGroundDis = Mathf.Min(Distance, maxDistance);
 				;
 			}
 			else //俯视，拉远到触地前距离就停止
-				pitch = 0 < _touchGroundDis && _distance < _touchGroundDis;
+				pitch = 0 < _touchGroundDis && Distance < _touchGroundDis;
 
 			if (pitch)
 				Pinch(y * 2);
@@ -99,9 +99,9 @@ public class SimpleCamera : MonoBehaviour
 	public void Pinch(float delta)
 	{
 		if (StopCameraUpdate) return;
-		if (delta < 0 || _distance > minDistance)
+		if (delta < 0 || Distance > minDistance)
 		{
-			var temp = _distance + delta * -0.03f;
+			var temp = Distance + delta * -0.03f;
 			temp = Mathf.Clamp(temp, minDistance, maxDistance);
 			if (_touchGroundDis > 0 && temp >= _touchGroundDis)
 			{
@@ -109,7 +109,7 @@ public class SimpleCamera : MonoBehaviour
 				_touchGroundDis = 0; //超过触地前距离就取消变化
 			}
 
-			_distance = temp;
+			Distance = temp;
 			_oldDistance = temp;
 		}
 	}
@@ -118,7 +118,7 @@ public class SimpleCamera : MonoBehaviour
 	{
 		var targetY = FixTargetAngle(_oldAngle.y, angle.y);
 		_oldAngle = Vector2.Lerp(_oldAngle, new Vector2(angle.x, targetY), Time.deltaTime * rotationSensitivity);
-		_oldDistance = Mathf.Lerp(_oldDistance, _distance, Time.deltaTime * distanceSensitivity);
+		_oldDistance = Mathf.Lerp(_oldDistance, Distance, Time.deltaTime * distanceSensitivity);
 		SetCameraPosition(_oldDistance, Quaternion.Euler(_oldAngle.x, _oldAngle.y, 0));
 	}
 
@@ -153,7 +153,7 @@ public class SimpleCamera : MonoBehaviour
 	{
 		if (target)
 		{
-			_oldDistance = _distance;
+			_oldDistance = Distance;
 			_oldAngle = angle;
 		}
 	}

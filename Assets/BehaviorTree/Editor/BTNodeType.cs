@@ -63,7 +63,7 @@ namespace BT
 		/// <summary>
 		/// 图标尺寸
 		/// </summary>
-		public const float IconSize = 30;
+		public const float IconSize = 40;
 
 		/// <summary>
 		/// 左侧监视面板宽度
@@ -98,7 +98,7 @@ namespace BT
 		/// <summary>
 		/// 根节点名
 		/// </summary>
-		public const string RootName = "rootNode";
+		public const string RootName = "RootNode";
 	}
 
 	public class BtNodeLua
@@ -213,7 +213,7 @@ namespace BT
 			BelongNode = node;
 		}
 
-		public virtual GUIContent GetIcon()
+		public virtual Texture GetIcon()
 		{
 			return null;
 		}
@@ -229,9 +229,9 @@ namespace BT
 		{
 		}
 
-		public override GUIContent GetIcon()
+		public override Texture GetIcon()
 		{
-			return null; //BtNodeStyle.RootContent;
+			return BtNodeStyle.RootIcon;
 		}
 	}
 
@@ -336,16 +336,83 @@ namespace BT
 		public static GUIStyle IndexStyle => "AssetLabel";
 
 
-		private static GUIContent _RootContent;
-		public static GUIContent RootContent => _RootContent ??= EditorGUIUtility.IconContent("Import");
+		private static Texture _rootIcon;
 
-		private static GUIContent _LinePoint;
-		public static GUIContent LinePoint => _LinePoint ??= EditorGUIUtility.IconContent("sv_icon_dot3_pix16_gizmo");
+		public static Texture RootIcon
+		{
+			get
+			{
+				if (_rootIcon == null)
+				{
+					var path = BtHelper.ToolPath + "/GUI/root.png";
+					path = FileUtil.GetProjectRelativePath(path);
+					_rootIcon = AssetDatabase.LoadAssetAtPath<Texture>(path);
+				}
 
-		private static GUIContent _WarnPoint;
-		public static GUIContent WarnPoint => _WarnPoint ??= EditorGUIUtility.IconContent("sv_icon_dot4_pix16_gizmo");
+				return _rootIcon;
+			}
+		}
 
-		private static GUIContent _ErrorPoint;
-		public static GUIContent ErrorPoint => _ErrorPoint ??= EditorGUIUtility.IconContent("sv_icon_dot6_pix16_gizmo");
+
+		private static GUIContent _linePoint;
+		public static GUIContent LinePoint => _linePoint ??= EditorGUIUtility.IconContent("sv_icon_dot3_pix16_gizmo");
+
+		private static GUIContent _warnPoint;
+		public static GUIContent WarnPoint => _warnPoint ??= EditorGUIUtility.IconContent("sv_icon_dot4_pix16_gizmo");
+
+		private static GUIContent _errorPoint;
+		public static GUIContent ErrorPoint => _errorPoint ??= EditorGUIUtility.IconContent("sv_icon_dot6_pix16_gizmo");
+
+		private static Texture _abortSelf;
+
+		public static Texture AbortSelf
+		{
+			get
+			{
+				if (_abortSelf == null)
+				{
+					var path = BtHelper.ToolPath + "/GUI/self.png";
+					path = FileUtil.GetProjectRelativePath(path);
+					_abortSelf = AssetDatabase.LoadAssetAtPath<Texture>(path);
+				}
+
+				return _abortSelf;
+			}
+		}
+
+		private static Texture _abortLower;
+
+		public static Texture AbortLower
+		{
+			get
+			{
+				if (_abortLower == null)
+				{
+					var path = BtHelper.ToolPath + "/GUI/lower.png";
+					path = FileUtil.GetProjectRelativePath(path);
+					_abortLower = AssetDatabase.LoadAssetAtPath<Texture>(path);
+				}
+
+				return _abortLower;
+			}
+		}
+
+
+		private static Texture _abortBoth;
+
+		public static Texture AbortBoth
+		{
+			get
+			{
+				if (_abortBoth == null)
+				{
+					var path = BtHelper.ToolPath + "/GUI/both.png";
+					path = FileUtil.GetProjectRelativePath(path);
+					_abortBoth = AssetDatabase.LoadAssetAtPath<Texture>(path);
+				}
+
+				return _abortBoth;
+			}
+		}
 	}
 }

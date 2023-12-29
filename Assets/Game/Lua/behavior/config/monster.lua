@@ -1,41 +1,41 @@
 local __bt__ = {
-  file= "rootNode",
+  file= "RootNode",
   type= "",
   data= {
     restart= 1
   },
   children= {
     {
-      file= "selectorNode",
-      type= "composites/selectorNode",
+      file= "SelectorNode",
+      type= "composites/SelectorNode",
       data= {
         abort= "None"
       },
       children= {
         {
-          file= "sequenceNode",
-          type= "composites/sequenceNode",
+          file= "SequenceNode",
+          type= "composites/SequenceNode",
           data= {
             abort= "Lower"
           },
           children= {
             {
-              file= "isInViewNode",
-              type= "conditions/isInViewNode",
+              file= "IsInViewNode",
+              type= "conditions/IsInViewNode",
               data= {
                 ViewRange= 3
               },
             },
             {
-              file= "moveToPositionNode",
-              type= "actions/moveToPositionNode",
+              file= "MoveToPositionNode",
+              type= "actions/MoveToPositionNode",
               data= {
                 pos= "TargetPos"
               },
             },
             {
-              file= "attackNode",
-              type= "actions/attackNode",
+              file= "AttackNode",
+              type= "actions/AttackNode",
               data= {
                 pos= "TargetPos"
               },
@@ -43,22 +43,22 @@ local __bt__ = {
           }
         },
         {
-          file= "sequenceNode",
-          type= "composites/sequenceNode",
+          file= "SequenceNode",
+          type= "composites/SequenceNode",
           data= {
             abort= "None"
           },
           children= {
             {
-              file= "weightNode",
-              type= "actions/common/weightNode",
+              file= "WeightNode",
+              type= "actions/common/WeightNode",
               data= {
                 weight= 500
               },
             },
             {
-              file= "waitNode",
-              type= "actions/common/waitNode",
+              file= "WaitNode",
+              type= "actions/common/WaitNode",
               data= {
                 min_time= 1,
                 max_time= 3
@@ -67,23 +67,23 @@ local __bt__ = {
           }
         },
         {
-          file= "sequenceNode",
-          type= "composites/sequenceNode",
+          file= "SequenceNode",
+          type= "composites/SequenceNode",
           data= {
             abort= "None"
           },
           children= {
             {
-              file= "randomPositionNode",
-              type= "actions/randomPositionNode",
+              file= "RandomPositionNode",
+              type= "actions/RandomPositionNode",
               data= {
                 center= "0,0,0",
                 range= 5
               },
             },
             {
-              file= "moveToPositionNode",
-              type= "actions/moveToPositionNode",
+              file= "MoveToPositionNode",
+              type= "actions/MoveToPositionNode",
               data= {
                 pos= "RandomPos"
               },

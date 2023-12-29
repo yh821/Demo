@@ -3,8 +3,8 @@
 --- DateTime: 2023/5/6 17:43
 ---
 
-require("game/core/DrawPart")
-require("game/core/DrawObj")
+require("core/DrawPart")
+require("core/DrawObj")
 
 require("game/scene/ResPath")
 require("game/scene/StateMachine")

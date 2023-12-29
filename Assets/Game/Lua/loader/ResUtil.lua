@@ -13,7 +13,6 @@ local SysDirectory = System.IO.Directory
 local SysSearchOption = System.IO.SysSearchOption
 local NewString = System.String.New
 
-local cache_path
 local base_cache_path
 local streaming_files = {}
 local is_ios_encrypt_asset = false
@@ -21,15 +20,6 @@ local FileExistMap = {}
 local table_pool = {}
 local string_pool = {}
 local black_list = {}
-
-local function __CreateClassNew(self, ...)
-    local class = setmetatable({}, self)
-    class:__init(...)
-    return class
-end
-
-local function __CreateClassOnDestroy(self)
-end
 
 ResLoadPriority = {
     min = 0,
@@ -52,20 +42,6 @@ ResPoolReleasePolicy = {
     DestroyQuick = 4, --马上释放
     max = 5,
 }
-
-function ResUtil.CreateClass(base)
-    local class
-    if base then
-        class = setmetatable({}, base)
-        class.__index = class
-    else
-        class = {}
-        class.__index = class
-        class.New = __CreateClassNew
-        class.OnDestroy = __CreateClassOnDestroy
-    end
-    return class
-end
 
 local lua_asset_bundles = { "^lua/.*", "^luajit32/.*", "^luajit64/.*" }
 local is_lua_asset_bundle_cache = {}

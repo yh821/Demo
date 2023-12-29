@@ -1,7 +1,7 @@
 {
   "name": "root",
   "desc": "",
-  "file": "rootNode",
+  "file": "RootNode",
   "type": "",
   "posX": 450.0,
   "posY": 60.0,
@@ -14,8 +14,8 @@
     {
       "name": "顺序节点",
       "desc": "",
-      "file": "sequenceNode",
-      "type": "composites/sequenceNode",
+      "file": "SequenceNode",
+      "type": "composites/SequenceNode",
       "posX": 450.0,
       "posY": 180.0,
       "index": 1,
@@ -27,8 +27,8 @@
         {
           "name": "在视野内",
           "desc": "",
-          "file": "isInViewNode",
-          "type": "conditions/isInViewNode",
+          "file": "IsInViewNode",
+          "type": "conditions/IsInViewNode",
           "posX": 350.0,
           "posY": 300.0,
           "index": 2,
@@ -41,8 +41,8 @@
         {
           "name": "移动到目标",
           "desc": "",
-          "file": "moveToPositionNode",
-          "type": "actions/moveToPositionNode",
+          "file": "MoveToPositionNode",
+          "type": "actions/MoveToPositionNode",
           "posX": 450.0,
           "posY": 300.0,
           "index": 3,
@@ -55,8 +55,8 @@
         {
           "name": "攻击",
           "desc": "",
-          "file": "attackNode",
-          "type": "actions/attackNode",
+          "file": "AttackNode",
+          "type": "actions/AttackNode",
           "posX": 550.0,
           "posY": 300.0,
           "index": 4,

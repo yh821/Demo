@@ -1,28 +1,28 @@
 local __bt__ = {
-  file= "rootNode",
+  file= "RootNode",
   type= "",
   data= {
     restart= 1
   },
   children= {
     {
-      file= "sequenceNode",
-      type= "composites/sequenceNode",
+      file= "SequenceNode",
+      type= "composites/SequenceNode",
       data= {
         abort= "None"
       },
       children= {
         {
-          file= "randomPositionNode",
-          type= "actions/randomPositionNode",
+          file= "RandomPositionNode",
+          type= "actions/RandomPositionNode",
           data= {
             center= "0,0,0",
             range= 2
           },
         },
         {
-          file= "moveToPositionNode",
-          type= "actions/moveToPositionNode",
+          file= "MoveToPositionNode",
+          type= "actions/MoveToPositionNode",
           data= {
             pos= "RandomPos"
           },

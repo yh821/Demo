@@ -23,8 +23,11 @@ using System;
 using UnityEngine;
 using LuaInterface;
 
-public class LuaLooper : MonoBehaviour 
-{    
+public class LuaLooper : MonoBehaviour
+{
+    private LuaFunction luaUpdate;
+    private LuaFunction luaLateUpdate;
+
     public LuaBeatEvent UpdateEvent
     {
         get;
@@ -45,19 +48,21 @@ public class LuaLooper : MonoBehaviour
 
     public LuaState luaState = null;
 
-    void Start() 
+    void Start()
     {
         try
         {
             UpdateEvent = GetEvent("UpdateBeat");
             LateUpdateEvent = GetEvent("LateUpdateBeat");
             FixedUpdateEvent = GetEvent("FixedUpdateBeat");
+            luaUpdate = luaState.GetFunction("GameUpdate");
+            luaLateUpdate = luaState.GetFunction("GameLateUpdate");
         }
         catch (Exception e)
         {
             Destroy(this);
             throw e;
-        }        
+        }
 	}
 
     LuaBeatEvent GetEvent(string name)
@@ -78,7 +83,7 @@ public class LuaLooper : MonoBehaviour
     void ThrowException()
     {
         string error = luaState.LuaToString(-1);
-        luaState.LuaPop(2);                
+        luaState.LuaPop(2);
         throw new LuaException(error, LuaException.GetLastError());
     }
 
@@ -100,6 +105,7 @@ public class LuaLooper : MonoBehaviour
 #if UNITY_EDITOR
         luaState.CheckTop();
 #endif
+        luaUpdate.Call();
     }
 
     void LateUpdate()
@@ -115,7 +121,9 @@ public class LuaLooper : MonoBehaviour
             ThrowException();
         }
 
+        luaState.StepCollect();
         luaState.LuaPop(1);
+        luaLateUpdate.Call();
     }
 
     void FixedUpdate()

@@ -1,55 +1,55 @@
 local __bt__ = {
-  file= "rootNode",
+  file= "RootNode",
   data= {
     restart= 1
   },
   children= {
     {
-      file= "sequenceNode",
-      type= "composites/sequenceNode",
+      file= "SequenceNode",
+      type= "composites/SequenceNode",
       data= {
         abort= "None"
       },
       children= {
         {
-          file= "sequenceNode",
-          type= "composites/sequenceNode",
+          file= "SequenceNode",
+          type= "composites/SequenceNode",
           data= {
             abort= "None"
           },
           children= {
             {
-              file= "weightNode",
-              type= "actions/common/weightNode",
+              file= "WeightNode",
+              type= "actions/common/WeightNode",
               data= {
                 weight= 500
               },
             },
             {
-              file= "parallelNode",
-              type= "composites/parallelNode",
+              file= "ParallelNode",
+              type= "composites/ParallelNode",
               data= {
                 abort= "None"
               },
               children= {
                 {
-                  file= "logNode",
-                  type= "actions/common/logNode",
+                  file= "LogNode",
+                  type= "actions/common/LogNode",
                   data= {
                     msg= 111
                   },
                 },
                 {
-                  file= "waitNode",
-                  type= "actions/common/waitNode",
+                  file= "WaitNode",
+                  type= "actions/common/WaitNode",
                   data= {
                     min_time= 1,
                     max_time= 3
                   },
                 },
                 {
-                  file= "logNode",
-                  type= "actions/common/logNode",
+                  file= "LogNode",
+                  type= "actions/common/LogNode",
                   data= {
                     msg= 222
                   },
@@ -59,24 +59,24 @@ local __bt__ = {
           }
         },
         {
-          file= "waitNode",
-          type= "actions/common/waitNode",
+          file= "WaitNode",
+          type= "actions/common/WaitNode",
           data= {
             min_time= 1,
             max_time= 3
           },
         },
         {
-          file= "waitNode",
-          type= "actions/common/waitNode",
+          file= "WaitNode",
+          type= "actions/common/WaitNode",
           data= {
             min_time= 1,
             max_time= 3
           },
         },
         {
-          file= "logNode",
-          type= "actions/common/logNode",
+          file= "LogNode",
+          type= "actions/common/LogNode",
           data= {
             msg= ""
           },

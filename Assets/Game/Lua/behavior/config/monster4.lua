@@ -1,34 +1,34 @@
 local __bt__ = {
-  file= "rootNode",
+  file= "RootNode",
   type= "",
   data= {
     restart= 1
   },
   children= {
     {
-      file= "sequenceNode",
-      type= "composites/sequenceNode",
+      file= "SequenceNode",
+      type= "composites/SequenceNode",
       data= {
         abort= "Lower"
       },
       children= {
         {
-          file= "isInViewNode",
-          type= "conditions/isInViewNode",
+          file= "IsInViewNode",
+          type= "conditions/IsInViewNode",
           data= {
             ViewRange= 3
           },
         },
         {
-          file= "moveToPositionNode",
-          type= "actions/moveToPositionNode",
+          file= "MoveToPositionNode",
+          type= "actions/MoveToPositionNode",
           data= {
             pos= "TargetPos"
           },
         },
         {
-          file= "attackNode",
-          type= "actions/attackNode",
+          file= "AttackNode",
+          type= "actions/AttackNode",
           data= {
             pos= "TargetPos"
           },

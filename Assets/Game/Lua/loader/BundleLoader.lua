@@ -824,28 +824,28 @@ function BundleLoader:MonitorGameObjLive(time)
     end
     self.v_goid_go_monitor_time = time + 1
 
-    local die_goids = ResUtil.GetTable()
+    local die_go_ids = ResUtil.GetTable()
     local die_num = 0
     local monitor_count = 0
     for k, v in pairs(self.v_goid_go_monitors) do
         monitor_count = monitor_count + 1
         if v:Equals(nil) then
             die_num = die_num + 1
-            die_goids[die_num] = k
-            table.insert(die_goids, k)
+            die_go_ids[die_num] = k
+            table.insert(die_go_ids, k)
         end
     end
 
     for i = 1, die_num do
-        self:ReleaseInObjId(die_goids[i])
-        ResPoolMgr.Instance:OnGameObjIllegalDestroy(die_goids[i])
-        die_goids[i] = nil
+        self:ReleaseInObjId(die_go_ids[i])
+        ResPoolMgr.Instance:OnGameObjIllegalDestroy(die_go_ids[i])
+        die_go_ids[i] = nil
     end
 
-    ResUtil.ReleaseTable(die_goids)
+    ResUtil.ReleaseTable(die_go_ids)
 
     if die_num > 0 then
-        print_log("[BundleLoader] monitor_count=" .. monitor_count .. ", die_game_obj count=" .. #die_goids)
+        print_log("[BundleLoader] monitor_count=" .. monitor_count .. ", die_game_obj count=" .. #die_go_ids)
     end
 end
 

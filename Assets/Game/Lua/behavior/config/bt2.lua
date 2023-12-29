@@ -1,26 +1,26 @@
 local __bt__ = {
-  file= "rootNode",
+  file= "RootNode",
   data= {
     restart= 1
   },
   children= {
     {
-      file= "selectorNode",
-      type= "composites/selectorNode",
+      file= "SelectorNode",
+      type= "composites/SelectorNode",
       data= {
         abort= "None"
       },
       children= {
         {
-          file= "parallelNode",
-          type= "composites/parallelNode",
+          file= "ParallelNode",
+          type= "composites/ParallelNode",
           data= {
             abort= "None"
           },
           children= {
             {
-              file= "logNode",
-              type= "actions/common/logNode",
+              file= "LogNode",
+              type= "actions/common/LogNode",
               data= {
                 msg= 111
               },
@@ -28,15 +28,15 @@ local __bt__ = {
           }
         },
         {
-          file= "parallelNode",
-          type= "composites/parallelNode",
+          file= "ParallelNode",
+          type= "composites/ParallelNode",
           data= {
             abort= "None"
           },
           children= {
             {
-              file= "logNode",
-              type= "actions/common/logNode",
+              file= "LogNode",
+              type= "actions/common/LogNode",
               data= {
                 msg= 222
               },

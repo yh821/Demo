@@ -1,4 +1,3 @@
-require "common/define"
 
 ---@class CtrlManager : BaseClass
 CtrlManager = CtrlManager or BaseClass();
@@ -22,6 +21,7 @@ function CtrlManager:__init()
         "loader/BundleCacheMgr",
         "loader/DownloadMgr",
         "loader/GameObjLoaderMgr",
+        "loader/AudioMgr",
 
         "controller/ViewManager", --界面管理器
         "controller/AiManager",
@@ -46,13 +46,9 @@ function CtrlManager:__delete()
     CtrlManager.Instance = nil
 end
 
-function CtrlManager:Update(deltaTime, unscaledDeltaTime)
+function CtrlManager:Update(unscaledTime, unscaledDeltaTime)
     if Runner.Instance then
-        Runner.Instance:Update(deltaTime, unscaledDeltaTime)
-    end
-
-    if Vector3Pool then
-        Vector3Pool.Update(deltaTime, unscaledDeltaTime)
+        Runner.Instance:Update(unscaledTime, unscaledDeltaTime)
     end
 end
 

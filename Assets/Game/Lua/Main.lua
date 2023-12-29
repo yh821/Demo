@@ -1,3 +1,5 @@
+GameObject = UnityEngine.GameObject
+
 local UnityApplication = UnityEngine.Application
 
 UNITY_EDITOR = false --编辑环境
@@ -6,9 +8,12 @@ IND = -9000000000000000 -- 0/0 --无穷小
 
 IsLowMemorySystem = UnityEngine.SystemInfo.systemMemorySize <= 1500
 
-require("common/util")
+mime = require("mime")
+cjson = require("cjson.safe")
+
+require("common/Util")
 require("common/BaseClass")
-require("game/common/U3DObject")
+require("common/U3DObject")
 require("common/Vector3Pool")
 require("common/SortTools")
 require("common/CbdPool")
@@ -23,6 +28,14 @@ end
 
 function TryCall(func, p1, p2, p3)
     return xpcall(func, __TRACK_BACK__, p1, p2, p3)
+end
+
+local ctrl_list = {}
+function PushCtrl(ctrl)
+    ctrl_list[ctrl] = ctrl
+end
+function PopCtrl(ctrl)
+    ctrl_list[ctrl] = nil
 end
 
 --主入口函数。从这里开始lua逻辑
@@ -40,17 +53,38 @@ function Main()
     else
         require("loader/SimulationLoader")
     end
-
-    --require("loader/AssetBundleMgr")
-    --require("loader/BundleCache")
-    --require("loader/DownloadMgr")
 end
 
---场景切换通知
-function OnLevelWasLoaded(level)
-    collectgarbage("collect")
-    Time.timeSinceLevelLoad = 0
+local UnityTime = UnityEngine.Time
+function GameUpdate()
+    local time = UnityTime.unscaledTime
+    local delta_time = UnityTime.unscaledDeltaTime
+
+    for i, v in pairs(ctrl_list) do
+        v:Update(time, delta_time)
+    end
+
+    if Vector3Pool then
+        Vector3Pool.Update(time, delta_time)
+    end
+end
+
+function GameLateUpdate()
+end
+
+function GameFocus(focus)
+    if EventSystem and EventSystem.Instance then
+        EventSystem.Instance:Fire(SystemEventType.GAME_FOCUS, focus)
+    end
+end
+
+function GamePause(pause)
+    if EventSystem and EventSystem.Instance then
+        EventSystem.Instance:Fire(SystemEventType.GAME_PAUSE, pause)
+    end
 end
 
 function OnApplicationQuit()
 end
+
+Main()

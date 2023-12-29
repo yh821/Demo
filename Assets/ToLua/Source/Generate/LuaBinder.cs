@@ -16,6 +16,7 @@ public static class LuaBinder
 		MovableObjectWrap.Register(L);
 		EditorResourceMgrWrap.Register(L);
 		HedgehogTeam_EasyTouch_EasyTouchWrap.Register(L);
+		HedgehogTeam_EasyTouch_GestureWrap.Register(L);
 		Game_UINameTableWrap.Register(L);
 		ClickableObjectWrap.Register(L);
 		ZipUtilWrap.Register(L);
@@ -25,9 +26,6 @@ public static class LuaBinder
 		StreamingAssetsWrap.Register(L);
 		Game_AudioItemWrap.Register(L);
 		Game_AudioSourcePoolWrap.Register(L);
-		ViewWrap.Register(L);
-		BaseWrap.Register(L);
-		ManagerWrap.Register(L);
 		L.BeginModule("LuaInterface");
 		LuaInterface_LuaInjectionStationWrap.Register(L);
 		LuaInterface_InjectTypeWrap.Register(L);
@@ -173,21 +171,6 @@ public static class LuaBinder
 		L.RegFunction("WillRenderCanvases", UnityEngine_Canvas_WillRenderCanvases);
 		L.EndModule();
 		L.EndModule();
-		L.BeginModule("LuaFramework");
-		LuaFramework_UtilWrap.Register(L);
-		LuaFramework_AppConstWrap.Register(L);
-		LuaFramework_LuaHelperWrap.Register(L);
-		LuaFramework_ByteBufferWrap.Register(L);
-		LuaFramework_LuaBehaviourWrap.Register(L);
-		LuaFramework_GameManagerWrap.Register(L);
-		LuaFramework_LuaManagerWrap.Register(L);
-		LuaFramework_PanelManagerWrap.Register(L);
-		LuaFramework_SoundManagerWrap.Register(L);
-		LuaFramework_TimerManagerWrap.Register(L);
-		LuaFramework_ThreadManagerWrap.Register(L);
-		LuaFramework_NetworkManagerWrap.Register(L);
-		LuaFramework_ResourceManagerWrap.Register(L);
-		L.EndModule();
 		L.BeginModule("System");
 		L.RegFunction("Action", System_Action);
 		L.RegFunction("Predicate_int", System_Predicate_int);
@@ -199,7 +182,6 @@ public static class LuaBinder
 		L.RegFunction("Action_string", System_Action_string);
 		L.RegFunction("Func_bool", System_Func_bool);
 		L.RegFunction("Action_UnityEngine_AsyncOperation", System_Action_UnityEngine_AsyncOperation);
-		L.RegFunction("Action_NotiData", System_Action_NotiData);
 		L.RegFunction("Action_float_float", System_Action_float_float);
 		L.RegFunction("Action_bool_int", System_Action_bool_int);
 		L.RegFunction("Action_string_string", System_Action_string_string);
@@ -212,6 +194,7 @@ public static class LuaBinder
 		L.EndModule();
 		L.BeginModule("HedgehogTeam");
 		L.BeginModule("EasyTouch");
+		HedgehogTeam_EasyTouch_BaseFingerWrap.Register(L);
 		L.BeginModule("EasyTouch");
 		L.RegFunction("TouchCancelHandler", HedgehogTeam_EasyTouch_EasyTouch_TouchCancelHandler);
 		L.RegFunction("Cancel2FingersHandler", HedgehogTeam_EasyTouch_EasyTouch_Cancel2FingersHandler);
@@ -1667,33 +1650,6 @@ public static class LuaBinder
 			{
 				LuaTable self = ToLua.CheckLuaTable(L, 2);
 				Delegate arg1 = DelegateTraits<System.Action<UnityEngine.AsyncOperation>>.Create(func, self);
-				ToLua.Push(L, arg1);
-			}
-			return 1;
-		}
-		catch(Exception e)
-		{
-			return LuaDLL.toluaL_exception(L, e);
-		}
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int System_Action_NotiData(IntPtr L)
-	{
-		try
-		{
-			int count = LuaDLL.lua_gettop(L);
-			LuaFunction func = ToLua.CheckLuaFunction(L, 1);
-
-			if (count == 1)
-			{
-				Delegate arg1 = DelegateTraits<System.Action<NotiData>>.Create(func);
-				ToLua.Push(L, arg1);
-			}
-			else
-			{
-				LuaTable self = ToLua.CheckLuaTable(L, 2);
-				Delegate arg1 = DelegateTraits<System.Action<NotiData>>.Create(func, self);
 				ToLua.Push(L, arg1);
 			}
 			return 1;

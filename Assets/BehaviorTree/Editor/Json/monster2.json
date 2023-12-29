@@ -1,7 +1,7 @@
 {
   "name": "root",
   "desc": "",
-  "file": "rootNode",
+  "file": "RootNode",
   "type": "",
   "posX": 450.0,
   "posY": 60.0,
@@ -14,8 +14,8 @@
     {
       "name": "顺序节点",
       "desc": "",
-      "file": "sequenceNode",
-      "type": "composites/sequenceNode",
+      "file": "SequenceNode",
+      "type": "composites/SequenceNode",
       "posX": 450.0,
       "posY": 180.0,
       "index": 1,
@@ -27,8 +27,8 @@
         {
           "name": "随机位置",
           "desc": "",
-          "file": "randomPositionNode",
-          "type": "actions/randomPositionNode",
+          "file": "RandomPositionNode",
+          "type": "actions/RandomPositionNode",
           "posX": 400.0,
           "posY": 300.0,
           "index": 2,
@@ -42,8 +42,8 @@
         {
           "name": "移动到位置",
           "desc": "",
-          "file": "moveToPositionNode",
-          "type": "actions/moveToPositionNode",
+          "file": "MoveToPositionNode",
+          "type": "actions/MoveToPositionNode",
           "posX": 500.0,
           "posY": 300.0,
           "index": 3,

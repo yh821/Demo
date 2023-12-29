@@ -3,11 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using LuaInterface;
-using LuaFramework;
 using UnityEditor;
 using BindType = ToLuaMenu.BindType;
 using UnityEngine.UI;
-using System.Reflection;
 using DG.Tweening;
 using Game;
 using HedgehogTeam.EasyTouch;
@@ -18,7 +16,6 @@ public static class CustomSettings
 {
 	public static string dataPath = Application.dataPath;
 	public static string saveDir = dataPath + "/ToLua/Source/Generate/";
-	public static string luaDir = dataPath + "/Game/Lua/";
 	public static string toluaBaseType = dataPath + "/ToLua/ToLua/BaseType/";
 	public static string injectionFilesPath = dataPath + "/Tolua/ToLua/Injection/";
 
@@ -150,22 +147,6 @@ public static class CustomSettings
 		_GT(typeof(Scene)),
 		_GT(typeof(ThreadPriority)),
 
-		//for LuaFramework
-		_GT(typeof(Util)),
-		_GT(typeof(AppConst)),
-		_GT(typeof(LuaHelper)),
-		_GT(typeof(ByteBuffer)),
-		_GT(typeof(LuaBehaviour)),
-
-		_GT(typeof(GameManager)),
-		_GT(typeof(LuaManager)),
-		_GT(typeof(PanelManager)),
-		_GT(typeof(SoundManager)),
-		_GT(typeof(TimerManager)),
-		_GT(typeof(ThreadManager)),
-		_GT(typeof(NetworkManager)),
-		_GT(typeof(ResourceManager)),
-
 
 		#region System
 
@@ -201,6 +182,7 @@ public static class CustomSettings
 		_GT(typeof(MovableObject)),
 		_GT(typeof(EditorResourceMgr)),
 		_GT(typeof(EasyTouch)).SetNameSpace(null),
+		_GT(typeof(Gesture)).SetNameSpace(null),
 		_GT(typeof(UINameTable)).SetNameSpace(null),
 		_GT(typeof(ClickableObject)),
 		_GT(typeof(ZipUtil)),

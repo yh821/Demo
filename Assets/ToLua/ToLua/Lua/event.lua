@@ -203,21 +203,10 @@ LateUpdateBeat = event("LateUpdate", true)
 FixedUpdateBeat = event("FixedUpdate", true)
 CoUpdateBeat = event("CoUpdate") --只在协同使用
 
-local ctrl_list = {}
-function PushCtrl(ctrl)
-    ctrl_list[ctrl] = ctrl
-end
-function PopCtrl(ctrl)
-    ctrl_list[ctrl] = nil
-end
-
 --逻辑update
 function Update(deltaTime, unscaledDeltaTime)
     Time:SetDeltaTime(deltaTime, unscaledDeltaTime)
     UpdateBeat()
-    for i, v in pairs(ctrl_list) do
-        v:Update(deltaTime, unscaledDeltaTime)
-    end
 end
 
 function LateUpdate()

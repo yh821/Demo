@@ -4,23 +4,23 @@
 --- DateTime: 2023/4/4 23:04
 ---
 
-require("behavior/base/taskNode")
-require("behavior/base/behaviorTree")
-require("behavior/base/parentNode")
-require("behavior/base/compositeNode")
-require("behavior/base/decoratorNode")
-require("behavior/base/conditionNode")
-require("behavior/base/actionNode")
+require("behavior/base/TaskNode")
+require("behavior/base/BehaviorTree")
+require("behavior/base/ActionNode")
+require("behavior/base/ParentNode")
+require("behavior/base/CompositeNode")
+require("behavior/base/DecoratorNode")
+require("behavior/base/ConditionNode")
 
 BtConfig = {
-    SelfObjKey = "SelfObj",
-    TargetObjKey = "TargetObj",
+    self_obj_key = "self_obj_key",
+    target_obj_key = "target_obj_key",
 
-    SelfPosKey = "SelfPos",
-    TargetPosKey = "TargetPos",
-    RandomPosKey = "RandomPos",
+    self_pos_key = "self_pos_key",
+    target_pos_key = "target_pos_key",
+    random_pos_key = "random_pos_key",
 
-    ViewRangeKey = "ViewRange",
+    view_range_key = "view_range_key",
 }
 
 animatorStateEnum = {

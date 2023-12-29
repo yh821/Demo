@@ -29,6 +29,7 @@ public class SimpleCameraWrap
 		L.RegVar("targetOffset", get_targetOffset, set_targetOffset);
 		L.RegVar("angle", get_angle, set_angle);
 		L.RegVar("StopCameraUpdate", get_StopCameraUpdate, set_StopCameraUpdate);
+		L.RegVar("Distance", get_Distance, set_Distance);
 		L.EndClass();
 	}
 
@@ -420,6 +421,25 @@ public class SimpleCameraWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int get_Distance(IntPtr L)
+	{
+		object o = null;
+
+		try
+		{
+			o = ToLua.ToObject(L, 1);
+			SimpleCamera obj = (SimpleCamera)o;
+			float ret = obj.Distance;
+			LuaDLL.lua_pushnumber(L, ret);
+			return 1;
+		}
+		catch(Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e, o, "attempt to index Distance on a nil value");
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int set_minAngle(IntPtr L)
 	{
 		object o = null;
@@ -701,6 +721,25 @@ public class SimpleCameraWrap
 		catch(Exception e)
 		{
 			return LuaDLL.toluaL_exception(L, e, o, "attempt to index StopCameraUpdate on a nil value");
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int set_Distance(IntPtr L)
+	{
+		object o = null;
+
+		try
+		{
+			o = ToLua.ToObject(L, 1);
+			SimpleCamera obj = (SimpleCamera)o;
+			float arg0 = (float)LuaDLL.luaL_checknumber(L, 2);
+			obj.Distance = arg0;
+			return 0;
+		}
+		catch(Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e, o, "attempt to index Distance on a nil value");
 		}
 	}
 }

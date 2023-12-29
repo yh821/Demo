@@ -1,25 +1,25 @@
 local __bt__ = {
-  file= "rootNode",
+  file= "RootNode",
   type= "",
   data= {
     restart= 1
   },
   children= {
     {
-      file= "parallelNode",
-      type= "composites/parallelNode",
+      file= "ParallelNode",
+      type= "composites/ParallelNode",
       children= {
         {
-          file= "logNode",
-          type= "actions/common/logNode",
+          file= "LogNode",
+          type= "actions/common/LogNode",
         },
         {
-          file= "logNode",
-          type= "actions/common/logNode",
+          file= "LogNode",
+          type= "actions/common/LogNode",
         },
         {
-          file= "logNode",
-          type= "actions/common/logNode",
+          file= "LogNode",
+          type= "actions/common/LogNode",
         }
       }
     }
