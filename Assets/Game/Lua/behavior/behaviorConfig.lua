@@ -23,17 +23,24 @@ BtConfig = {
     view_range_key = "view_range_key",
 }
 
-animatorStateEnum = {
+BtTriggerMode = {
+    Equals = 0,
+    NotEquals = 1,
+    Greater = 2,
+    Less = 3,
+}
+
+AnimatorStateEnum = {
     eIdle = 0,
     eWalk = 1,
 }
 
-playStateEnum = {
+PlayStateEnum = {
     eStart = 0,
     eEnd = 1,
 }
 
-behaviorStateEnum = {
+BehaviorStateEnum = {
     eIdle = 0, --空闲
     eClick = 1, --点中
 }

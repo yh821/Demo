@@ -10,7 +10,8 @@ namespace BT
 		Decorator,
 		Condition,
 		Action,
-		Root
+		Root,
+		AbortComposite,
 	}
 
 	public enum AbortType
@@ -267,6 +268,15 @@ namespace BT
 		public override ErrorType IsValid => BelongNode.IsHaveChild ? ErrorType.None : ErrorType.Error;
 
 		public Composite(BtNode node) : base(node)
+		{
+		}
+	}
+
+	public class AbortComposite : Composite
+	{
+		public override TaskType Type => TaskType.AbortComposite;
+
+		public AbortComposite(BtNode node) : base(node)
 		{
 		}
 	}

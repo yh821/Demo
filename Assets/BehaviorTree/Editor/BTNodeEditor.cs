@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEditor;
 using System.Linq;
+using Object = UnityEngine.Object;
 
 namespace BT
 {
@@ -321,6 +323,8 @@ namespace BT
 
 					if (node.TaskType.Type == TaskType.Root)
 						DrawRootInspector(data);
+					else if (node.TaskType.Type == TaskType.AbortComposite)
+						DrawAbortCompositeInspector(data);
 					else if (node.TaskType.Type == TaskType.Composite)
 						DrawCompositeInspector(data);
 					else
@@ -351,13 +355,17 @@ namespace BT
 			data.AddData("restart", reStart ? "1" : "");
 		}
 
-		private void DrawCompositeInspector(BtNodeData data)
+		private void DrawAbortCompositeInspector(BtNodeData data)
 		{
 			var abortType = AbortType.None;
 			if (data.data != null && data.data.TryGetValue("abort", out var value))
-				AbortType.TryParse(value, out abortType);
+				Enum.TryParse(value, out abortType);
 			abortType = (AbortType) EditorGUILayout.EnumPopup("abortType", abortType);
 			data.AddData("abort", abortType.ToString());
+		}
+
+		private void DrawCompositeInspector(BtNodeData data)
+		{
 		}
 
 		private void DrawDataInspector(BtNodeData data)
@@ -759,6 +767,26 @@ namespace BT
 				GUI.DrawTexture(Graph.IconRect, icon);
 			}
 
+			if (TaskType.Type == BT.TaskType.AbortComposite)
+			{
+				if (Data.data != null && Data.data.TryGetValue("abort", out var value))
+				{
+					Enum.TryParse<AbortType>(value, out var abortType);
+					switch (abortType)
+					{
+						case AbortType.Lower:
+							GUI.DrawTexture(Graph.AbortTypeRect, BtNodeStyle.AbortLower);
+							break;
+						case AbortType.Self:
+							GUI.DrawTexture(Graph.AbortTypeRect, BtNodeStyle.AbortSelf);
+							break;
+						case AbortType.Both:
+							GUI.DrawTexture(Graph.AbortTypeRect, BtNodeStyle.AbortBoth);
+							break;
+					}
+				}
+			}
+
 			if (BtEditorWindow.IsShowPos)
 				GUI.Label(Graph.PosRect, new GUIContent($"{Graph.RealRect.x},{Graph.RealRect.y}"));
 			if (BtEditorWindow.IsShowIndex)
@@ -1035,19 +1063,6 @@ namespace BT
 		}
 
 		/// <summary>
-		/// 文本位置
-		/// </summary>
-		public Rect LabelRect
-		{
-			get
-			{
-				var rect = NodeRect;
-				return new Rect(rect.x, rect.y + BtConst.IconSize,
-					rect.width, rect.height - BtConst.IconSize);
-			}
-		}
-
-		/// <summary>
 		/// 下部连接点
 		/// </summary>
 		public Rect DownPointRect =>
@@ -1083,5 +1098,10 @@ namespace BT
 		public Rect IndexRect =>
 			new Rect(NodeRect.x - BtConst.LinePointLength / 2, NodeRect.y - 8,
 				BtConst.LinePointLength, BtConst.LinePointLength);
+
+		/// <summary>
+		/// 符合节点打断类型显示区
+		/// </summary>
+		public Rect AbortTypeRect => new Rect(NodeRect.x, NodeRect.y, BtConst.LinePointLength, BtConst.LinePointLength);
 	}
 }

@@ -138,12 +138,14 @@ namespace BT
 				{
 					WalkNodeData(child);
 				}
+
 				node.ChildNodeList.Sort(SortNodeList);
 				node.Data.children.Sort(SortNodeList);
 			}
 		}
 
 		private static int _nodeIndex;
+
 		public static void WalkNodeIndex(BtNode node)
 		{
 			node.Data.index = _nodeIndex++;
@@ -320,6 +322,8 @@ namespace BT
 					return new Action(node);
 				if (type.StartsWith("conditions/"))
 					return new Condition(node);
+				if (type.StartsWith("composites/SelectorNode") || type.StartsWith("composites/SequenceNode"))
+					return new AbortComposite(node);
 				if (type.StartsWith("composites/"))
 					return new Composite(node);
 				if (type.StartsWith("decorators/"))

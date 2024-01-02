@@ -40,5 +40,8 @@
   },
   "AttackNode": {
     "name": "攻击"
+  },
+  "RandomSelectorNode": {
+    "name": "随机选择"
   }
 }
