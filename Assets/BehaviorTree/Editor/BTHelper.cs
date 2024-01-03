@@ -66,7 +66,7 @@ namespace BT
 			_nodePath = string.Empty;
 		}
 
-		private static readonly Dictionary<string, string> MNodeTypeDict = new Dictionary<string, string>();
+		private static readonly Dictionary<string, string> NodeTypeDict = new Dictionary<string, string>();
 
 		private static Dictionary<string, Dictionary<string, string>> _nodeOptions;
 		public static Dictionary<string, Dictionary<string, string>> NodeOptions => _nodeOptions ??= ReadBtNodeOption();
@@ -238,9 +238,9 @@ namespace BT
 		public static BtNode AddChildNode(BehaviourTree owner, BtNode parent, string file)
 		{
 			var pos = parent.Graph.RealRect.position;
-			if (!MNodeTypeDict.ContainsKey(file))
+			if (!NodeTypeDict.ContainsKey(file))
 				throw new ArgumentNullException(file, "找不到该类型");
-			var data = new BtNodeData(file, MNodeTypeDict[file], pos.x,
+			var data = new BtNodeData(file, NodeTypeDict[file], pos.x,
 				pos.y + BtConst.DefaultHeight + BtConst.DefaultSpacingY);
 			parent.Data.AddChild(data);
 			return AddChildNode(owner, parent, data);
@@ -298,7 +298,7 @@ namespace BT
 
 		public static void LoadNodeFile()
 		{
-			MNodeTypeDict.Clear();
+			NodeTypeDict.Clear();
 			var files = Directory.GetFiles(NodePath, "*.lua", SearchOption.AllDirectories);
 			foreach (var file in files)
 			{
@@ -306,7 +306,7 @@ namespace BT
 				sortPath = sortPath.Replace(NodePath + "/", "");
 				var fileName = Path.GetFileNameWithoutExtension(file);
 				var type = sortPath.Substring(0, sortPath.LastIndexOf('.'));
-				MNodeTypeDict.Add(fileName, type);
+				NodeTypeDict.Add(fileName, type);
 			}
 		}
 
@@ -315,9 +315,9 @@ namespace BT
 			var key = node.NodeName;
 			if (key == BtConst.RootName)
 				return new Root(node);
-			if (MNodeTypeDict.ContainsKey(key))
+			if (NodeTypeDict.ContainsKey(key))
 			{
-				var type = MNodeTypeDict[key];
+				var type = NodeTypeDict[key];
 				if (type.StartsWith("actions/"))
 					return new Action(node);
 				if (type.StartsWith("conditions/"))
@@ -326,6 +326,8 @@ namespace BT
 					return new AbortComposite(node);
 				if (type.StartsWith("composites/"))
 					return new Composite(node);
+				if (type.StartsWith("decorators/TriggerNode"))
+					return new TriggerNode(node);
 				if (type.StartsWith("decorators/"))
 					return new Decorator(node);
 			}
@@ -336,9 +338,9 @@ namespace BT
 		public static GenericMenu GetGenericMenu(BtNode node, GenericMenu.MenuFunction2 callback)
 		{
 			var menu = new GenericMenu();
-			if (node.ChildNodeList.Count < node.TaskType.CanAddNodeCount)
+			if (node.ChildNodeList.Count < node.NodeType.CanAddNodeCount)
 			{
-				foreach (var kv in MNodeTypeDict)
+				foreach (var kv in NodeTypeDict)
 				{
 					//var data = kv.Key.Replace("Node", "")
 					menu.AddItem(new GUIContent(kv.Value), false, callback, kv.Key);

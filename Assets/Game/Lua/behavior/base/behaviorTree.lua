@@ -107,14 +107,14 @@ function BehaviorTree:GetSharedVar(key)
     return bb[key]
 end
 
----@param stateId number
-function BehaviorTree:SetStateId(stateId)
-    self:SetSharedVar("stateId", stateId)
+---@param value number
+function BehaviorTree:SetTrigger(value)
+    self:SetSharedVar(BtConfig.trigger, value)
 end
 
 ---@return number
-function BehaviorTree:GetStateId()
-    return self:GetSharedVar("stateId")
+function BehaviorTree:GetTrigger()
+    return self:GetSharedVar(BtConfig.trigger)
 end
 
 function BehaviorTree:IsComposite()

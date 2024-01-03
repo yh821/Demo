@@ -4,7 +4,6 @@ using System.IO;
 using UnityEngine;
 using UnityEditor;
 using System.Linq;
-using Object = UnityEngine.Object;
 
 namespace BT
 {
@@ -301,7 +300,7 @@ namespace BT
 						{
 							var file = FileUtil.GetProjectRelativePath(Path.Combine(BtHelper.NodePath,
 								data.type + ".lua"));
-							var lua = AssetDatabase.LoadAssetAtPath<Object>(file);
+							var lua = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(file);
 							Selection.activeObject = lua;
 						}
 
@@ -321,14 +320,23 @@ namespace BT
 						mCurChangeDict.Clear();
 					}
 
-					if (node.TaskType.Type == TaskType.Root)
-						DrawRootInspector(data);
-					else if (node.TaskType.Type == TaskType.AbortComposite)
-						DrawAbortCompositeInspector(data);
-					else if (node.TaskType.Type == TaskType.Composite)
-						DrawCompositeInspector(data);
-					else
-						DrawDataInspector(data);
+					switch (node.NodeType.Type)
+					{
+						case TaskType.Composite:
+							break;
+						case TaskType.Root:
+							DrawRootInspector(data);
+							break;
+						case TaskType.Abort:
+							DrawAbortInspector(data);
+							break;
+						case TaskType.Trigger:
+							DrawTriggerInspector(data);
+							break;
+						default:
+							DrawDataInspector(data);
+							break;
+					}
 				}
 				EditorGUILayout.EndVertical();
 			}
@@ -337,10 +345,7 @@ namespace BT
 		private void LoadBehaviorTree()
 		{
 			var files = Directory.GetFiles(BtHelper.JsonPath, "*.json", SearchOption.AllDirectories);
-			var fileNames = new List<string>();
-			foreach (var file in files)
-				fileNames.Add(Path.GetFileNameWithoutExtension(file));
-			mAllShowJsons = fileNames.ToArray();
+			mAllShowJsons = files.Select(Path.GetFileNameWithoutExtension).ToArray();
 			if (mCurSelectJson >= mAllShowJsons.Length)
 				mCurSelectJson = mAllShowJsons.Length - 1;
 			mLastSelectJson = -1;
@@ -355,7 +360,7 @@ namespace BT
 			data.AddData("restart", reStart ? "1" : "");
 		}
 
-		private void DrawAbortCompositeInspector(BtNodeData data)
+		private void DrawAbortInspector(BtNodeData data)
 		{
 			var abortType = AbortType.None;
 			if (data.data != null && data.data.TryGetValue("abort", out var value))
@@ -364,8 +369,19 @@ namespace BT
 			data.AddData("abort", abortType.ToString());
 		}
 
-		private void DrawCompositeInspector(BtNodeData data)
+		private void DrawTriggerInspector(BtNodeData data)
 		{
+			var type = TriggerType.Equals;
+			if (data.data != null && data.data.TryGetValue("triggerType", out var typeStr))
+				Enum.TryParse(typeStr, out type);
+			type = (TriggerType) EditorGUILayout.EnumPopup("triggerType", type);
+			data.AddData("triggerType", type.ToString());
+
+			var value = 0;
+			if (data.data != null && data.data.TryGetValue("triggerValue", out var valueStr))
+				int.TryParse(valueStr, out value);
+			value = EditorGUILayout.IntField("triggerValue", value);
+			data.AddData("triggerValue", value.ToString());
 		}
 
 		private void DrawDataInspector(BtNodeData data)
@@ -381,19 +397,13 @@ namespace BT
 			}
 
 			foreach (var key in mCurChangeDict.Keys)
-			{
 				data.AddData(key, mCurChangeDict[key]);
-			}
 
 			mCurChangeDict.Clear();
 
 			if (data.data != null)
-			{
 				foreach (var kv in data.data)
-				{
 					DrawItemInspector(kv);
-				}
-			}
 
 			EditorGUILayout.BeginHorizontal();
 			{
@@ -406,6 +416,7 @@ namespace BT
 						data.AddData(mCurKey, mCurValue);
 						mCurKey = "";
 						mCurValue = "";
+						GUIUtility.keyboardControl = 0;
 					}
 				}
 			}
@@ -421,6 +432,7 @@ namespace BT
 				if (GUILayout.Button(EditorGUIUtility.IconContent("Toolbar Minus"), GUILayout.Width(BTN_ICON_WIDTH)))
 				{
 					mCurDelKey = kv.Key;
+					GUIUtility.keyboardControl = 0;
 				}
 			}
 			EditorGUILayout.EndHorizontal();
@@ -511,6 +523,7 @@ namespace BT
 								mSelectDict.Add(mDefKey, mDefValue);
 								mDefKey = "";
 								mDefValue = "";
+								GUIUtility.keyboardControl = 0;
 							}
 						}
 					}
@@ -559,6 +572,7 @@ namespace BT
 				if (GUILayout.Button(EditorGUIUtility.IconContent("Toolbar Minus"), GUILayout.Width(BTN_ICON_WIDTH)))
 				{
 					mDefDelKey = kv.Key;
+					GUIUtility.keyboardControl = 0;
 				}
 			}
 			EditorGUILayout.EndHorizontal();
@@ -577,9 +591,7 @@ namespace BT
 				}
 
 				if (GUILayout.Button(EditorGUIUtility.IconContent("Toolbar Minus"), GUILayout.Width(BTN_ICON_WIDTH)))
-				{
 					mDelNode = key;
-				}
 			}
 			EditorGUILayout.EndHorizontal();
 		}
@@ -638,7 +650,7 @@ namespace BT
 		/// <summary>
 		/// 编辑化节点
 		/// </summary>
-		public BtNodeType TaskType { get; }
+		public BtNodeType NodeType { get; }
 
 		/// <summary>
 		/// 唯一识别符
@@ -682,7 +694,7 @@ namespace BT
 			Graph.RealRect = new Rect(data.posX, data.posY, BtConst.DefaultWidth, BtConst.DefaultHeight);
 			ChildNodeList = new List<BtNode>();
 			Guid = BtHelper.GenerateUniqueStringId();
-			TaskType = BtHelper.CreateNodeType(this);
+			NodeType = BtHelper.CreateNodeType(this);
 		}
 
 		public void Update(Rect canvas)
@@ -720,15 +732,15 @@ namespace BT
 			if (!IsRoot && !IsHaveParent)
 				GUI.Label(Graph.UpPointRect, BtNodeStyle.ErrorPoint);
 
-			if (TaskType.CanAddNodeCount > 0)
+			if (NodeType.CanAddNodeCount > 0)
 				GUI.Label(Graph.DownPointRect,
-					TaskType.IsValid == ErrorType.Error ? BtNodeStyle.ErrorPoint : BtNodeStyle.LinePoint);
+					NodeType.IsValid == ErrorType.Error ? BtNodeStyle.ErrorPoint : BtNodeStyle.LinePoint);
 
 			GUIStyle style;
 			if (IsSelected)
-				style = Data.fold ? TaskType.FoldSelectStyle : TaskType.SelectStyle;
+				style = Data.fold ? NodeType.FoldSelectStyle : NodeType.SelectStyle;
 			else
-				style = Data.fold ? TaskType.FoldNormalStyle : TaskType.NormalStyle;
+				style = Data.fold ? NodeType.FoldNormalStyle : NodeType.NormalStyle;
 
 			var showLabel = Data.name;
 			if (!BtEditorWindow.IsDebug)
@@ -758,7 +770,7 @@ namespace BT
 				}
 			}
 
-			var icon = TaskType.GetIcon();
+			var icon = NodeType.GetIcon();
 			if (icon == null)
 				GUI.Label(Graph.NodeRect, showLabel, style);
 			else
@@ -767,7 +779,7 @@ namespace BT
 				GUI.DrawTexture(Graph.IconRect, icon);
 			}
 
-			if (TaskType.Type == BT.TaskType.AbortComposite)
+			if (NodeType.Type == TaskType.Abort)
 			{
 				if (Data.data != null && Data.data.TryGetValue("abort", out var value))
 				{
@@ -775,13 +787,13 @@ namespace BT
 					switch (abortType)
 					{
 						case AbortType.Lower:
-							GUI.DrawTexture(Graph.AbortTypeRect, BtNodeStyle.AbortLower);
+							GUI.DrawTexture(Graph.AbortTypeRect, BtNodeStyle.AbortLowerLogo);
 							break;
 						case AbortType.Self:
-							GUI.DrawTexture(Graph.AbortTypeRect, BtNodeStyle.AbortSelf);
+							GUI.DrawTexture(Graph.AbortTypeRect, BtNodeStyle.AbortSelfLogo);
 							break;
 						case AbortType.Both:
-							GUI.DrawTexture(Graph.AbortTypeRect, BtNodeStyle.AbortBoth);
+							GUI.DrawTexture(Graph.AbortTypeRect, BtNodeStyle.AbortBothLogo);
 							break;
 					}
 				}
@@ -808,6 +820,7 @@ namespace BT
 					curEvent.Use();
 					mIsDragging = true;
 					window.CurSelectNode = this;
+					GUIUtility.keyboardControl = 0;
 					var delta = BtEditorWindow.IsLockAxisY ? new Vector2(curEvent.delta.x, 0) : curEvent.delta;
 					UpdateNodePosition(this, delta);
 				}
@@ -847,6 +860,7 @@ namespace BT
 				{
 					curEvent.Use();
 					window.CurSelectNode = this;
+					GUIUtility.keyboardControl = 0;
 					mCanDragMove = true;
 				}
 				else
@@ -872,7 +886,7 @@ namespace BT
 					mIsLinkParent = false;
 					var parent = window.GetMouseTriggerDownPoint(curEvent.mousePosition);
 					if (parent != null && parent != this &&
-					    parent.ChildNodeList.Count < parent.TaskType.CanAddNodeCount)
+					    parent.ChildNodeList.Count < parent.NodeType.CanAddNodeCount)
 					{
 						parent.ChildNodeList.Add(this);
 						parent.Data.AddChild(Data);

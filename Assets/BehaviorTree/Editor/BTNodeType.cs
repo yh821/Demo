@@ -11,7 +11,8 @@ namespace BT
 		Condition,
 		Action,
 		Root,
-		AbortComposite,
+		Abort,
+		Trigger,
 	}
 
 	public enum AbortType
@@ -20,6 +21,14 @@ namespace BT
 		Self,
 		Lower,
 		Both
+	}
+
+	public enum TriggerType
+	{
+		Equals,
+		NotEqual,
+		Greater,
+		Less
 	}
 
 	public enum ErrorType
@@ -272,15 +281,6 @@ namespace BT
 		}
 	}
 
-	public class AbortComposite : Composite
-	{
-		public override TaskType Type => TaskType.AbortComposite;
-
-		public AbortComposite(BtNode node) : base(node)
-		{
-		}
-	}
-
 	public class Condition : BtNodeType
 	{
 		public override TaskType Type => TaskType.Condition;
@@ -317,6 +317,28 @@ namespace BT
 		}
 	}
 
+	#region CustomType
+
+	public class AbortComposite : Composite
+	{
+		public override TaskType Type => TaskType.Abort;
+
+		public AbortComposite(BtNode node) : base(node)
+		{
+		}
+	}
+
+	public class TriggerNode : Decorator
+	{
+		public override TaskType Type => TaskType.Trigger;
+
+		public TriggerNode(BtNode node) : base(node)
+		{
+		}
+	}
+
+	#endregion
+
 	public static class BtNodeStyle
 	{
 		public static GUIStyle RootStyle => "flow node 0";
@@ -341,9 +363,17 @@ namespace BT
 		public static GUIStyle FoldConditionStyle => "flow node hex 2"; //5";
 		public static GUIStyle SelectConditionStyle => "flow node 2 on"; //5
 		public static GUIStyle FoldSelectConditionStyle => "flow node hex 2 on"; //5
-
-
 		public static GUIStyle IndexStyle => "AssetLabel";
+
+
+		private static GUIContent _linePoint;
+		public static GUIContent LinePoint => _linePoint ??= EditorGUIUtility.IconContent("sv_icon_dot3_pix16_gizmo");
+
+		private static GUIContent _warnPoint;
+		public static GUIContent WarnPoint => _warnPoint ??= EditorGUIUtility.IconContent("sv_icon_dot4_pix16_gizmo");
+
+		private static GUIContent _errorPoint;
+		public static GUIContent ErrorPoint => _errorPoint ??= EditorGUIUtility.IconContent("sv_icon_dot6_pix16_gizmo");
 
 
 		private static Texture _rootIcon;
@@ -363,65 +393,55 @@ namespace BT
 			}
 		}
 
+		private static Texture _abortSelfLogo;
 
-		private static GUIContent _linePoint;
-		public static GUIContent LinePoint => _linePoint ??= EditorGUIUtility.IconContent("sv_icon_dot3_pix16_gizmo");
-
-		private static GUIContent _warnPoint;
-		public static GUIContent WarnPoint => _warnPoint ??= EditorGUIUtility.IconContent("sv_icon_dot4_pix16_gizmo");
-
-		private static GUIContent _errorPoint;
-		public static GUIContent ErrorPoint => _errorPoint ??= EditorGUIUtility.IconContent("sv_icon_dot6_pix16_gizmo");
-
-		private static Texture _abortSelf;
-
-		public static Texture AbortSelf
+		public static Texture AbortSelfLogo
 		{
 			get
 			{
-				if (_abortSelf == null)
+				if (_abortSelfLogo == null)
 				{
 					var path = BtHelper.ToolPath + "/GUI/self.png";
 					path = FileUtil.GetProjectRelativePath(path);
-					_abortSelf = AssetDatabase.LoadAssetAtPath<Texture>(path);
+					_abortSelfLogo = AssetDatabase.LoadAssetAtPath<Texture>(path);
 				}
 
-				return _abortSelf;
+				return _abortSelfLogo;
 			}
 		}
 
-		private static Texture _abortLower;
+		private static Texture _abortLowerLogo;
 
-		public static Texture AbortLower
+		public static Texture AbortLowerLogo
 		{
 			get
 			{
-				if (_abortLower == null)
+				if (_abortLowerLogo == null)
 				{
 					var path = BtHelper.ToolPath + "/GUI/lower.png";
 					path = FileUtil.GetProjectRelativePath(path);
-					_abortLower = AssetDatabase.LoadAssetAtPath<Texture>(path);
+					_abortLowerLogo = AssetDatabase.LoadAssetAtPath<Texture>(path);
 				}
 
-				return _abortLower;
+				return _abortLowerLogo;
 			}
 		}
 
 
-		private static Texture _abortBoth;
+		private static Texture _abortBothLogo;
 
-		public static Texture AbortBoth
+		public static Texture AbortBothLogo
 		{
 			get
 			{
-				if (_abortBoth == null)
+				if (_abortBothLogo == null)
 				{
 					var path = BtHelper.ToolPath + "/GUI/both.png";
 					path = FileUtil.GetProjectRelativePath(path);
-					_abortBoth = AssetDatabase.LoadAssetAtPath<Texture>(path);
+					_abortBothLogo = AssetDatabase.LoadAssetAtPath<Texture>(path);
 				}
 
-				return _abortBoth;
+				return _abortBothLogo;
 			}
 		}
 	}

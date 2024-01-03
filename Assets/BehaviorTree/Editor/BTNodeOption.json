@@ -43,5 +43,10 @@
   },
   "RandomSelectorNode": {
     "name": "随机选择"
+  },
+  "TriggerNode": {
+    "name": "状态触发",
+    "triggerValue": "0",
+    "triggerType": "0"
   }
 }

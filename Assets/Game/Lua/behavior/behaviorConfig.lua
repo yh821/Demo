@@ -15,6 +15,7 @@ require("behavior/base/ConditionNode")
 BtConfig = {
     self_obj_key = "self_obj_key",
     target_obj_key = "target_obj_key",
+    trigger = "trigger_key",
 
     self_pos_key = "self_pos_key",
     target_pos_key = "target_pos_key",
@@ -23,7 +24,7 @@ BtConfig = {
     view_range_key = "view_range_key",
 }
 
-BtTriggerMode = {
+BtTriggerType = {
     Equals = 0,
     NotEquals = 1,
     Greater = 2,
