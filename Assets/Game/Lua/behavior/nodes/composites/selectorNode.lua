@@ -7,14 +7,13 @@
 SelectorNode = BaseClass(CompositeNode)
 
 function SelectorNode:Tick(delta_time)
-    local abort_type = self:GetAbortType()
     for i, v in ipairs(self._children) do
-        if abort_type == eAbortType.Both or abort_type == eAbortType.Lower then
+        if self:IsAbortLower() then
             if v:IsCondition() and v:IsNotExecuted() then
                 self:SetNeedReevaluate()
             end
         end
-        if abort_type == eAbortType.Both or abort_type == eAbortType.Self then
+        if self:IsAbortSelf() then
             if v:IsCondition() and v:IsExecuted() and self:IsRunning() then
                 if v:SetState(v:Tick(delta_time)) and v:IsSucceed() then
                     self:StartAbortNode(i + 1)
@@ -29,8 +28,9 @@ function SelectorNode:Tick(delta_time)
             end
         elseif v:IsComposite() and v:IsNeedReevaluate() then
             local state = v:ReevaluateNode(delta_time)
-            if state == eNodeState.Success or state == eNodeState.Failure then
+            if state == eNodeState.Success then
                 self:StartAbortNode(i + 1)
+                return state --劫持状态
             end
         end
     end

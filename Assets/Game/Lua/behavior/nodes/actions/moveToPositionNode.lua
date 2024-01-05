@@ -16,7 +16,7 @@ function MoveToPositionNode:Start()
         return eNodeState.Failure
     end
 
-    local speed = self.data and tonumber(self.data.speed) or 5
+    local speed = self.data and self.data.speed or 5
 
     self.draw_obj = self:GetDrawObj()
     if not self.draw_obj then
@@ -28,7 +28,7 @@ function MoveToPositionNode:Start()
         self.draw_obj:SetAnimParamMain(DrawObj.AnimParamType.Boolean, "move", false)
         self:OnSuccess()
     end)
-    self:print("开始移动:" .. pos_key .. target_pos:ToString())
+    --self:print("开始移动:", pos_key, target_pos:ToString())
     self.draw_obj:SetAnimParamMain(DrawObj.AnimParamType.Boolean, "move", true)
     return eNodeState.Running
 end

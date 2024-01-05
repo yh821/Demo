@@ -13,6 +13,7 @@ namespace BT
 		Root,
 		Abort,
 		Trigger,
+		IsTrigger,
 	}
 
 	public enum AbortType
@@ -333,6 +334,15 @@ namespace BT
 		public override TaskType Type => TaskType.Trigger;
 
 		public TriggerNode(BtNode node) : base(node)
+		{
+		}
+	}
+
+	public class IsTriggerNode : Condition
+	{
+		public override TaskType Type => TaskType.IsTrigger;
+
+		public IsTriggerNode(BtNode node) : base(node)
 		{
 		}
 	}

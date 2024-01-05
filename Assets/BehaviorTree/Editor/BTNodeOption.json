@@ -48,5 +48,14 @@
     "name": "状态触发",
     "triggerValue": "0",
     "triggerType": "0"
+  },
+  "SetTriggerNode": {
+    "name": "设置状态",
+    "triggerValue": "0"
+  },
+  "IsTriggerNode": {
+    "name": "检查状态",
+    "triggerType": "0",
+    "triggerValue": "0"
   }
 }

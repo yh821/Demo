@@ -29,7 +29,7 @@ function RandomPositionNode:GetRandomPos()
         center_pos = self.owner:GetSelfMoveObjPos()
     end
     if center_pos then
-        local range = tonumber(self.data and self.data.range) or 10
+        local range = self.data and self.data.range or 10
         local x = math.random(center_pos.x - range, center_pos.x + range)
         local z = math.random(center_pos.z - range, center_pos.z + range)
         return Vector3.New(x, 0, z)

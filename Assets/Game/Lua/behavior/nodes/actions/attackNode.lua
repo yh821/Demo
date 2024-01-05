@@ -16,7 +16,7 @@ function AttackNode:Start()
         return eNodeState.Failure
     end
 
-    --local speed = self.data and tonumber(self.data.speed) or 5
+    --local speed = self.data and self.data.speed or 5
 
     self.draw_obj = self:GetDrawObj()
     if not self.draw_obj then
@@ -28,7 +28,7 @@ function AttackNode:Start()
     self.attack_timer = TimerQuest.Instance:AddDelayTimer(function()
         self:OnSuccess()
     end, 1.5) --攻击间隔1.5秒
-    self:print("开始攻击:" .. pos_key .. target_pos:ToString())
+    self:print("开始攻击:", pos_key, target_pos:ToString())
     self.draw_obj:SetAnimParamMain(DrawObj.AnimParamType.Trigger, "attack")
     return eNodeState.Running
 end

@@ -24,4 +24,5 @@ function ParentNode:Clear()
     for i, v in ipairs(self._children) do
         self._children[i] = nil
     end
+    ParentNode.super.Clear(self)
 end

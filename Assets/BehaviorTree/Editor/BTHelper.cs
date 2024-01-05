@@ -318,16 +318,19 @@ namespace BT
 			if (NodeTypeDict.ContainsKey(key))
 			{
 				var type = NodeTypeDict[key];
-				if (type.StartsWith("actions/"))
-					return new Action(node);
-				if (type.StartsWith("conditions/"))
-					return new Condition(node);
 				if (type.StartsWith("composites/SelectorNode") || type.StartsWith("composites/SequenceNode"))
 					return new AbortComposite(node);
-				if (type.StartsWith("composites/"))
-					return new Composite(node);
+				if (type.StartsWith("conditions/IsTriggerNode"))
+					return new IsTriggerNode(node);
 				if (type.StartsWith("decorators/TriggerNode"))
 					return new TriggerNode(node);
+
+				if (type.StartsWith("actions/"))
+					return new Action(node);
+				if (type.StartsWith("composites/"))
+					return new Composite(node);
+				if (type.StartsWith("conditions/"))
+					return new Condition(node);
 				if (type.StartsWith("decorators/"))
 					return new Decorator(node);
 			}

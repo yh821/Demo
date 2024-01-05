@@ -1,12 +1,12 @@
 ﻿---
 --- Created by Hugo
---- DateTime: 2024/1/2 21:52
+--- DateTime: 2024/1/3 14:19
 ---
 
----@class TriggerNode : DecoratorNode
-TriggerNode = TriggerNode or BaseClass(DecoratorNode)
+---@class IsTriggerNode : ConditionNode
+IsTriggerNode = BaseClass(ConditionNode)
 
-function TriggerNode:Tick(delta_time)
+function IsTriggerNode:Tick(delta_time)
     if self.type == nil then
         self.type = self:GetTriggerType()
         self.value = self:GetTriggerValue()
@@ -23,16 +23,12 @@ function TriggerNode:Tick(delta_time)
         condition = self.value > value
     end
     if condition then
-        local v = self._children[1]
-        if v:IsNotExecuted() or v:IsRunning() then
-            v:SetState(v:Tick(delta_time))
-            return v:GetState()
-        end
+        return eNodeState.Success
     end
     return eNodeState.Failure
 end
 
-function TriggerNode:GetTriggerType()
+function IsTriggerNode:GetTriggerType()
     if self.trigger_type == nil then
         local type = self.data and self.data[BtConfig.triggerType]
         self.trigger_type = eTriggerType[type] or eTriggerType.Equals
@@ -40,7 +36,7 @@ function TriggerNode:GetTriggerType()
     return self.trigger_type
 end
 
-function TriggerNode:GetTriggerValue()
+function IsTriggerNode:GetTriggerValue()
     if self.trigger_value == nil then
         self.trigger_value = self.data and self.data[BtConfig.trigger] or 0
     end

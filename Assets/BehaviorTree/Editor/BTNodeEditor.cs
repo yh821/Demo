@@ -331,6 +331,7 @@ namespace BT
 							DrawAbortInspector(data);
 							break;
 						case TaskType.Trigger:
+						case TaskType.IsTrigger:
 							DrawTriggerInspector(data);
 							break;
 						default:
@@ -854,7 +855,8 @@ namespace BT
 				else if (Graph.DownPointRect.Contains(curEvent.mousePosition))
 				{
 					curEvent.Use();
-					Data.fold = !Data.fold;
+					if (IsHaveChild)
+						Data.fold = !Data.fold;
 				}
 				else if (Graph.NodeRect.Contains(curEvent.mousePosition))
 				{

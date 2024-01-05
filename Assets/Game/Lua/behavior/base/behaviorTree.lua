@@ -30,7 +30,7 @@ function BehaviorTree:Awake()
     self.child = nil
     self.blackBoard = nil
     self.child_count = 0
-    self.restart = tonumber(self.data.restart) == 1
+    self.restart = self.data.restart == 1
 end
 
 function BehaviorTree:Update(delta_time)
@@ -105,6 +105,18 @@ end
 function BehaviorTree:GetSharedVar(key)
     local bb = self:GetBlackboard()
     return bb[key]
+end
+
+---@param key string
+---@param value any
+function BehaviorTree:SetGlobalVar(key, value)
+    BehaviorManager:SetGlobalVar(key, value)
+end
+
+---@param key string
+---@return any
+function BehaviorTree:GetGlobalVar(key)
+    return BehaviorManager:GetGlobalVar(key)
 end
 
 ---@param value number
