@@ -7,15 +7,6 @@ public class TextureAssetImporter : AssetPostprocessor
 {
 	private static readonly HashSet<string> tempIgnoreAssets = new HashSet<string>();
 
-	public const string UIsDir = AssetBundleImporter.BaseDir + "/UIs";
-	public const string ViewDir = UIsDir + "/View";
-	public const string IconsDir = UIsDir + "/Icons";
-	public const string FontsDir = UIsDir + "/Fonts";
-	public const string ImagesDir = UIsDir + "/Images";
-	public const string RawImagesDir = UIsDir + "/RawImages";
-
-	public const string NoPack = "/nopack/";
-
 	private static Dictionary<TextureImporterType, TextureImporterFormat> compressRules =
 		new Dictionary<TextureImporterType, TextureImporterFormat>
 		{
@@ -38,20 +29,23 @@ public class TextureAssetImporter : AssetPostprocessor
 		PreprocessPlatform(importer);
 	}
 
+	// 规定纹理格式
 	private void PreprocessTextureType(TextureImporter importer)
 	{
-		var assetPath = importer.assetPath;
-		if (assetPath.StartsWith(RawImagesDir))
+		var path = importer.assetPath.ToLower();
+		if (path.Contains(GamePath.RawImageFlag)
+		    || path.StartsWith(GamePath.FontAtlasDir))
 			importer.textureType = TextureImporterType.Default;
-		else if (assetPath.StartsWith(IconsDir)
-		         || assetPath.StartsWith(FontsDir)
-		         || assetPath.StartsWith(ViewDir))
+		else if (path.StartsWith(GamePath.IconsDir)
+		         || path.StartsWith(GamePath.FontsDir)
+		         || path.StartsWith(GamePath.ViewDir))
 			importer.textureType = TextureImporterType.Sprite;
 	}
 
+	// 规定纹理可读写
 	private void PreprocessReadable(TextureImporter importer)
 	{
-		if (importer.assetPath.StartsWith(FontsDir))
+		if (importer.assetPath.StartsWith(GamePath.FontsDir))
 			importer.isReadable = true;
 		else
 			importer.isReadable = false;
@@ -65,7 +59,8 @@ public class TextureAssetImporter : AssetPostprocessor
 
 	private void PreprocessAdvanced(TextureImporter importer)
 	{
-		if (importer.assetPath.StartsWith(RawImagesDir))
+		var path = importer.assetPath.ToLower();
+		if (path.Contains(GamePath.RawImageFlag))
 		{
 			importer.alphaIsTransparency = false;
 			importer.npotScale = TextureImporterNPOTScale.None;
@@ -121,7 +116,7 @@ public class TextureAssetImporter : AssetPostprocessor
 	private bool PreprocessTextureMaxSize(TextureImporter importer, TextureImporterPlatformSettings settings)
 	{
 		var dirty = importer.textureType == TextureImporterType.NormalMap
-		            || importer.assetPath.StartsWith(AssetBundleImporter.ActorDir);
+		            || importer.assetPath.StartsWith(GamePath.ActorDir);
 		if (dirty)
 			dirty = settings.maxTextureSize != 1024;
 		if (dirty)
@@ -169,15 +164,13 @@ public class TextureAssetImporter : AssetPostprocessor
 	private void ProcessNoPackTips(TextureImporter importer, Texture texture)
 	{
 		var path = importer.assetPath;
-		if (!path.StartsWith(UIsDir)
+		if (!path.StartsWith(GamePath.UIsDir)
 		    || importer.textureType != TextureImporterType.Sprite
-		    || path.ToLower().Contains(NoPack))
+		    || path.ToLower().Contains(GamePath.NoPackFlag))
 			return;
 		if (texture.width > 1024 || texture.height > 1024)
-			Debug.LogError(
-				$"{importer.assetPath} <color=yellow>图片宽或高大于1024</color>, 请考虑放到到 nopack 或 RawImages 里!");
+			Debug.LogError($"{path} <color=yellow>图片宽或高大于1024</color>, 请放入带有nopack前缀的文件夹里.");
 		else if (texture.width * texture.height > 400 * 400)
-			Debug.LogError(
-				$"{importer.assetPath} <color=yellow>图片尺寸大于400*400</color>, 请考虑放到到 nopack 或 RawImages 里!");
+			Debug.LogError($"{path} <color=yellow>图片尺寸大于400*400</color>, 请放入带有nopack前缀的文件夹里.");
 	}
 }

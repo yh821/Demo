@@ -19,6 +19,8 @@ function MainUiCtrl:__init()
 
     self.data = MainUiData.New()
     self.view = MainUiView.New()
+
+
 end
 
 function MainUiCtrl:__delete()

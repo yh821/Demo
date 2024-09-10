@@ -73,9 +73,6 @@ function PromptCtrl:OnClick(go)
     if TestProtoType == ProtocalType.SPROTO then
         self.TestSendSproto()
     end
-
-    AiManager.Instance:BindBT(self.gameObject, "bt1")
-    AiManager.Instance:SwitchTick()
 end
 
 --测试发送SPROTO--

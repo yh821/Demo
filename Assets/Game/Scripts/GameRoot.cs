@@ -1,11 +1,10 @@
 ﻿using System;
 using UnityEngine;
-using System.Collections;
 using System.IO;
 using LuaInterface;
 using UnityEditor;
+using Game;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public sealed class GameRoot : MonoBehaviour
 {
@@ -22,6 +21,7 @@ public sealed class GameRoot : MonoBehaviour
 	private LuaLooper looper;
 	private LuaFunction luaFocus;
 	private LuaFunction luaPause;
+	private LuaFunction luaPlayAudio;
 
 	private void Awake()
 	{
@@ -34,13 +34,26 @@ public sealed class GameRoot : MonoBehaviour
 		var loading = Instantiate(loadingPrefab);
 		loading.name = loading.name.Replace("(Clone)", string.Empty);
 		DontDestroyOnLoad(loading);
+
+#if UNITY_EDITOR
+		AssetManager.DownloadStartEvent += url => Debug.Log("[AssetManager] DownloadStart: " + url);
+		AssetManager.DownloadFinishEvent += url => Debug.Log("[AssetManager] DownloadFinish: " + url);
+		SceneManager.sceneLoaded += (scene, mode) => Debug.Log("Loaded scene: " + scene.name);
+#endif
 	}
 
 	private void Start()
 	{
+		// 检查包体版本必须最先调用，禁止在此之前插入其他代码
 		CheckPackageVersion();
 
 		StartGame();
+
+#if UNITY_EDITOR
+		gameObject.AddComponent<UINodeSelector>();
+
+		// TextWarmupSetting.Instance.StartCollect();
+#endif
 	}
 
 	private void StartGame()
@@ -105,6 +118,22 @@ public sealed class GameRoot : MonoBehaviour
 
 			luaFocus = LuaState.GetFunction("GameFocus");
 			luaPause = LuaState.GetFunction("GamePause");
+
+			var eventDispatcher = EventDispatcher.Instance;
+
+			eventDispatcher.EnabledGameObjAttachFunc = LuaState.GetFunction("EnabledGameObjAttachEvent");
+			eventDispatcher.DisabledGameObjAttachFunc = LuaState.GetFunction("DisabledGameObjAttachEvent");
+			eventDispatcher.DestroyGameObjAttachFunc = LuaState.GetFunction("DestroyGameObjAttachEvent");
+
+			eventDispatcher.EnabledLoadRawImageFunc = LuaState.GetFunction("EnabledLoadRawImageEvent");
+			eventDispatcher.DisabledLoadRawImageFunc = LuaState.GetFunction("DisabledLoadRawImageEvent");
+			eventDispatcher.DestroyLoadRawImageFunc = LuaState.GetFunction("DestroyLoadRawImageEvent");
+
+			eventDispatcher.UIMouseClickEffectFunc = LuaState.GetFunction("UIMouseClickEffectEvent");
+			eventDispatcher.ProjectileSingleEffectFunc = LuaState.GetFunction("ProjectileSingleEffectEvent");
+
+			luaPlayAudio = LuaState.GetFunction("PlayAudio");
+			ClickSound.OnClick = LuaPlayAudio;
 		}
 		catch (Exception e)
 		{
@@ -239,6 +268,11 @@ public sealed class GameRoot : MonoBehaviour
 		Debug.unityLogger.filterLogType = LogType.Log;
 	}
 
+
+	private void LuaPlayAudio(string bundleName, string assetName)
+	{
+		luaPlayAudio.Call(bundleName, assetName);
+	}
 
 	[MonoPInvokeCallback(typeof(LuaCSFunction))]
 	private static int LuaOpen_Mime_Core(IntPtr l)

@@ -1676,7 +1676,7 @@ public class UnityEngine_AnimatorWrap
 		{
 			ToLua.CheckArgsCount(L, 1);
 			UnityEngine.Animator obj = (UnityEngine.Animator)ToLua.CheckObject<UnityEngine.Animator>(L, 1);
-			AnimatorStateListener o = obj.GetStateListener();
+			Game.AnimatorStateListener o = obj.GetStateListener();
 			ToLua.Push(L, o);
 			return 1;
 		}

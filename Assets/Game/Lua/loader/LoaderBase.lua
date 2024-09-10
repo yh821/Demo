@@ -136,25 +136,25 @@ function LoaderBase:GetManifestInfo(bundle_name)
     return self.v_manifest_info
 end
 
-function LoaderBase:LoadLevelSync(bundle_name, asset_name, load_mode, callback)
+function LoaderBase:LoadSceneSync(bundle_name, asset_name, load_mode, callback)
     if load_mode == SceneSingleLoadMode then
         self:__DestroyLoadingScenes()
-        self.v_scene_loader:LoadLevelSync(bundle_name, asset_name, load_mode, callback)
+        self.v_scene_loader:LoadSceneSync(bundle_name, asset_name, load_mode, callback)
     else
         local scene_loader = SceneLoader.New()
         table.insert(self.v_scene_loader_list, scene_loader)
-        scene_loader:LoadLevelSync()
+        scene_loader:LoadSceneSync()
     end
 end
 
-function LoaderBase:LoadLevelAsync(bundle_name, asset_name, load_mode, callback)
+function LoaderBase:LoadSceneAsync(bundle_name, asset_name, load_mode, callback)
     if load_mode == SceneSingleLoadMode then
         self:__DestroyLoadingScenes()
-        self.v_scene_loader:LoadLevelAsync(bundle_name, asset_name, load_mode, callback)
+        self.v_scene_loader:LoadSceneAsync(bundle_name, asset_name, load_mode, callback)
     else
         local scene_loader = SceneLoader.New()
         table.insert(self.v_scene_loader_list, scene_loader)
-        scene_loader:LoadLevelAsync()
+        scene_loader:LoadSceneAsync()
     end
 end
 

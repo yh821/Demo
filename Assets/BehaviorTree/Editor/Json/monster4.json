@@ -10,6 +10,7 @@
   "data": {
     "restart": "1"
   },
+  "sharedData": null,
   "children": [
     {
       "name": "顺序节点",
@@ -23,6 +24,7 @@
       "data": {
         "abort": "Lower"
       },
+      "sharedData": null,
       "children": [
         {
           "name": "在视野内",
@@ -36,6 +38,7 @@
           "data": {
             "ViewRange": "3"
           },
+          "sharedData": null,
           "children": null
         },
         {
@@ -50,6 +53,7 @@
           "data": {
             "pos": "TargetPos"
           },
+          "sharedData": null,
           "children": null
         },
         {
@@ -64,6 +68,7 @@
           "data": {
             "pos": "TargetPos"
           },
+          "sharedData": null,
           "children": null
         }
       ]

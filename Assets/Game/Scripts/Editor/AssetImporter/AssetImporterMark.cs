@@ -8,12 +8,12 @@ public class AssetImporterMark : AssetPostprocessor
 
 	private void OnPreprocessAnimation()
 	{
-		Debug.Log("导入动作前");
+		// Debug.Log("导入动作前");
 	}
 
 	private void OnPostprocessAnimation(GameObject root, AnimationClip clip)
 	{
-		Debug.Log("导入动作:" + root.name);
+		// Debug.Log("导入动作:" + root.name);
 	}
 
 	#endregion
@@ -22,7 +22,7 @@ public class AssetImporterMark : AssetPostprocessor
 
 	private void OnPreprocessAssembly(string pathName)
 	{
-		Debug.Log("导入动态库:" + pathName);
+		// Debug.Log("导入动态库:" + pathName);
 	}
 
 	#endregion
@@ -40,12 +40,12 @@ public class AssetImporterMark : AssetPostprocessor
 
 	private void OnPreprocessAudio()
 	{
-		Debug.Log("导入音频前");
+		// Debug.Log("导入音频前");
 	}
 
 	private void OnPostprocessAudio(AudioClip arg)
 	{
-		Debug.Log("导入音频:" + arg.name);
+		// Debug.Log("导入音频:" + arg.name);
 	}
 
 	#endregion
@@ -54,12 +54,12 @@ public class AssetImporterMark : AssetPostprocessor
 
 	private void OnPreprocessModel()
 	{
-		Debug.Log("导入模型前");
+		// Debug.Log("导入模型前");
 	}
 
 	private void OnPostprocessModel(GameObject g)
 	{
-		Debug.Log("导入模型:" + g.name);
+		// Debug.Log("导入模型:" + g.name);
 	}
 
 	#endregion
@@ -68,12 +68,12 @@ public class AssetImporterMark : AssetPostprocessor
 
 	private void OnPreprocessTexture()
 	{
-		Debug.Log("导入纹理前");
+		// Debug.Log("导入纹理前");
 	}
 
 	private void OnPostprocessTexture(Texture2D texture)
 	{
-		Debug.Log("导入纹理:" + texture.name);
+		// Debug.Log("导入纹理:" + texture.name);
 	}
 
 	private void OnPostprocessSprites(Texture2D texture, Sprite[] sprites)
@@ -84,7 +84,7 @@ public class AssetImporterMark : AssetPostprocessor
 			sb.Append(sprite.name).Append(",\n");
 		}
 
-		Debug.Log($"导入精灵 {texture.name}:{{\n{sb}\n}}");
+		// Debug.Log($"导入精灵 {texture.name}:{{\n{sb}\n}}");
 	}
 
 	#endregion
@@ -93,7 +93,7 @@ public class AssetImporterMark : AssetPostprocessor
 
 	private void OnPostprocessMaterial(Material material)
 	{
-		Debug.Log("导入材质球:" + material.name);
+		// Debug.Log("导入材质球:" + material.name);
 	}
 
 	#endregion

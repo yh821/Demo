@@ -5,6 +5,7 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using UnityToolbarExtender;
 
 [InitializeOnLoad]
@@ -88,6 +89,13 @@ public class UnityTopBar
 			EditorSceneManager.NewScene(NewSceneSetup.EmptyScene);
 			var camera = new GameObject("Camera", typeof(Camera));
 			camera.transform.position = new Vector3(0, 1, -10);
+			var canvasGo = new GameObject("Canvas", typeof(CanvasScaler));
+			var scaler = canvasGo.GetComponent<CanvasScaler>();
+			scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+			scaler.referenceResolution = new Vector2(SafeAreaAdpater.ReferenceWidth, SafeAreaAdpater.ReferenceHeight);
+			scaler.matchWidthOrHeight = 1;
+			var canvas = canvasGo.GetComponent<Canvas>();
+			canvas.renderMode = RenderMode.ScreenSpaceOverlay;
 		}
 
 		GUI.color = Color.green;

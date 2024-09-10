@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5332470bb113c95488459764a410e121, type: 3}
+  m_Name: FontMaker
+  m_EditorClassIdentifier: 
+  maxAtlasSize: 2048
+  atlasName: vip
+  padding: 2
+  fonts:
+  - fontName: 
+    glyphs:
+    - code: 0
+      image: {fileID: 2800000, guid: 2f7b762542e347948befd8f252782639, type: 3}
+    - code: 1
+      image: {fileID: 2800000, guid: 2f7b762542e347948befd8f252782639, type: 3}
+    - code: 2
+      image: {fileID: 2800000, guid: 4a95800e52a8b57489b327f23ed30c0e, type: 3}
+    - code: 3
+      image: {fileID: 2800000, guid: c06596c2761a72546b2c9af794aa6f8b, type: 3}
+    - code: 4
+      image: {fileID: 2800000, guid: a246e2b5436b2aa46859e2291bb1df25, type: 3}

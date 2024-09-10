@@ -1,6 +1,9 @@
 local __bt__ = {
   file= "RootNode",
   type= "",
+  sharedData= {
+    tt1= 1
+  },
   data= {
     restart= 1
   },

@@ -68,12 +68,12 @@ public static class EditorResourceMgr
 		return null;
 	}
 
-	public static bool LoadLevelSync(string bundleName, string assetName, LoadSceneMode loadSceneMode)
+	public static bool LoadSceneSync(string bundleName, string sceneName, LoadSceneMode loadSceneMode)
 	{
 #if UNITY_EDITOR
-		LoadAction?.Invoke(bundleName, assetName);
-		assetName = Path.GetFileNameWithoutExtension(assetName);
-		var assetPaths = AssetDatabase.GetAssetPathsFromAssetBundleAndAssetName(bundleName, assetName);
+		LoadAction?.Invoke(bundleName, sceneName);
+		sceneName = Path.GetFileNameWithoutExtension(sceneName);
+		var assetPaths = AssetDatabase.GetAssetPathsFromAssetBundleAndAssetName(bundleName, sceneName);
 		if (assetPaths.Length > 0)
 		{
 			var assetPath = assetPaths[0];
@@ -84,12 +84,12 @@ public static class EditorResourceMgr
 		return false;
 	}
 
-	public static bool LoadLevelAsync(string bundleName, string assetName, LoadSceneMode loadSceneMode)
+	public static bool LoadSceneAsync(string bundleName, string sceneName, LoadSceneMode loadSceneMode)
 	{
 #if UNITY_EDITOR
-		LoadAction?.Invoke(bundleName, assetName);
-		assetName = Path.GetFileNameWithoutExtension(assetName);
-		var assetPaths = AssetDatabase.GetAssetPathsFromAssetBundleAndAssetName(bundleName, assetName);
+		LoadAction?.Invoke(bundleName, sceneName);
+		sceneName = Path.GetFileNameWithoutExtension(sceneName);
+		var assetPaths = AssetDatabase.GetAssetPathsFromAssetBundleAndAssetName(bundleName, sceneName);
 		if (assetPaths.Length > 0)
 		{
 			var assetPath = assetPaths[0];

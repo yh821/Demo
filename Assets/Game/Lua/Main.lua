@@ -53,6 +53,10 @@ function Main()
     else
         require("loader/SimulationLoader")
     end
+
+    require("loader/GameObjAttachEventHandle")
+    require("loader/LoadRawImageEventHandle")
+    require("loader/EffectEventHandle")
 end
 
 local UnityTime = UnityEngine.Time
@@ -81,6 +85,41 @@ end
 function GamePause(pause)
     if EventSystem and EventSystem.Instance then
         EventSystem.Instance:Fire(SystemEventType.GAME_PAUSE, pause)
+    end
+end
+
+function EnabledGameObjAttachEvent(list)
+    GameObjAttachEventHandle.EnabledGameObjAttachEvent(list)
+end
+
+function DisabledGameObjAttachEvent(list)
+    GameObjAttachEventHandle.DisabledGameObjAttachEvent(list)
+end
+
+function DestroyGameObjAttachEvent(list)
+    GameObjAttachEventHandle.DestroyGameObjAttachEvent(list)
+end
+
+function EnabledLoadRawImageEvent(list)
+    LoadRawImageEventHandle.EnabledLoadRawImageEvent(list)
+end
+
+function DisabledLoadRawImageEvent(list)
+    LoadRawImageEventHandle.DisabledLoadRawImageEvent(list)
+end
+
+function DestroyLoadRawImageEvent(list)
+    LoadRawImageEventHandle.DestroyLoadRawImageEvent(list)
+end
+
+function ProjectileSingleEffectEvent(hit_effect, position, rotation, hit_effect_with_rotation, source_scale)
+    EffectEventHandle.ProjectileSingleEffectEvent(hit_effect, position, rotation, hit_effect_with_rotation, source_scale)
+end
+
+function UIMouseClickEffectEvent(effects, canvas, mouse_click_transform)
+    EffectEventHandle.UIMouseClickEffectEvent(effects, canvas, mouse_click_transform)
+    if EventSystem.Instance then
+        EventSystem.Instance:Fire(TouchEventType.UI_CLICK)
     end
 end
 

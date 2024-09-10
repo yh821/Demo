@@ -1,10 +1,10 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using LuaInterface;
 using UnityEngine;
+using Game;
 
 public sealed class LuaBundleLoader : LuaFileUtils
 {

@@ -229,6 +229,8 @@ GameObject:
   m_Component:
   - component: {fileID: 842097016663230417}
   - component: {fileID: 842097016660547231}
+  - component: {fileID: 4809171020996433683}
+  - component: {fileID: 7332101132081726377}
   m_Layer: 0
   m_Name: Boy
   m_TagString: Untagged
@@ -343,6 +345,36 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.37177163, y: 0.010809988, z: 0.0000003874302}
     m_Extent: {x: 1.0479162, y: 0.28355637, z: 0.84438336}
   m_DirtyAABB: 0
+--- !u!114 &4809171020996433683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 842097016663661105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9eb4d6acb921987459640053acf87412, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  delayTime: 0
+  attachLayer: -1
+  asset:
+    bundleName: effects/scene_prefab
+    assetName: effect_001.prefab
+    assetGUID: 6dd930ff8f2497349a1ae9dfca1020c6
+--- !u!114 &7332101132081726377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 842097016663661105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8858a1c6ec01f394590deaf6c88bc647, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &842097016663661107
 GameObject:
   m_ObjectHideFlags: 0

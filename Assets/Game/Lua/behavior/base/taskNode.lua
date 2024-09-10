@@ -27,19 +27,14 @@ local _format = string.format
 function TaskNode:__init(file, data, parent, owner)
     _id = _id + 1
     self.uid = _id
-    self:__Awake(file, data, parent, owner)
+    self:Awake(file, data, parent, owner)
 end
 
-function TaskNode:__Awake(file, data, parent, owner)
+function TaskNode:Awake(file, data, parent, owner)
     self.file = file
     self.data = data
     self.parent = parent
     self.owner = owner
-    self:Awake()
-end
-
-function TaskNode:Awake()
-    --override
 end
 
 ---@return eNodeState
@@ -113,11 +108,7 @@ function TaskNode:Abort()
 end
 
 function TaskNode:Clear()
-    self._state = nil
-    self.parent = nil
-    self.owner = nil
-    --TODO 考虑data也回收
-    self.data = nil
+    --override
 end
 
 ---@param node TaskNode
@@ -159,6 +150,12 @@ function TaskNode:GetSharedVar(key)
 end
 
 ---@param key string
+---@return any
+function TaskNode:PopSharedVar(key)
+    return self.owner:PopSharedVar(key)
+end
+
+---@param key string
 ---@param value any
 function TaskNode:SetGlobalVar(key, value)
     return self.owner:SetGlobalVar(key, value)
@@ -168,6 +165,12 @@ end
 ---@return any
 function TaskNode:GetGlobalVar(key)
     return self.owner:GetGlobalVar(key)
+end
+
+---@param key string
+---@return any
+function TaskNode:PopGlobalVar(key)
+    return self.owner:PopGlobalVar(key)
 end
 
 ---@param value number

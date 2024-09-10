@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using Game;
 using HedgehogTeam.EasyTouch;
+using UnityEngine.Audio;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
@@ -39,12 +40,19 @@ public static class CustomSettings
 	//附加导出委托类型(在导出委托时, customTypeList 中牵扯的委托类型都会导出， 无需写在这里)
 	public static DelegateType[] customDelegateList =
 	{
-		_DT(typeof(Action)),
-		_DT(typeof(UnityEngine.Events.UnityAction)),
 		_DT(typeof(Predicate<int>)),
-		_DT(typeof(Action<int>)),
 		_DT(typeof(Comparison<int>)),
 		_DT(typeof(Func<int, int>)),
+		_DT(typeof(EaseFunction)),
+		_DT(typeof(TweenCallback)),
+
+		_DT(typeof(UnityEngine.Events.UnityAction)),
+		_DT(typeof(Action)),
+		_DT(typeof(Action<bool>)),
+		_DT(typeof(Action<int>)),
+		_DT(typeof(Action<float>)),
+		_DT(typeof(Action<string>)),
+		_DT(typeof(Action<string, AnimatorStateInfo>)),
 	};
 
 	//在这里添加你要导出注册到lua的类型列表
@@ -112,6 +120,7 @@ public static class CustomSettings
 		_GT(typeof(LightType)),
 		_GT(typeof(SleepTimeout)),
 		_GT(typeof(Animator)).AddExtendType(typeof(AnimatorExtensions)),
+		_GT(typeof(AnimatorStateListener)),
 		_GT(typeof(RuntimeAnimatorController)),
 		_GT(typeof(Input)),
 		_GT(typeof(KeyCode)),
@@ -134,6 +143,7 @@ public static class CustomSettings
 		_GT(typeof(QueueMode)),
 		_GT(typeof(PlayMode)),
 		_GT(typeof(WrapMode)),
+		_GT(typeof(AudioMixer)),
 
 		_GT(typeof(QualitySettings)),
 		_GT(typeof(RenderSettings)),
@@ -171,6 +181,7 @@ public static class CustomSettings
 		_GT(typeof(Image)).AddExtendType(typeof(ShortcutExtensions)),
 		_GT(typeof(Image.Type)),
 		_GT(typeof(RawImage)),
+		_GT(typeof(RectTransformUtility)),
 
 		#endregion
 
@@ -184,11 +195,13 @@ public static class CustomSettings
 		_GT(typeof(EasyTouch)).SetNameSpace(null),
 		_GT(typeof(Gesture)).SetNameSpace(null),
 		_GT(typeof(UINameTable)).SetNameSpace(null),
+		_GT(typeof(AssetID)).SetNameSpace(null),
 		_GT(typeof(ClickableObject)),
 		_GT(typeof(ZipUtil)),
 		_GT(typeof(Projectile)),
 		_GT(typeof(EffectController)).SetNameSpace(null),
 		_GT(typeof(LoadRawImage)),
+		_GT(typeof(GameObjectAttach)),
 		_GT(typeof(StreamingAssets)),
 		_GT(typeof(AudioItem)).SetNameSpace(null),
 		_GT(typeof(AudioSourcePool)).SetNameSpace(null),
@@ -215,13 +228,11 @@ public static class CustomSettings
 	//重载函数，相同参数个数，相同位置out参数匹配出问题时, 需要强制匹配解决
 	//使用方法参见例子14
 	public static List<Type> outList = new List<Type>()
-	{
-	};
+		{ };
 
 	//ngui优化，下面的类没有派生类，可以作为sealed class
 	public static List<Type> sealedList = new List<Type>()
-	{
-	};
+		{ };
 
 	public static BindType _GT(Type t)
 	{

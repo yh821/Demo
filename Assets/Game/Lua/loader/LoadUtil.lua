@@ -2,6 +2,7 @@
 --- Created by Hugo
 --- DateTime: 2023/7/14 10:02
 ---
+
 ---@class LoadUtil
 LoadUtil = LoadUtil or {}
 
@@ -241,6 +242,7 @@ local function __AllocResLoader(self, is_async, loader_key)
         self.__res_loaders = {}
     end
 
+    ---@type ResLoader
     local loader = self.__res_loaders[loader_key]
     if loader then
         loader = ResLoader.New()

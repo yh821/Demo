@@ -8,7 +8,17 @@ public class Game_EffectControllerWrap
 	{
 		L.BeginClass(typeof(Game.EffectController), typeof(UnityEngine.MonoBehaviour));
 		L.RegFunction("WaitFinish", WaitFinish);
+		L.RegFunction("WaitFadeout", WaitFadeout);
 		L.RegFunction("EstimateDuration", EstimateDuration);
+		L.RegFunction("SimulateInit", SimulateInit);
+		L.RegFunction("SimulateStart", SimulateStart);
+		L.RegFunction("SimulateDelta", SimulateDelta);
+		L.RegFunction("Simulate", Simulate);
+		L.RegFunction("Play", Play);
+		L.RegFunction("Pause", Pause);
+		L.RegFunction("Resume", Resume);
+		L.RegFunction("Stop", Stop);
+		L.RegFunction("Reset", Reset);
 		L.RegFunction("__eq", op_Equality);
 		L.RegFunction("__tostring", ToLua.op_ToString);
 		L.RegVar("IsLooping", get_IsLooping, set_IsLooping);
@@ -41,6 +51,23 @@ public class Game_EffectControllerWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int WaitFadeout(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 2);
+			Game.EffectController obj = (Game.EffectController)ToLua.CheckObject(L, 1, typeof(Game.EffectController));
+			System.Action arg0 = (System.Action)ToLua.CheckDelegate<System.Action>(L, 2);
+			obj.WaitFadeout(arg0);
+			return 0;
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int EstimateDuration(IntPtr L)
 	{
 		try
@@ -48,6 +75,153 @@ public class Game_EffectControllerWrap
 			ToLua.CheckArgsCount(L, 1);
 			Game.EffectController obj = (Game.EffectController)ToLua.CheckObject(L, 1, typeof(Game.EffectController));
 			obj.EstimateDuration();
+			return 0;
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int SimulateInit(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 1);
+			Game.EffectController obj = (Game.EffectController)ToLua.CheckObject(L, 1, typeof(Game.EffectController));
+			obj.SimulateInit();
+			return 0;
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int SimulateStart(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 1);
+			Game.EffectController obj = (Game.EffectController)ToLua.CheckObject(L, 1, typeof(Game.EffectController));
+			obj.SimulateStart();
+			return 0;
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int SimulateDelta(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 3);
+			Game.EffectController obj = (Game.EffectController)ToLua.CheckObject(L, 1, typeof(Game.EffectController));
+			float arg0 = (float)LuaDLL.luaL_checknumber(L, 2);
+			float arg1 = (float)LuaDLL.luaL_checknumber(L, 3);
+			obj.SimulateDelta(arg0, arg1);
+			return 0;
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int Simulate(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 2);
+			Game.EffectController obj = (Game.EffectController)ToLua.CheckObject(L, 1, typeof(Game.EffectController));
+			float arg0 = (float)LuaDLL.luaL_checknumber(L, 2);
+			obj.Simulate(arg0);
+			return 0;
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int Play(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 1);
+			Game.EffectController obj = (Game.EffectController)ToLua.CheckObject(L, 1, typeof(Game.EffectController));
+			obj.Play();
+			return 0;
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int Pause(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 1);
+			Game.EffectController obj = (Game.EffectController)ToLua.CheckObject(L, 1, typeof(Game.EffectController));
+			obj.Pause();
+			return 0;
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int Resume(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 1);
+			Game.EffectController obj = (Game.EffectController)ToLua.CheckObject(L, 1, typeof(Game.EffectController));
+			obj.Resume();
+			return 0;
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int Stop(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 1);
+			Game.EffectController obj = (Game.EffectController)ToLua.CheckObject(L, 1, typeof(Game.EffectController));
+			obj.Stop();
+			return 0;
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int Reset(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 1);
+			Game.EffectController obj = (Game.EffectController)ToLua.CheckObject(L, 1, typeof(Game.EffectController));
+			obj.Reset();
 			return 0;
 		}
 		catch (Exception e)

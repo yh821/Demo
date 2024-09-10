@@ -10,6 +10,7 @@
   "data": {
     "restart": "1"
   },
+  "sharedData": null,
   "children": [
     {
       "name": "顺序节点",
@@ -23,6 +24,7 @@
       "data": {
         "abort": "None"
       },
+      "sharedData": null,
       "children": [
         {
           "name": "随机位置",
@@ -37,6 +39,7 @@
             "center": "0,0,0",
             "range": "2"
           },
+          "sharedData": null,
           "children": null
         },
         {
@@ -51,6 +54,7 @@
           "data": {
             "pos": "RandomPos"
           },
+          "sharedData": null,
           "children": null
         }
       ]

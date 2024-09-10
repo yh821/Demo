@@ -31,11 +31,11 @@ function SceneLoader:Update()
 
     if self.v_load_scene_op and self.v_load_scene_op.isDone then
         self.v_load_scene_op = nil
-        self:OnLoadLevelComplete(self.v_bundle_name)
+        self:OnLoadSceneComplete(self.v_bundle_name)
     end
 end
 
-function SceneLoader:OnLoadLevelComplete(bundle_name)
+function SceneLoader:OnLoadSceneComplete(bundle_name)
     self.v_loaded_bundle_name = bundle_name
     self.v_is_loading = false
     if self.v_callback then
@@ -156,7 +156,7 @@ function SceneLoader:LoadSceneSync(bundle_name, asset_name, load_mode, callback,
             return
         end
 
-        self:OnLoadLevelComplete(bundle_name)
+        self:OnLoadSceneComplete(bundle_name)
     end)
 end
 

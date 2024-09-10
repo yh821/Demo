@@ -13,6 +13,8 @@ function Game.Start()
 
     Scene.Instance:CreateCamera()
     Scene.Instance:CreateMainRole()
+
+    LoginCtrl.CreateClickEffectCanvas(MainUiCtrl.Instance)
 end
 
 function Game.OnDestroy()

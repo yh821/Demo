@@ -10,45 +10,47 @@ require("behavior/BehaviorManager")
 AiManager = AiManager or BaseClass()
 
 function AiManager:__init()
-	if AiManager.Instance then
-		print_error("[AiManager] attempt to create singleton twice!")
-		return
-	end
-	AiManager.Instance = self
+    if AiManager.Instance then
+        print_error("[AiManager] attempt to create singleton twice!")
+        return
+    end
+    AiManager.Instance = self
 
-	self._bt_list = {}
+    self._bt_list = {}
 
-	Runner.Instance:AddRunObj(self, RunnerPriority.mid)
+    Runner.Instance:AddRunObj(self, RunnerPriority.mid)
 end
 
 function AiManager:__delete()
-	Runner.Instance:RemoveRunObj(self)
+    Runner.Instance:RemoveRunObj(self)
 
-	self._bt_list = nil
+    self._bt_list = nil
 
-	AiManager.Instance = nil
+    AiManager.Instance = nil
 end
 
 function AiManager:Update(now_time, delta_time)
-	BehaviorManager:Update(delta_time)
+    BehaviorManager:Update(delta_time)
 end
 
-function AiManager:SwitchTick()
-	BehaviorManager:SwitchTick()
+function AiManager:SwitchTick(thinking)
+    BehaviorManager:SwitchTick(thinking)
 end
 
+---@param scene_obj SceneObj
 ---@return BehaviorTree 一个实体只能绑定一个行为树
 function AiManager:BindBT(scene_obj, file)
-	local bt = BehaviorManager:BindBehaviorTree(scene_obj, file)
-	if not bt then
-		return
-	end
-	bt:SetSharedVar(BtConfig.self_obj_key, scene_obj)
-	self._bt_list[scene_obj] = bt
-	return bt
+    local bt = BehaviorManager:BindBehaviorTree(scene_obj, file)
+    if not bt then
+        return
+    end
+    bt:SetSharedVar(BtConfig.self_obj_key, scene_obj)
+    self._bt_list[scene_obj] = bt
+    return bt
 end
 
-function AiManager:UnBindBT(gameObject)
-	BehaviorManager:UnBindBehaviorTree(gameObject)
-	self._bt_list[gameObject] = nil
+---@param scene_obj SceneObj
+function AiManager:UnBindBT(scene_obj)
+    BehaviorManager:UnBindBehaviorTree(scene_obj)
+    self._bt_list[scene_obj] = nil
 end

@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System.IO;
+using UnityEditor;
 using UnityEngine;
 
 namespace Common
@@ -28,7 +29,7 @@ namespace Common
 			}
 		}
 
-		static Transform TempParent
+		private static Transform TempParent
 		{
 			get
 			{
@@ -43,9 +44,9 @@ namespace Common
 			}
 		}
 
-		static Transform mTempParent = null;
+		private static Transform mTempParent = null;
 
-		static GameObject GetSceneObject(string name)
+		private static GameObject GetSceneObject(string name)
 		{
 			if (TempParent != null)
 			{
@@ -59,5 +60,93 @@ namespace Common
 
 		#endregion
 
+		#region 复制预制ab名
+
+		[MenuItem("Assets/复制AssetBundleName")]
+		public static void CopyAssetBundleName()
+		{
+			var path = AssetDatabase.GetAssetPath(Selection.activeObject);
+			var importer = AssetImporter.GetAtPath(path);
+			if (!importer || string.IsNullOrEmpty(importer.assetBundleName)) return;
+			GUIUtility.systemCopyBuffer = importer.assetBundleName;
+		}
+
+		[MenuItem("Assets/复制AssetPath")]
+		public static void CopyAssetPath()
+		{
+			var path = AssetDatabase.GetAssetPath(Selection.activeObject);
+			if (string.IsNullOrEmpty(path)) return;
+			GUIUtility.systemCopyBuffer = path;
+		}
+
+		[MenuItem("Assets/复制GUID")]
+		public static void CopyAssetGuid()
+		{
+			var path = AssetDatabase.GetAssetPath(Selection.activeObject);
+			var guid = AssetDatabase.GUIDFromAssetPath(path);
+			if (guid.Empty()) return;
+			GUIUtility.systemCopyBuffer = guid.ToString();
+		}
+
+		#endregion
+
+		#region 删除空文件夹
+
+		[MenuItem("Assets/删除空文件夹")]
+		public static void DeleteEmptyFolder()
+		{
+			var obj = Selection.activeObject;
+			if (!obj) return;
+			var folder = AssetDatabase.GetAssetPath(obj);
+			if (!Directory.Exists(folder)) return;
+			foreach (var path in Directory.GetFileSystemEntries(folder, "*", SearchOption.AllDirectories))
+			{
+				if (!Directory.Exists(path)) continue;
+				var files = Directory.GetFiles(path, "*", SearchOption.AllDirectories);
+				if (files.Length == 0)
+				{
+					Directory.Delete(path, true);
+					File.Delete(path + ".meta");
+				}
+			}
+			AssetDatabase.Refresh();
+		}
+
+		#endregion
+
+		#region 批量重命名节点
+
+		[MenuItem("GameObject/Game Tool/批量重命名子节点(父节点名+index升序)")]
+		public static void StartAsceRenameNode()
+		{
+			var go = Selection.activeGameObject;
+			if (!go) return;
+			var prefix = go.name;
+			var count = go.transform.childCount;
+			for (int i = 0; i < count; i++)
+			{
+				var child = go.transform.GetChild(i);
+				if (child != null) child.gameObject.name = prefix + i;
+			}
+			EditorUtility.SetDirty(go);
+		}
+
+
+		[MenuItem("GameObject/Game Tool/批量重命名子节点(父节点名+index降序)")]
+		public static void StartDescRenameNode()
+		{
+			var go = Selection.activeGameObject;
+			if (!go) return;
+			var prefix = go.name;
+			var count = go.transform.childCount;
+			for (int i = 0; i < count; i++)
+			{
+				var child = go.transform.GetChild(i);
+				if (child != null) child.gameObject.name = prefix + (count - 1 - i);
+			}
+			EditorUtility.SetDirty(go);
+		}
+
+		#endregion
 	}
 }

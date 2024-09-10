@@ -6,6 +6,8 @@ public static class GameLayers
 	private static int? road;
 	private static int? water;
 	private static int? clickable;
+	private static int? uiEffect;
+	private static int? ui3D;
 
 	public static int Default => 0;
 
@@ -46,6 +48,26 @@ public static class GameLayers
 			if (!clickable.HasValue)
 				clickable = LayerMask.NameToLayer("Clickable");
 			return clickable.Value;
+		}
+	}
+
+	public static int UIEffect
+	{
+		get
+		{
+			if (!uiEffect.HasValue)
+				uiEffect = LayerMask.NameToLayer("UIEffect");
+			return uiEffect.Value;
+		}
+	}
+
+	public static int UI3D
+	{
+		get
+		{
+			if (!ui3D.HasValue)
+				ui3D = LayerMask.NameToLayer("UI3D");
+			return ui3D.Value;
 		}
 	}
 }

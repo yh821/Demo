@@ -10,8 +10,8 @@ public class EditorResourceMgrWrap
 		L.RegFunction("IsExitsAsset", IsExitsAsset);
 		L.RegFunction("LoadGameObject", LoadGameObject);
 		L.RegFunction("LoadObject", LoadObject);
-		L.RegFunction("LoadLevelSync", LoadLevelSync);
-		L.RegFunction("LoadLevelAsync", LoadLevelAsync);
+		L.RegFunction("LoadSceneSync", LoadSceneSync);
+		L.RegFunction("LoadSceneAsync", LoadSceneAsync);
 		L.RegFunction("CacheOriginalInstanceMapping", CacheOriginalInstanceMapping);
 		L.RegFunction("SweepOriginalInstanceIdMap", SweepOriginalInstanceIdMap);
 		L.RegFunction("GetOriginalInstanceId", GetOriginalInstanceId);
@@ -77,7 +77,7 @@ public class EditorResourceMgrWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int LoadLevelSync(IntPtr L)
+	static int LoadSceneSync(IntPtr L)
 	{
 		try
 		{
@@ -85,7 +85,7 @@ public class EditorResourceMgrWrap
 			string arg0 = ToLua.CheckString(L, 1);
 			string arg1 = ToLua.CheckString(L, 2);
 			UnityEngine.SceneManagement.LoadSceneMode arg2 = (UnityEngine.SceneManagement.LoadSceneMode)ToLua.CheckObject(L, 3, typeof(UnityEngine.SceneManagement.LoadSceneMode));
-			bool o = EditorResourceMgr.LoadLevelSync(arg0, arg1, arg2);
+			bool o = EditorResourceMgr.LoadSceneSync(arg0, arg1, arg2);
 			LuaDLL.lua_pushboolean(L, o);
 			return 1;
 		}
@@ -96,7 +96,7 @@ public class EditorResourceMgrWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int LoadLevelAsync(IntPtr L)
+	static int LoadSceneAsync(IntPtr L)
 	{
 		try
 		{
@@ -104,7 +104,7 @@ public class EditorResourceMgrWrap
 			string arg0 = ToLua.CheckString(L, 1);
 			string arg1 = ToLua.CheckString(L, 2);
 			UnityEngine.SceneManagement.LoadSceneMode arg2 = (UnityEngine.SceneManagement.LoadSceneMode)ToLua.CheckObject(L, 3, typeof(UnityEngine.SceneManagement.LoadSceneMode));
-			bool o = EditorResourceMgr.LoadLevelAsync(arg0, arg1, arg2);
+			bool o = EditorResourceMgr.LoadSceneAsync(arg0, arg1, arg2);
 			LuaDLL.lua_pushboolean(L, o);
 			return 1;
 		}

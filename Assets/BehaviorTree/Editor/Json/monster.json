@@ -6,10 +6,13 @@
   "posX": 450.0,
   "posY": 60.0,
   "index": 0,
+  "enabled": true,
   "fold": false,
+  "visable": true,
   "data": {
     "restart": "1"
   },
+  "sharedData": {},
   "children": [
     {
       "name": "选择节点",
@@ -19,10 +22,13 @@
       "posX": 450.0,
       "posY": 180.0,
       "index": 1,
+      "enabled": true,
       "fold": false,
+      "visable": true,
       "data": {
-        "abort": "None"
+        "abortType": "None"
       },
+      "sharedData": null,
       "children": [
         {
           "name": "顺序节点",
@@ -32,10 +38,13 @@
           "posX": 250.0,
           "posY": 300.0,
           "index": 2,
+          "enabled": true,
           "fold": false,
+          "visable": true,
           "data": {
-            "abort": "Lower"
+            "abortType": "Lower"
           },
+          "sharedData": null,
           "children": [
             {
               "name": "在视野内",
@@ -45,10 +54,13 @@
               "posX": 150.0,
               "posY": 420.0,
               "index": 3,
+              "enabled": true,
               "fold": false,
+              "visable": true,
               "data": {
                 "ViewRange": "3"
               },
+              "sharedData": null,
               "children": null
             },
             {
@@ -59,10 +71,13 @@
               "posX": 250.0,
               "posY": 420.0,
               "index": 4,
+              "enabled": true,
               "fold": false,
+              "visable": true,
               "data": {
                 "pos": "TargetPos"
               },
+              "sharedData": null,
               "children": null
             },
             {
@@ -73,10 +88,13 @@
               "posX": 350.0,
               "posY": 420.0,
               "index": 5,
+              "enabled": true,
               "fold": false,
+              "visable": true,
               "data": {
                 "pos": "TargetPos"
               },
+              "sharedData": null,
               "children": null
             }
           ]
@@ -89,10 +107,13 @@
           "posX": 500.0,
           "posY": 300.0,
           "index": 6,
+          "enabled": true,
           "fold": false,
+          "visable": true,
           "data": {
-            "abort": "None"
+            "abortType": "None"
           },
+          "sharedData": null,
           "children": [
             {
               "name": "随机权重",
@@ -102,10 +123,13 @@
               "posX": 450.0,
               "posY": 420.0,
               "index": 7,
+              "enabled": true,
               "fold": false,
+              "visable": true,
               "data": {
                 "weight": "500"
               },
+              "sharedData": null,
               "children": null
             },
             {
@@ -116,11 +140,14 @@
               "posX": 550.0,
               "posY": 420.0,
               "index": 8,
+              "enabled": true,
               "fold": false,
+              "visable": true,
               "data": {
                 "min_time": "1",
                 "max_time": "3"
               },
+              "sharedData": null,
               "children": null
             }
           ]
@@ -133,10 +160,13 @@
           "posX": 700.0,
           "posY": 300.0,
           "index": 9,
+          "enabled": true,
           "fold": false,
+          "visable": true,
           "data": {
-            "abort": "None"
+            "abortType": "None"
           },
+          "sharedData": null,
           "children": [
             {
               "name": "随机位置",
@@ -146,11 +176,14 @@
               "posX": 650.0,
               "posY": 420.0,
               "index": 10,
+              "enabled": true,
               "fold": false,
+              "visable": true,
               "data": {
                 "center": "0,0,0",
                 "range": "5"
               },
+              "sharedData": null,
               "children": null
             },
             {
@@ -161,10 +194,13 @@
               "posX": 750.0,
               "posY": 420.0,
               "index": 11,
+              "enabled": true,
               "fold": false,
+              "visable": true,
               "data": {
                 "pos": "RandomPos"
               },
+              "sharedData": null,
               "children": null
             }
           ]

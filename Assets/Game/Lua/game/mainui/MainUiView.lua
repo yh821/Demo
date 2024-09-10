@@ -23,6 +23,8 @@ function MainUiView:LoadCallback()
     end
 
     self:JoystickLoadCallback()
+
+    AiManager.Instance:SwitchTick(true)
 end
 
 function MainUiView:OnOpenAi()

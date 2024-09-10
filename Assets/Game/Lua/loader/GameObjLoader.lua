@@ -131,7 +131,7 @@ function GameObjLoader:SetIsAsyncLoad(is_async)
     self.is_async = is_async
 end
 
-function GameObjLoader:SetIsAsyncLoad(load_priority)
+function GameObjLoader:SetLoadPriority(load_priority)
     if load_priority then
         self.load_priority = load_priority
     end
@@ -158,7 +158,7 @@ end
 
 function GameObjLoader:SetParent(parent_transform)
     if not IsNil(parent_transform) then
-        if parent_transform.SetParent then
+        if parent_transform.SetParent == nil then
             print_error("[GameObjLoader] SetParent 参数非Transform!")
         end
     end

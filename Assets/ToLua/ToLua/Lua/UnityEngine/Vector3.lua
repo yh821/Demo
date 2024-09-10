@@ -47,9 +47,7 @@ end
 local _new = Vector3.New
 
 Vector3.__call = function(t, x, y, z)
-    local t = { x = x or 0, y = y or 0, z = z or 0 }
-    setmetatable(t, Vector3)
-    return t
+    return _new(x, y, z)
 end
 
 function Vector3:ToString()

@@ -10,6 +10,7 @@
   "data": {
     "restart": "1"
   },
+  "sharedData": null,
   "children": [
     {
       "name": "选择节点",
@@ -23,6 +24,7 @@
       "data": {
         "abort": "None"
       },
+      "sharedData": null,
       "children": [
         {
           "name": "顺序节点",
@@ -36,6 +38,7 @@
           "data": {
             "abort": "None"
           },
+          "sharedData": null,
           "children": [
             {
               "name": "随机权重",
@@ -49,6 +52,7 @@
               "data": {
                 "weight": "500"
               },
+              "sharedData": null,
               "children": null
             },
             {
@@ -64,6 +68,7 @@
                 "min_time": "1",
                 "max_time": "3"
               },
+              "sharedData": null,
               "children": null
             }
           ]
@@ -80,6 +85,7 @@
           "data": {
             "abort": "None"
           },
+          "sharedData": null,
           "children": [
             {
               "name": "随机位置",
@@ -94,6 +100,7 @@
                 "center": "4,0,0",
                 "range": "2"
               },
+              "sharedData": null,
               "children": null
             },
             {
@@ -108,6 +115,7 @@
               "data": {
                 "pos": "RandomPos"
               },
+              "sharedData": null,
               "children": null
             }
           ]

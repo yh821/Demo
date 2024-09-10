@@ -23,11 +23,15 @@ function CtrlManager:__init()
         "loader/GameObjLoaderMgr",
         "loader/AudioMgr",
 
+        "loader/GameObjLoader",
+        "loader/ResLoader",
+
         "controller/ViewManager", --界面管理器
         "controller/AiManager",
 
         "quality/ShieldMgr", --屏蔽管理器
 
+        "game/login/LoginCtrl",
         "game/scene/Scene",
         "game/mainui/MainUiCtrl",
     }

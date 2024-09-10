@@ -136,6 +136,8 @@ function Scene:DeleteObj(obj_id, delay)
         obj_group[obj_id] = nil
     end
 
+    AiManager.Instance:UnBindBT(obj)
+
     self:Fire(ObjectEventType.DELETE_OBJ, obj)
 
     if delay > 0 then

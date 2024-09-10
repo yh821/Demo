@@ -1,8 +1,10 @@
+using System;
 using UnityEditor;
 using UnityEngine;
 
 namespace Game
 {
+	[ExecuteInEditMode]
 	public class GameObjectAttach : MonoBehaviour, IGameObjectAttach
 	{
 		public float delayTime = 0;
@@ -54,8 +56,8 @@ namespace Game
 				EventDispatcher.Instance.OnGameObjAttachDestroy(this);
 		}
 
-		private bool _disable;
-		private bool _isUi;
+		private bool mDisable;
+		private bool mIsUi;
 
 		private void OnDisable()
 		{
@@ -66,7 +68,72 @@ namespace Game
 				EventDispatcher.Instance.OnGameObjAttachDisable(this);
 
 			Loaded = false;
-			_disable = true;
+			mDisable = true;
+		}
+
+		private void OnEnable()
+		{
+			UpdateAttachObj();
+			mDisable = false;
+		}
+
+		private void UpdateAttachObj()
+		{
+#if UNITY_EDITOR
+			// if (GameRoot.Instance != null &&
+			//     UnityEditor.SceneManagement.EditorSceneManager.IsPreviewSceneObject(transform)) return;
+			CreateAttachObj();
+#endif
+			if (isDisableEffect) return;
+			mIsUi = transform.GetComponentInParent<Canvas>();
+			//临时处理UI特效
+			Scheduler.Delay(() =>
+			{
+				if (!this || !enabled || isDisableEffect || mDisable) return;
+				if (EventDispatcher.Instance == null) return;
+				if (gameObject.activeSelf) EventDispatcher.Instance.OnGameObjAttachEnable(this);
+			}, delayTime);
+		}
+
+		public void OnLoadComplete(GameObject effect)
+		{
+			Loaded = true;
+			if (attachLayer >= 0)
+			{
+				var renderers = ListPool<Renderer>.Get();
+				gameObject.GetComponentsInChildren(true, renderers);
+				foreach (var render in renderers)
+					render.gameObject.layer = attachLayer;
+				ListPool<Renderer>.Release(renderers);
+			}
+			attachLayer = -1;
+
+			SetEffectQualityBias(effectQualityBisa);
+		}
+
+		private void SetEffectQualityBias(int bias)
+		{
+			effectQualityBisa = bias;
+		}
+
+		public void SetIsDisableEffect(bool disable)
+		{
+			isDisableEffect = disable;
+			if (EventDispatcher.Instance != null)
+			{
+				if (disable) EventDispatcher.Instance.OnGameObjAttachDisable(this);
+				else UpdateAttachObj();
+			}
+		}
+
+		public void SetIsSceneOptimize(bool disable, int effectQualityBias = 0)
+		{
+			SetEffectQualityBias(effectQualityBias);
+		}
+
+		public bool IsSceneOptimize()
+		{
+			return isDisableEffect;
 		}
 
 #if UNITY_EDITOR
@@ -106,9 +173,11 @@ namespace Game
 		{
 			DestroyAttachObj();
 			var isPlayingEditMode = false;
-			isPlayingEditMode = Application.isPlaying &&
-			                    UnityEditor.SceneManagement.EditorSceneManager.IsPreviewSceneObject(transform);
-			if (!isPlayingEditMode)
+#if UNITY_EDITOR
+			// isPlayingEditMode = Application.isPlaying &&
+			//                     UnityEditor.SceneManagement.EditorSceneManager.IsPreviewSceneObject(transform);
+#endif
+			if (GameRoot.Instance == null && !isPlayingEditMode)
 			{
 				if (!(string.IsNullOrEmpty(BundleName) || string.IsNullOrEmpty(AssetName)))
 				{

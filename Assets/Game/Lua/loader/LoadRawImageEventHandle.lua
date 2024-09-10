@@ -9,7 +9,7 @@ local TypeRawImage = typeof(UnityEngine.UI.RawImage)
 ---@class LoadRawImageEventHandle : BaseClass
 LoadRawImageEventHandle = BaseClass()
 
-function LoadRawImageEventHandle.EnableLoadRawImageEvent(enabled_list)
+function LoadRawImageEventHandle.EnabledLoadRawImageEvent(enabled_list)
     for i = 0, enabled_list.Count - 1 do
         local load_raw_image = enabled_list[i]
         if not IsNil(load_raw_image) then
@@ -32,7 +32,7 @@ function LoadRawImageEventHandle.EnableLoadRawImageEvent(enabled_list)
     end
 end
 
-function LoadRawImageEventHandle.DisableLoadRawImageEvent(disabled_list)
+function LoadRawImageEventHandle.DisabledLoadRawImageEvent(disabled_list)
 end
 
 function LoadRawImageEventHandle.DestroyLoadRawImageEvent(destroyed_list)

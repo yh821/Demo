@@ -7,8 +7,12 @@
   "posY": 60.0,
   "index": 0,
   "fold": false,
+  "visable": true,
   "data": {
     "restart": "1"
+  },
+  "sharedData": {
+    "tt1": "1"
   },
   "children": [
     {
@@ -19,10 +23,12 @@
       "posX": 450.0,
       "posY": 180.0,
       "index": 1,
-      "fold": false,
+      "fold": true,
+      "visable": true,
       "data": {
         "abort": "None"
       },
+      "sharedData": null,
       "children": [
         {
           "name": "顺序节点",
@@ -33,9 +39,11 @@
           "posY": 300.0,
           "index": 2,
           "fold": false,
+          "visable": false,
           "data": {
             "abort": "Lower"
           },
+          "sharedData": null,
           "children": [
             {
               "name": "在视野内",
@@ -46,9 +54,11 @@
               "posY": 420.0,
               "index": 3,
               "fold": false,
+              "visable": false,
               "data": {
                 "ViewRange": "3"
               },
+              "sharedData": null,
               "children": null
             },
             {
@@ -60,9 +70,11 @@
               "posY": 420.0,
               "index": 4,
               "fold": false,
+              "visable": false,
               "data": {
                 "pos": "TargetPos"
               },
+              "sharedData": null,
               "children": null
             },
             {
@@ -74,9 +86,11 @@
               "posY": 420.0,
               "index": 5,
               "fold": false,
+              "visable": false,
               "data": {
                 "pos": "TargetPos"
               },
+              "sharedData": null,
               "children": null
             }
           ]
@@ -90,9 +104,11 @@
           "posY": 300.0,
           "index": 6,
           "fold": false,
+          "visable": false,
           "data": {
             "abort": "None"
           },
+          "sharedData": null,
           "children": [
             {
               "name": "随机权重",
@@ -103,9 +119,11 @@
               "posY": 420.0,
               "index": 7,
               "fold": false,
+              "visable": false,
               "data": {
                 "weight": "500"
               },
+              "sharedData": null,
               "children": null
             },
             {
@@ -117,10 +135,12 @@
               "posY": 420.0,
               "index": 8,
               "fold": false,
+              "visable": false,
               "data": {
                 "min_time": "1",
                 "max_time": "3"
               },
+              "sharedData": null,
               "children": null
             }
           ]
@@ -134,9 +154,11 @@
           "posY": 300.0,
           "index": 9,
           "fold": false,
+          "visable": false,
           "data": {
             "abort": "None"
           },
+          "sharedData": null,
           "children": [
             {
               "name": "随机位置",
@@ -147,10 +169,12 @@
               "posY": 420.0,
               "index": 10,
               "fold": false,
+              "visable": false,
               "data": {
                 "center": "0,0,0",
                 "range": "5"
               },
+              "sharedData": null,
               "children": null
             },
             {
@@ -162,9 +186,11 @@
               "posY": 420.0,
               "index": 11,
               "fold": false,
+              "visable": false,
               "data": {
                 "pos": "RandomPos"
               },
+              "sharedData": null,
               "children": null
             }
           ]

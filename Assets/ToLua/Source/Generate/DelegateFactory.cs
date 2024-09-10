@@ -17,12 +17,18 @@ public class DelegateFactory
 	public static void Register()
 	{
 		dict.Clear();
-		dict.Add(typeof(System.Action), factory.System_Action);
-		dict.Add(typeof(UnityEngine.Events.UnityAction), factory.UnityEngine_Events_UnityAction);
 		dict.Add(typeof(System.Predicate<int>), factory.System_Predicate_int);
-		dict.Add(typeof(System.Action<int>), factory.System_Action_int);
 		dict.Add(typeof(System.Comparison<int>), factory.System_Comparison_int);
 		dict.Add(typeof(System.Func<int,int>), factory.System_Func_int_int);
+		dict.Add(typeof(DG.Tweening.EaseFunction), factory.DG_Tweening_EaseFunction);
+		dict.Add(typeof(DG.Tweening.TweenCallback), factory.DG_Tweening_TweenCallback);
+		dict.Add(typeof(UnityEngine.Events.UnityAction), factory.UnityEngine_Events_UnityAction);
+		dict.Add(typeof(System.Action), factory.System_Action);
+		dict.Add(typeof(System.Action<bool>), factory.System_Action_bool);
+		dict.Add(typeof(System.Action<int>), factory.System_Action_int);
+		dict.Add(typeof(System.Action<float>), factory.System_Action_float);
+		dict.Add(typeof(System.Action<string>), factory.System_Action_string);
+		dict.Add(typeof(System.Action<string,UnityEngine.AnimatorStateInfo>), factory.System_Action_string_UnityEngine_AnimatorStateInfo);
 		dict.Add(typeof(System.Func<UnityEngine.LogType,object,bool>), factory.System_Func_UnityEngine_LogType_object_bool);
 		dict.Add(typeof(DG.Tweening.Core.DOGetter<float>), factory.DG_Tweening_Core_DOGetter_float);
 		dict.Add(typeof(DG.Tweening.Core.DOSetter<float>), factory.DG_Tweening_Core_DOSetter_float);
@@ -52,14 +58,11 @@ public class DelegateFactory
 		dict.Add(typeof(DG.Tweening.Core.DOSetter<UnityEngine.Rect>), factory.DG_Tweening_Core_DOSetter_UnityEngine_Rect);
 		dict.Add(typeof(DG.Tweening.Core.DOGetter<UnityEngine.RectOffset>), factory.DG_Tweening_Core_DOGetter_UnityEngine_RectOffset);
 		dict.Add(typeof(DG.Tweening.Core.DOSetter<UnityEngine.RectOffset>), factory.DG_Tweening_Core_DOSetter_UnityEngine_RectOffset);
-		dict.Add(typeof(DG.Tweening.TweenCallback), factory.DG_Tweening_TweenCallback);
 		dict.Add(typeof(DG.Tweening.TweenCallback<int>), factory.DG_Tweening_TweenCallback_int);
 		dict.Add(typeof(UnityEngine.Camera.CameraCallback), factory.UnityEngine_Camera_CameraCallback);
 		dict.Add(typeof(UnityEngine.Application.AdvertisingIdentifierCallback), factory.UnityEngine_Application_AdvertisingIdentifierCallback);
 		dict.Add(typeof(UnityEngine.Application.LowMemoryCallback), factory.UnityEngine_Application_LowMemoryCallback);
 		dict.Add(typeof(UnityEngine.Application.LogCallback), factory.UnityEngine_Application_LogCallback);
-		dict.Add(typeof(System.Action<bool>), factory.System_Action_bool);
-		dict.Add(typeof(System.Action<string>), factory.System_Action_string);
 		dict.Add(typeof(System.Func<bool>), factory.System_Func_bool);
 		dict.Add(typeof(UnityEngine.AudioClip.PCMReaderCallback), factory.UnityEngine_AudioClip_PCMReaderCallback);
 		dict.Add(typeof(UnityEngine.AudioClip.PCMSetPositionCallback), factory.UnityEngine_AudioClip_PCMSetPositionCallback);
@@ -112,12 +115,18 @@ public class DelegateFactory
 		dict.Add(typeof(HedgehogTeam.EasyTouch.EasyTouch.OverUIElementHandler), factory.HedgehogTeam_EasyTouch_EasyTouch_OverUIElementHandler);
 		dict.Add(typeof(HedgehogTeam.EasyTouch.EasyTouch.UIElementTouchUpHandler), factory.HedgehogTeam_EasyTouch_EasyTouch_UIElementTouchUpHandler);
 
-		DelegateTraits<System.Action>.Init(factory.System_Action);
-		DelegateTraits<UnityEngine.Events.UnityAction>.Init(factory.UnityEngine_Events_UnityAction);
 		DelegateTraits<System.Predicate<int>>.Init(factory.System_Predicate_int);
-		DelegateTraits<System.Action<int>>.Init(factory.System_Action_int);
 		DelegateTraits<System.Comparison<int>>.Init(factory.System_Comparison_int);
 		DelegateTraits<System.Func<int,int>>.Init(factory.System_Func_int_int);
+		DelegateTraits<DG.Tweening.EaseFunction>.Init(factory.DG_Tweening_EaseFunction);
+		DelegateTraits<DG.Tweening.TweenCallback>.Init(factory.DG_Tweening_TweenCallback);
+		DelegateTraits<UnityEngine.Events.UnityAction>.Init(factory.UnityEngine_Events_UnityAction);
+		DelegateTraits<System.Action>.Init(factory.System_Action);
+		DelegateTraits<System.Action<bool>>.Init(factory.System_Action_bool);
+		DelegateTraits<System.Action<int>>.Init(factory.System_Action_int);
+		DelegateTraits<System.Action<float>>.Init(factory.System_Action_float);
+		DelegateTraits<System.Action<string>>.Init(factory.System_Action_string);
+		DelegateTraits<System.Action<string,UnityEngine.AnimatorStateInfo>>.Init(factory.System_Action_string_UnityEngine_AnimatorStateInfo);
 		DelegateTraits<System.Func<UnityEngine.LogType,object,bool>>.Init(factory.System_Func_UnityEngine_LogType_object_bool);
 		DelegateTraits<DG.Tweening.Core.DOGetter<float>>.Init(factory.DG_Tweening_Core_DOGetter_float);
 		DelegateTraits<DG.Tweening.Core.DOSetter<float>>.Init(factory.DG_Tweening_Core_DOSetter_float);
@@ -147,14 +156,11 @@ public class DelegateFactory
 		DelegateTraits<DG.Tweening.Core.DOSetter<UnityEngine.Rect>>.Init(factory.DG_Tweening_Core_DOSetter_UnityEngine_Rect);
 		DelegateTraits<DG.Tweening.Core.DOGetter<UnityEngine.RectOffset>>.Init(factory.DG_Tweening_Core_DOGetter_UnityEngine_RectOffset);
 		DelegateTraits<DG.Tweening.Core.DOSetter<UnityEngine.RectOffset>>.Init(factory.DG_Tweening_Core_DOSetter_UnityEngine_RectOffset);
-		DelegateTraits<DG.Tweening.TweenCallback>.Init(factory.DG_Tweening_TweenCallback);
 		DelegateTraits<DG.Tweening.TweenCallback<int>>.Init(factory.DG_Tweening_TweenCallback_int);
 		DelegateTraits<UnityEngine.Camera.CameraCallback>.Init(factory.UnityEngine_Camera_CameraCallback);
 		DelegateTraits<UnityEngine.Application.AdvertisingIdentifierCallback>.Init(factory.UnityEngine_Application_AdvertisingIdentifierCallback);
 		DelegateTraits<UnityEngine.Application.LowMemoryCallback>.Init(factory.UnityEngine_Application_LowMemoryCallback);
 		DelegateTraits<UnityEngine.Application.LogCallback>.Init(factory.UnityEngine_Application_LogCallback);
-		DelegateTraits<System.Action<bool>>.Init(factory.System_Action_bool);
-		DelegateTraits<System.Action<string>>.Init(factory.System_Action_string);
 		DelegateTraits<System.Func<bool>>.Init(factory.System_Func_bool);
 		DelegateTraits<UnityEngine.AudioClip.PCMReaderCallback>.Init(factory.UnityEngine_AudioClip_PCMReaderCallback);
 		DelegateTraits<UnityEngine.AudioClip.PCMSetPositionCallback>.Init(factory.UnityEngine_AudioClip_PCMSetPositionCallback);
@@ -207,12 +213,18 @@ public class DelegateFactory
 		DelegateTraits<HedgehogTeam.EasyTouch.EasyTouch.OverUIElementHandler>.Init(factory.HedgehogTeam_EasyTouch_EasyTouch_OverUIElementHandler);
 		DelegateTraits<HedgehogTeam.EasyTouch.EasyTouch.UIElementTouchUpHandler>.Init(factory.HedgehogTeam_EasyTouch_EasyTouch_UIElementTouchUpHandler);
 
-		TypeTraits<System.Action>.Init(factory.Check_System_Action);
-		TypeTraits<UnityEngine.Events.UnityAction>.Init(factory.Check_UnityEngine_Events_UnityAction);
 		TypeTraits<System.Predicate<int>>.Init(factory.Check_System_Predicate_int);
-		TypeTraits<System.Action<int>>.Init(factory.Check_System_Action_int);
 		TypeTraits<System.Comparison<int>>.Init(factory.Check_System_Comparison_int);
 		TypeTraits<System.Func<int,int>>.Init(factory.Check_System_Func_int_int);
+		TypeTraits<DG.Tweening.EaseFunction>.Init(factory.Check_DG_Tweening_EaseFunction);
+		TypeTraits<DG.Tweening.TweenCallback>.Init(factory.Check_DG_Tweening_TweenCallback);
+		TypeTraits<UnityEngine.Events.UnityAction>.Init(factory.Check_UnityEngine_Events_UnityAction);
+		TypeTraits<System.Action>.Init(factory.Check_System_Action);
+		TypeTraits<System.Action<bool>>.Init(factory.Check_System_Action_bool);
+		TypeTraits<System.Action<int>>.Init(factory.Check_System_Action_int);
+		TypeTraits<System.Action<float>>.Init(factory.Check_System_Action_float);
+		TypeTraits<System.Action<string>>.Init(factory.Check_System_Action_string);
+		TypeTraits<System.Action<string,UnityEngine.AnimatorStateInfo>>.Init(factory.Check_System_Action_string_UnityEngine_AnimatorStateInfo);
 		TypeTraits<System.Func<UnityEngine.LogType,object,bool>>.Init(factory.Check_System_Func_UnityEngine_LogType_object_bool);
 		TypeTraits<DG.Tweening.Core.DOGetter<float>>.Init(factory.Check_DG_Tweening_Core_DOGetter_float);
 		TypeTraits<DG.Tweening.Core.DOSetter<float>>.Init(factory.Check_DG_Tweening_Core_DOSetter_float);
@@ -242,14 +254,11 @@ public class DelegateFactory
 		TypeTraits<DG.Tweening.Core.DOSetter<UnityEngine.Rect>>.Init(factory.Check_DG_Tweening_Core_DOSetter_UnityEngine_Rect);
 		TypeTraits<DG.Tweening.Core.DOGetter<UnityEngine.RectOffset>>.Init(factory.Check_DG_Tweening_Core_DOGetter_UnityEngine_RectOffset);
 		TypeTraits<DG.Tweening.Core.DOSetter<UnityEngine.RectOffset>>.Init(factory.Check_DG_Tweening_Core_DOSetter_UnityEngine_RectOffset);
-		TypeTraits<DG.Tweening.TweenCallback>.Init(factory.Check_DG_Tweening_TweenCallback);
 		TypeTraits<DG.Tweening.TweenCallback<int>>.Init(factory.Check_DG_Tweening_TweenCallback_int);
 		TypeTraits<UnityEngine.Camera.CameraCallback>.Init(factory.Check_UnityEngine_Camera_CameraCallback);
 		TypeTraits<UnityEngine.Application.AdvertisingIdentifierCallback>.Init(factory.Check_UnityEngine_Application_AdvertisingIdentifierCallback);
 		TypeTraits<UnityEngine.Application.LowMemoryCallback>.Init(factory.Check_UnityEngine_Application_LowMemoryCallback);
 		TypeTraits<UnityEngine.Application.LogCallback>.Init(factory.Check_UnityEngine_Application_LogCallback);
-		TypeTraits<System.Action<bool>>.Init(factory.Check_System_Action_bool);
-		TypeTraits<System.Action<string>>.Init(factory.Check_System_Action_string);
 		TypeTraits<System.Func<bool>>.Init(factory.Check_System_Func_bool);
 		TypeTraits<UnityEngine.AudioClip.PCMReaderCallback>.Init(factory.Check_UnityEngine_AudioClip_PCMReaderCallback);
 		TypeTraits<UnityEngine.AudioClip.PCMSetPositionCallback>.Init(factory.Check_UnityEngine_AudioClip_PCMSetPositionCallback);
@@ -302,12 +311,18 @@ public class DelegateFactory
 		TypeTraits<HedgehogTeam.EasyTouch.EasyTouch.OverUIElementHandler>.Init(factory.Check_HedgehogTeam_EasyTouch_EasyTouch_OverUIElementHandler);
 		TypeTraits<HedgehogTeam.EasyTouch.EasyTouch.UIElementTouchUpHandler>.Init(factory.Check_HedgehogTeam_EasyTouch_EasyTouch_UIElementTouchUpHandler);
 
-		StackTraits<System.Action>.Push = factory.Push_System_Action;
-		StackTraits<UnityEngine.Events.UnityAction>.Push = factory.Push_UnityEngine_Events_UnityAction;
 		StackTraits<System.Predicate<int>>.Push = factory.Push_System_Predicate_int;
-		StackTraits<System.Action<int>>.Push = factory.Push_System_Action_int;
 		StackTraits<System.Comparison<int>>.Push = factory.Push_System_Comparison_int;
 		StackTraits<System.Func<int,int>>.Push = factory.Push_System_Func_int_int;
+		StackTraits<DG.Tweening.EaseFunction>.Push = factory.Push_DG_Tweening_EaseFunction;
+		StackTraits<DG.Tweening.TweenCallback>.Push = factory.Push_DG_Tweening_TweenCallback;
+		StackTraits<UnityEngine.Events.UnityAction>.Push = factory.Push_UnityEngine_Events_UnityAction;
+		StackTraits<System.Action>.Push = factory.Push_System_Action;
+		StackTraits<System.Action<bool>>.Push = factory.Push_System_Action_bool;
+		StackTraits<System.Action<int>>.Push = factory.Push_System_Action_int;
+		StackTraits<System.Action<float>>.Push = factory.Push_System_Action_float;
+		StackTraits<System.Action<string>>.Push = factory.Push_System_Action_string;
+		StackTraits<System.Action<string,UnityEngine.AnimatorStateInfo>>.Push = factory.Push_System_Action_string_UnityEngine_AnimatorStateInfo;
 		StackTraits<System.Func<UnityEngine.LogType,object,bool>>.Push = factory.Push_System_Func_UnityEngine_LogType_object_bool;
 		StackTraits<DG.Tweening.Core.DOGetter<float>>.Push = factory.Push_DG_Tweening_Core_DOGetter_float;
 		StackTraits<DG.Tweening.Core.DOSetter<float>>.Push = factory.Push_DG_Tweening_Core_DOSetter_float;
@@ -337,14 +352,11 @@ public class DelegateFactory
 		StackTraits<DG.Tweening.Core.DOSetter<UnityEngine.Rect>>.Push = factory.Push_DG_Tweening_Core_DOSetter_UnityEngine_Rect;
 		StackTraits<DG.Tweening.Core.DOGetter<UnityEngine.RectOffset>>.Push = factory.Push_DG_Tweening_Core_DOGetter_UnityEngine_RectOffset;
 		StackTraits<DG.Tweening.Core.DOSetter<UnityEngine.RectOffset>>.Push = factory.Push_DG_Tweening_Core_DOSetter_UnityEngine_RectOffset;
-		StackTraits<DG.Tweening.TweenCallback>.Push = factory.Push_DG_Tweening_TweenCallback;
 		StackTraits<DG.Tweening.TweenCallback<int>>.Push = factory.Push_DG_Tweening_TweenCallback_int;
 		StackTraits<UnityEngine.Camera.CameraCallback>.Push = factory.Push_UnityEngine_Camera_CameraCallback;
 		StackTraits<UnityEngine.Application.AdvertisingIdentifierCallback>.Push = factory.Push_UnityEngine_Application_AdvertisingIdentifierCallback;
 		StackTraits<UnityEngine.Application.LowMemoryCallback>.Push = factory.Push_UnityEngine_Application_LowMemoryCallback;
 		StackTraits<UnityEngine.Application.LogCallback>.Push = factory.Push_UnityEngine_Application_LogCallback;
-		StackTraits<System.Action<bool>>.Push = factory.Push_System_Action_bool;
-		StackTraits<System.Action<string>>.Push = factory.Push_System_Action_string;
 		StackTraits<System.Func<bool>>.Push = factory.Push_System_Func_bool;
 		StackTraits<UnityEngine.AudioClip.PCMReaderCallback>.Push = factory.Push_UnityEngine_AudioClip_PCMReaderCallback;
 		StackTraits<UnityEngine.AudioClip.PCMSetPositionCallback>.Push = factory.Push_UnityEngine_AudioClip_PCMSetPositionCallback;
@@ -507,112 +519,6 @@ public class DelegateFactory
         return obj;
     }
 
-	class System_Action_Event : LuaDelegate
-	{
-		public System_Action_Event(LuaFunction func) : base(func) { }
-		public System_Action_Event(LuaFunction func, LuaTable self) : base(func, self) { }
-
-		public void Call()
-		{
-			func.Call();
-		}
-
-		public void CallWithSelf()
-		{
-			func.BeginPCall();
-			func.Push(self);
-			func.PCall();
-			func.EndPCall();
-		}
-	}
-
-	public System.Action System_Action(LuaFunction func, LuaTable self, bool flag)
-	{
-		if (func == null)
-		{
-			System.Action fn = delegate() { };
-			return fn;
-		}
-
-		if(!flag)
-		{
-			System_Action_Event target = new System_Action_Event(func);
-			System.Action d = target.Call;
-			target.method = d.Method;
-			return d;
-		}
-		else
-		{
-			System_Action_Event target = new System_Action_Event(func, self);
-			System.Action d = target.CallWithSelf;
-			target.method = d.Method;
-			return d;
-		}
-	}
-
-	bool Check_System_Action(IntPtr L, int pos)
-	{
-		return TypeChecker.CheckDelegateType(typeof(System.Action), L, pos);
-	}
-
-	void Push_System_Action(IntPtr L, System.Action o)
-	{
-		ToLua.Push(L, o);
-	}
-
-	class UnityEngine_Events_UnityAction_Event : LuaDelegate
-	{
-		public UnityEngine_Events_UnityAction_Event(LuaFunction func) : base(func) { }
-		public UnityEngine_Events_UnityAction_Event(LuaFunction func, LuaTable self) : base(func, self) { }
-
-		public void Call()
-		{
-			func.Call();
-		}
-
-		public void CallWithSelf()
-		{
-			func.BeginPCall();
-			func.Push(self);
-			func.PCall();
-			func.EndPCall();
-		}
-	}
-
-	public UnityEngine.Events.UnityAction UnityEngine_Events_UnityAction(LuaFunction func, LuaTable self, bool flag)
-	{
-		if (func == null)
-		{
-			UnityEngine.Events.UnityAction fn = delegate() { };
-			return fn;
-		}
-
-		if(!flag)
-		{
-			UnityEngine_Events_UnityAction_Event target = new UnityEngine_Events_UnityAction_Event(func);
-			UnityEngine.Events.UnityAction d = target.Call;
-			target.method = d.Method;
-			return d;
-		}
-		else
-		{
-			UnityEngine_Events_UnityAction_Event target = new UnityEngine_Events_UnityAction_Event(func, self);
-			UnityEngine.Events.UnityAction d = target.CallWithSelf;
-			target.method = d.Method;
-			return d;
-		}
-	}
-
-	bool Check_UnityEngine_Events_UnityAction(IntPtr L, int pos)
-	{
-		return TypeChecker.CheckDelegateType(typeof(UnityEngine.Events.UnityAction), L, pos);
-	}
-
-	void Push_UnityEngine_Events_UnityAction(IntPtr L, UnityEngine.Events.UnityAction o)
-	{
-		ToLua.Push(L, o);
-	}
-
 	class System_Predicate_int_Event : LuaDelegate
 	{
 		public System_Predicate_int_Event(LuaFunction func) : base(func) { }
@@ -670,63 +576,6 @@ public class DelegateFactory
 	}
 
 	void Push_System_Predicate_int(IntPtr L, System.Predicate<int> o)
-	{
-		ToLua.Push(L, o);
-	}
-
-	class System_Action_int_Event : LuaDelegate
-	{
-		public System_Action_int_Event(LuaFunction func) : base(func) { }
-		public System_Action_int_Event(LuaFunction func, LuaTable self) : base(func, self) { }
-
-		public void Call(int param0)
-		{
-			func.BeginPCall();
-			func.Push(param0);
-			func.PCall();
-			func.EndPCall();
-		}
-
-		public void CallWithSelf(int param0)
-		{
-			func.BeginPCall();
-			func.Push(self);
-			func.Push(param0);
-			func.PCall();
-			func.EndPCall();
-		}
-	}
-
-	public System.Action<int> System_Action_int(LuaFunction func, LuaTable self, bool flag)
-	{
-		if (func == null)
-		{
-			System.Action<int> fn = delegate(int param0) { };
-			return fn;
-		}
-
-		if(!flag)
-		{
-			System_Action_int_Event target = new System_Action_int_Event(func);
-			System.Action<int> d = target.Call;
-			target.method = d.Method;
-			return d;
-		}
-		else
-		{
-			System_Action_int_Event target = new System_Action_int_Event(func, self);
-			System.Action<int> d = target.CallWithSelf;
-			target.method = d.Method;
-			return d;
-		}
-	}
-
-	bool Check_System_Action_int(IntPtr L, int pos)
-	{
-		return TypeChecker.CheckDelegateType(typeof(System.Action<int>), L, pos);
-	}
-
-	void Push_System_Action_int(IntPtr L, System.Action<int> o)
 	{
 		ToLua.Push(L, o);
 	}
@@ -851,6 +700,519 @@ public class DelegateFactory
 	}
 
 	void Push_System_Func_int_int(IntPtr L, System.Func<int,int> o)
+	{
+		ToLua.Push(L, o);
+	}
+
+	class DG_Tweening_EaseFunction_Event : LuaDelegate
+	{
+		public DG_Tweening_EaseFunction_Event(LuaFunction func) : base(func) { }
+		public DG_Tweening_EaseFunction_Event(LuaFunction func, LuaTable self) : base(func, self) { }
+
+		public float Call(float param0, float param1, float param2, float param3)
+		{
+			func.BeginPCall();
+			func.Push(param0);
+			func.Push(param1);
+			func.Push(param2);
+			func.Push(param3);
+			func.PCall();
+			float ret = (float)func.CheckNumber();
+			func.EndPCall();
+			return ret;
+		}
+
+		public float CallWithSelf(float param0, float param1, float param2, float param3)
+		{
+			func.BeginPCall();
+			func.Push(self);
+			func.Push(param0);
+			func.Push(param1);
+			func.Push(param2);
+			func.Push(param3);
+			func.PCall();
+			float ret = (float)func.CheckNumber();
+			func.EndPCall();
+			return ret;
+		}
+	}
+
+	public DG.Tweening.EaseFunction DG_Tweening_EaseFunction(LuaFunction func, LuaTable self, bool flag)
+	{
+		if (func == null)
+		{
+			DG.Tweening.EaseFunction fn = delegate(float param0, float param1, float param2, float param3) { return 0; };
+			return fn;
+		}
+
+		if(!flag)
+		{
+			DG_Tweening_EaseFunction_Event target = new DG_Tweening_EaseFunction_Event(func);
+			DG.Tweening.EaseFunction d = target.Call;
+			target.method = d.Method;
+			return d;
+		}
+		else
+		{
+			DG_Tweening_EaseFunction_Event target = new DG_Tweening_EaseFunction_Event(func, self);
+			DG.Tweening.EaseFunction d = target.CallWithSelf;
+			target.method = d.Method;
+			return d;
+		}
+	}
+
+	bool Check_DG_Tweening_EaseFunction(IntPtr L, int pos)
+	{
+		return TypeChecker.CheckDelegateType(typeof(DG.Tweening.EaseFunction), L, pos);
+	}
+
+	void Push_DG_Tweening_EaseFunction(IntPtr L, DG.Tweening.EaseFunction o)
+	{
+		ToLua.Push(L, o);
+	}
+
+	class DG_Tweening_TweenCallback_Event : LuaDelegate
+	{
+		public DG_Tweening_TweenCallback_Event(LuaFunction func) : base(func) { }
+		public DG_Tweening_TweenCallback_Event(LuaFunction func, LuaTable self) : base(func, self) { }
+
+		public void Call()
+		{
+			func.Call();
+		}
+
+		public void CallWithSelf()
+		{
+			func.BeginPCall();
+			func.Push(self);
+			func.PCall();
+			func.EndPCall();
+		}
+	}
+
+	public DG.Tweening.TweenCallback DG_Tweening_TweenCallback(LuaFunction func, LuaTable self, bool flag)
+	{
+		if (func == null)
+		{
+			DG.Tweening.TweenCallback fn = delegate() { };
+			return fn;
+		}
+
+		if(!flag)
+		{
+			DG_Tweening_TweenCallback_Event target = new DG_Tweening_TweenCallback_Event(func);
+			DG.Tweening.TweenCallback d = target.Call;
+			target.method = d.Method;
+			return d;
+		}
+		else
+		{
+			DG_Tweening_TweenCallback_Event target = new DG_Tweening_TweenCallback_Event(func, self);
+			DG.Tweening.TweenCallback d = target.CallWithSelf;
+			target.method = d.Method;
+			return d;
+		}
+	}
+
+	bool Check_DG_Tweening_TweenCallback(IntPtr L, int pos)
+	{
+		return TypeChecker.CheckDelegateType(typeof(DG.Tweening.TweenCallback), L, pos);
+	}
+
+	void Push_DG_Tweening_TweenCallback(IntPtr L, DG.Tweening.TweenCallback o)
+	{
+		ToLua.Push(L, o);
+	}
+
+	class UnityEngine_Events_UnityAction_Event : LuaDelegate
+	{
+		public UnityEngine_Events_UnityAction_Event(LuaFunction func) : base(func) { }
+		public UnityEngine_Events_UnityAction_Event(LuaFunction func, LuaTable self) : base(func, self) { }
+
+		public void Call()
+		{
+			func.Call();
+		}
+
+		public void CallWithSelf()
+		{
+			func.BeginPCall();
+			func.Push(self);
+			func.PCall();
+			func.EndPCall();
+		}
+	}
+
+	public UnityEngine.Events.UnityAction UnityEngine_Events_UnityAction(LuaFunction func, LuaTable self, bool flag)
+	{
+		if (func == null)
+		{
+			UnityEngine.Events.UnityAction fn = delegate() { };
+			return fn;
+		}
+
+		if(!flag)
+		{
+			UnityEngine_Events_UnityAction_Event target = new UnityEngine_Events_UnityAction_Event(func);
+			UnityEngine.Events.UnityAction d = target.Call;
+			target.method = d.Method;
+			return d;
+		}
+		else
+		{
+			UnityEngine_Events_UnityAction_Event target = new UnityEngine_Events_UnityAction_Event(func, self);
+			UnityEngine.Events.UnityAction d = target.CallWithSelf;
+			target.method = d.Method;
+			return d;
+		}
+	}
+
+	bool Check_UnityEngine_Events_UnityAction(IntPtr L, int pos)
+	{
+		return TypeChecker.CheckDelegateType(typeof(UnityEngine.Events.UnityAction), L, pos);
+	}
+
+	void Push_UnityEngine_Events_UnityAction(IntPtr L, UnityEngine.Events.UnityAction o)
+	{
+		ToLua.Push(L, o);
+	}
+
+	class System_Action_Event : LuaDelegate
+	{
+		public System_Action_Event(LuaFunction func) : base(func) { }
+		public System_Action_Event(LuaFunction func, LuaTable self) : base(func, self) { }
+
+		public void Call()
+		{
+			func.Call();
+		}
+
+		public void CallWithSelf()
+		{
+			func.BeginPCall();
+			func.Push(self);
+			func.PCall();
+			func.EndPCall();
+		}
+	}
+
+	public System.Action System_Action(LuaFunction func, LuaTable self, bool flag)
+	{
+		if (func == null)
+		{
+			System.Action fn = delegate() { };
+			return fn;
+		}
+
+		if(!flag)
+		{
+			System_Action_Event target = new System_Action_Event(func);
+			System.Action d = target.Call;
+			target.method = d.Method;
+			return d;
+		}
+		else
+		{
+			System_Action_Event target = new System_Action_Event(func, self);
+			System.Action d = target.CallWithSelf;
+			target.method = d.Method;
+			return d;
+		}
+	}
+
+	bool Check_System_Action(IntPtr L, int pos)
+	{
+		return TypeChecker.CheckDelegateType(typeof(System.Action), L, pos);
+	}
+
+	void Push_System_Action(IntPtr L, System.Action o)
+	{
+		ToLua.Push(L, o);
+	}
+
+	class System_Action_bool_Event : LuaDelegate
+	{
+		public System_Action_bool_Event(LuaFunction func) : base(func) { }
+		public System_Action_bool_Event(LuaFunction func, LuaTable self) : base(func, self) { }
+
+		public void Call(bool param0)
+		{
+			func.BeginPCall();
+			func.Push(param0);
+			func.PCall();
+			func.EndPCall();
+		}
+
+		public void CallWithSelf(bool param0)
+		{
+			func.BeginPCall();
+			func.Push(self);
+			func.Push(param0);
+			func.PCall();
+			func.EndPCall();
+		}
+	}
+
+	public System.Action<bool> System_Action_bool(LuaFunction func, LuaTable self, bool flag)
+	{
+		if (func == null)
+		{
+			System.Action<bool> fn = delegate(bool param0) { };
+			return fn;
+		}
+
+		if(!flag)
+		{
+			System_Action_bool_Event target = new System_Action_bool_Event(func);
+			System.Action<bool> d = target.Call;
+			target.method = d.Method;
+			return d;
+		}
+		else
+		{
+			System_Action_bool_Event target = new System_Action_bool_Event(func, self);
+			System.Action<bool> d = target.CallWithSelf;
+			target.method = d.Method;
+			return d;
+		}
+	}
+
+	bool Check_System_Action_bool(IntPtr L, int pos)
+	{
+		return TypeChecker.CheckDelegateType(typeof(System.Action<bool>), L, pos);
+	}
+
+	void Push_System_Action_bool(IntPtr L, System.Action<bool> o)
+	{
+		ToLua.Push(L, o);
+	}
+
+	class System_Action_int_Event : LuaDelegate
+	{
+		public System_Action_int_Event(LuaFunction func) : base(func) { }
+		public System_Action_int_Event(LuaFunction func, LuaTable self) : base(func, self) { }
+
+		public void Call(int param0)
+		{
+			func.BeginPCall();
+			func.Push(param0);
+			func.PCall();
+			func.EndPCall();
+		}
+
+		public void CallWithSelf(int param0)
+		{
+			func.BeginPCall();
+			func.Push(self);
+			func.Push(param0);
+			func.PCall();
+			func.EndPCall();
+		}
+	}
+
+	public System.Action<int> System_Action_int(LuaFunction func, LuaTable self, bool flag)
+	{
+		if (func == null)
+		{
+			System.Action<int> fn = delegate(int param0) { };
+			return fn;
+		}
+
+		if(!flag)
+		{
+			System_Action_int_Event target = new System_Action_int_Event(func);
+			System.Action<int> d = target.Call;
+			target.method = d.Method;
+			return d;
+		}
+		else
+		{
+			System_Action_int_Event target = new System_Action_int_Event(func, self);
+			System.Action<int> d = target.CallWithSelf;
+			target.method = d.Method;
+			return d;
+		}
+	}
+
+	bool Check_System_Action_int(IntPtr L, int pos)
+	{
+		return TypeChecker.CheckDelegateType(typeof(System.Action<int>), L, pos);
+	}
+
+	void Push_System_Action_int(IntPtr L, System.Action<int> o)
+	{
+		ToLua.Push(L, o);
+	}
+
+	class System_Action_float_Event : LuaDelegate
+	{
+		public System_Action_float_Event(LuaFunction func) : base(func) { }
+		public System_Action_float_Event(LuaFunction func, LuaTable self) : base(func, self) { }
+
+		public void Call(float param0)
+		{
+			func.BeginPCall();
+			func.Push(param0);
+			func.PCall();
+			func.EndPCall();
+		}
+
+		public void CallWithSelf(float param0)
+		{
+			func.BeginPCall();
+			func.Push(self);
+			func.Push(param0);
+			func.PCall();
+			func.EndPCall();
+		}
+	}
+
+	public System.Action<float> System_Action_float(LuaFunction func, LuaTable self, bool flag)
+	{
+		if (func == null)
+		{
+			System.Action<float> fn = delegate(float param0) { };
+			return fn;
+		}
+
+		if(!flag)
+		{
+			System_Action_float_Event target = new System_Action_float_Event(func);
+			System.Action<float> d = target.Call;
+			target.method = d.Method;
+			return d;
+		}
+		else
+		{
+			System_Action_float_Event target = new System_Action_float_Event(func, self);
+			System.Action<float> d = target.CallWithSelf;
+			target.method = d.Method;
+			return d;
+		}
+	}
+
+	bool Check_System_Action_float(IntPtr L, int pos)
+	{
+		return TypeChecker.CheckDelegateType(typeof(System.Action<float>), L, pos);
+	}
+
+	void Push_System_Action_float(IntPtr L, System.Action<float> o)
+	{
+		ToLua.Push(L, o);
+	}
+
+	class System_Action_string_Event : LuaDelegate
+	{
+		public System_Action_string_Event(LuaFunction func) : base(func) { }
+		public System_Action_string_Event(LuaFunction func, LuaTable self) : base(func, self) { }
+
+		public void Call(string param0)
+		{
+			func.BeginPCall();
+			func.Push(param0);
+			func.PCall();
+			func.EndPCall();
+		}
+
+		public void CallWithSelf(string param0)
+		{
+			func.BeginPCall();
+			func.Push(self);
+			func.Push(param0);
+			func.PCall();
+			func.EndPCall();
+		}
+	}
+
+	public System.Action<string> System_Action_string(LuaFunction func, LuaTable self, bool flag)
+	{
+		if (func == null)
+		{
+			System.Action<string> fn = delegate(string param0) { };
+			return fn;
+		}
+
+		if(!flag)
+		{
+			System_Action_string_Event target = new System_Action_string_Event(func);
+			System.Action<string> d = target.Call;
+			target.method = d.Method;
+			return d;
+		}
+		else
+		{
+			System_Action_string_Event target = new System_Action_string_Event(func, self);
+			System.Action<string> d = target.CallWithSelf;
+			target.method = d.Method;
+			return d;
+		}
+	}
+
+	bool Check_System_Action_string(IntPtr L, int pos)
+	{
+		return TypeChecker.CheckDelegateType(typeof(System.Action<string>), L, pos);
+	}
+
+	void Push_System_Action_string(IntPtr L, System.Action<string> o)
+	{
+		ToLua.Push(L, o);
+	}
+
+	class System_Action_string_UnityEngine_AnimatorStateInfo_Event : LuaDelegate
+	{
+		public System_Action_string_UnityEngine_AnimatorStateInfo_Event(LuaFunction func) : base(func) { }
+		public System_Action_string_UnityEngine_AnimatorStateInfo_Event(LuaFunction func, LuaTable self) : base(func, self) { }
+
+		public void Call(string param0, UnityEngine.AnimatorStateInfo param1)
+		{
+			func.BeginPCall();
+			func.Push(param0);
+			func.PushValue(param1);
+			func.PCall();
+			func.EndPCall();
+		}
+
+		public void CallWithSelf(string param0, UnityEngine.AnimatorStateInfo param1)
+		{
+			func.BeginPCall();
+			func.Push(self);
+			func.Push(param0);
+			func.PushValue(param1);
+			func.PCall();
+			func.EndPCall();
+		}
+	}
+
+	public System.Action<string,UnityEngine.AnimatorStateInfo> System_Action_string_UnityEngine_AnimatorStateInfo(LuaFunction func, LuaTable self, bool flag)
+	{
+		if (func == null)
+		{
+			System.Action<string,UnityEngine.AnimatorStateInfo> fn = delegate(string param0, UnityEngine.AnimatorStateInfo param1) { };
+			return fn;
+		}
+
+		if(!flag)
+		{
+			System_Action_string_UnityEngine_AnimatorStateInfo_Event target = new System_Action_string_UnityEngine_AnimatorStateInfo_Event(func);
+			System.Action<string,UnityEngine.AnimatorStateInfo> d = target.Call;
+			target.method = d.Method;
+			return d;
+		}
+		else
+		{
+			System_Action_string_UnityEngine_AnimatorStateInfo_Event target = new System_Action_string_UnityEngine_AnimatorStateInfo_Event(func, self);
+			System.Action<string,UnityEngine.AnimatorStateInfo> d = target.CallWithSelf;
+			target.method = d.Method;
+			return d;
+		}
+	}
+
+	bool Check_System_Action_string_UnityEngine_AnimatorStateInfo(IntPtr L, int pos)
+	{
+		return TypeChecker.CheckDelegateType(typeof(System.Action<string,UnityEngine.AnimatorStateInfo>), L, pos);
+	}
+
+	void Push_System_Action_string_UnityEngine_AnimatorStateInfo(IntPtr L, System.Action<string,UnityEngine.AnimatorStateInfo> o)
 	{
 		ToLua.Push(L, o);
 	}
@@ -2542,59 +2904,6 @@ public class DelegateFactory
 		ToLua.Push(L, o);
 	}
 
-	class DG_Tweening_TweenCallback_Event : LuaDelegate
-	{
-		public DG_Tweening_TweenCallback_Event(LuaFunction func) : base(func) { }
-		public DG_Tweening_TweenCallback_Event(LuaFunction func, LuaTable self) : base(func, self) { }
-
-		public void Call()
-		{
-			func.Call();
-		}
-
-		public void CallWithSelf()
-		{
-			func.BeginPCall();
-			func.Push(self);
-			func.PCall();
-			func.EndPCall();
-		}
-	}
-
-	public DG.Tweening.TweenCallback DG_Tweening_TweenCallback(LuaFunction func, LuaTable self, bool flag)
-	{
-		if (func == null)
-		{
-			DG.Tweening.TweenCallback fn = delegate() { };
-			return fn;
-		}
-
-		if(!flag)
-		{
-			DG_Tweening_TweenCallback_Event target = new DG_Tweening_TweenCallback_Event(func);
-			DG.Tweening.TweenCallback d = target.Call;
-			target.method = d.Method;
-			return d;
-		}
-		else
-		{
-			DG_Tweening_TweenCallback_Event target = new DG_Tweening_TweenCallback_Event(func, self);
-			DG.Tweening.TweenCallback d = target.CallWithSelf;
-			target.method = d.Method;
-			return d;
-		}
-	}
-
-	bool Check_DG_Tweening_TweenCallback(IntPtr L, int pos)
-	{
-		return TypeChecker.CheckDelegateType(typeof(DG.Tweening.TweenCallback), L, pos);
-	}
-
-	void Push_DG_Tweening_TweenCallback(IntPtr L, DG.Tweening.TweenCallback o)
-	{
-		ToLua.Push(L, o);
-	}
-
 	class DG_Tweening_TweenCallback_int_Event : LuaDelegate
 	{
 		public DG_Tweening_TweenCallback_int_Event(LuaFunction func) : base(func) { }
@@ -2880,120 +3189,6 @@ public class DelegateFactory
 	}
 
 	void Push_UnityEngine_Application_LogCallback(IntPtr L, UnityEngine.Application.LogCallback o)
-	{
-		ToLua.Push(L, o);
-	}
-
-	class System_Action_bool_Event : LuaDelegate
-	{
-		public System_Action_bool_Event(LuaFunction func) : base(func) { }
-		public System_Action_bool_Event(LuaFunction func, LuaTable self) : base(func, self) { }
-
-		public void Call(bool param0)
-		{
-			func.BeginPCall();
-			func.Push(param0);
-			func.PCall();
-			func.EndPCall();
-		}
-
-		public void CallWithSelf(bool param0)
-		{
-			func.BeginPCall();
-			func.Push(self);
-			func.Push(param0);
-			func.PCall();
-			func.EndPCall();
-		}
-	}
-
-	public System.Action<bool> System_Action_bool(LuaFunction func, LuaTable self, bool flag)
-	{
-		if (func == null)
-		{
-			System.Action<bool> fn = delegate(bool param0) { };
-			return fn;
-		}
-
-		if(!flag)
-		{
-			System_Action_bool_Event target = new System_Action_bool_Event(func);
-			System.Action<bool> d = target.Call;
-			target.method = d.Method;
-			return d;
-		}
-		else
-		{
-			System_Action_bool_Event target = new System_Action_bool_Event(func, self);
-			System.Action<bool> d = target.CallWithSelf;
-			target.method = d.Method;
-			return d;
-		}
-	}
-
-	bool Check_System_Action_bool(IntPtr L, int pos)
-	{
-		return TypeChecker.CheckDelegateType(typeof(System.Action<bool>), L, pos);
-	}
-
-	void Push_System_Action_bool(IntPtr L, System.Action<bool> o)
-	{
-		ToLua.Push(L, o);
-	}
-
-	class System_Action_string_Event : LuaDelegate
-	{
-		public System_Action_string_Event(LuaFunction func) : base(func) { }
-		public System_Action_string_Event(LuaFunction func, LuaTable self) : base(func, self) { }
-
-		public void Call(string param0)
-		{
-			func.BeginPCall();
-			func.Push(param0);
-			func.PCall();
-			func.EndPCall();
-		}
-
-		public void CallWithSelf(string param0)
-		{
-			func.BeginPCall();
-			func.Push(self);
-			func.Push(param0);
-			func.PCall();
-			func.EndPCall();
-		}
-	}
-
-	public System.Action<string> System_Action_string(LuaFunction func, LuaTable self, bool flag)
-	{
-		if (func == null)
-		{
-			System.Action<string> fn = delegate(string param0) { };
-			return fn;
-		}
-
-		if(!flag)
-		{
-			System_Action_string_Event target = new System_Action_string_Event(func);
-			System.Action<string> d = target.Call;
-			target.method = d.Method;
-			return d;
-		}
-		else
-		{
-			System_Action_string_Event target = new System_Action_string_Event(func, self);
-			System.Action<string> d = target.CallWithSelf;
-			target.method = d.Method;
-			return d;
-		}
-	}
-
-	bool Check_System_Action_string(IntPtr L, int pos)
-	{
-		return TypeChecker.CheckDelegateType(typeof(System.Action<string>), L, pos);
-	}
-
-	void Push_System_Action_string(IntPtr L, System.Action<string> o)
 	{
 		ToLua.Push(L, o);
 	}

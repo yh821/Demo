@@ -266,9 +266,9 @@ function SimulationLoader:UpdateSceneLoad()
 end
 
 function SimulationLoader:LoadUnitySceneAsync(bundle_name, asset_name, load_mode, callback)
-    local load_scene_op = EditorResourceMgr.LoadLevelAsync(bundle_name, asset_name, load_mode)
+    local load_scene_op = EditorResourceMgr.LoadSceneAsync(bundle_name, asset_name, load_mode)
     if not load_scene_op then
-        print_error("[SimulationLoader] load level async error:", bundle_name, asset_name)
+        print_error("[SimulationLoader] load scene async error:", bundle_name, asset_name)
     end
 
     if callback then
@@ -277,9 +277,9 @@ function SimulationLoader:LoadUnitySceneAsync(bundle_name, asset_name, load_mode
 end
 
 function SimulationLoader:LoadUnitySceneSync(bundle_name, asset_name, load_mode, callback)
-    local is_succ = EditorResourceMgr.LoadLevelSync(bundle_name, asset_name, load_mode)
+    local is_succ = EditorResourceMgr.LoadSceneSync(bundle_name, asset_name, load_mode)
     if not is_succ then
-        print_error("[SimulationLoader] load level error:", bundle_name, asset_name)
+        print_error("[SimulationLoader] load scene error:", bundle_name, asset_name)
     end
 
     if callback then

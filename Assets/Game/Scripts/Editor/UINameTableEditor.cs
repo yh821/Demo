@@ -6,10 +6,10 @@ using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace Game
+namespace Game.Editor
 {
 	[CustomEditor(typeof(UINameTable))]
-	internal sealed class UINameTableEditor : Editor
+	internal sealed class UINameTableEditor : UnityEditor.Editor
 	{
 		private static GameObject searchNameTableObj = null;
 		private static GameObject searchObject = null;

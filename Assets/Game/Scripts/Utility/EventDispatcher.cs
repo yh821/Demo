@@ -20,7 +20,7 @@ public class EventDispatcher : MonoBehaviour
 	public LuaFunction DestroyGameObjAttachFunc { get; set; }
 	public LuaFunction EnabledLoadRawImageFunc { get; set; }
 	public LuaFunction DisabledLoadRawImageFunc { get; set; }
-	public LuaFunction DestroyedLoadRawImageFunc { get; set; }
+	public LuaFunction DestroyLoadRawImageFunc { get; set; }
 
 	public LuaFunction ProjectileSingleEffectFunc { get; set; }
 	public LuaFunction UIMouseClickEffectFunc { get; set; }
@@ -67,9 +67,9 @@ public class EventDispatcher : MonoBehaviour
 			disabledLoadRawImage.Clear();
 		}
 
-		if (destroyedLoadRawImage.Count > 0 && DestroyedLoadRawImageFunc != null)
+		if (destroyedLoadRawImage.Count > 0 && DestroyLoadRawImageFunc != null)
 		{
-			DestroyedLoadRawImageFunc.Call(destroyedLoadRawImage);
+			DestroyLoadRawImageFunc.Call(destroyedLoadRawImage);
 			destroyedLoadRawImage.Clear();
 		}
 	}
@@ -110,9 +110,8 @@ public class EventDispatcher : MonoBehaviour
 		ProjectileSingleEffectFunc.Call(hitEffect, position, rotation, hitEffectWithRotation, sourceScale, layer);
 	}
 
-	public void OnUIMouseClickEffect(GameObject effectInstance, GameObject[] effects, Canvas canvas,
-		Transform mouseClickTransform)
+	public void OnUIMouseClickEffect(GameObject[] effects, Canvas canvas, Transform mouseClickTransform)
 	{
-		UIMouseClickEffectFunc.Call(effectInstance, effects, canvas, mouseClickTransform);
+		UIMouseClickEffectFunc.Call(effects, canvas, mouseClickTransform);
 	}
 }
