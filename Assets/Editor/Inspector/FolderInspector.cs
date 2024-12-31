@@ -1,59 +1,61 @@
-﻿using UnityEngine;
-using UnityEditor;
-using UObject = UnityEngine.Object;
+﻿using UnityEditor;
+using UnityEngine;
 
-[CustomEditor(typeof(DefaultAsset))]
-public class FolderInspector : Editor
+namespace Common.Editor
 {
-	private string mGuid;
-	private string mLastGuid;
-	private UObject mObj;
-	private UObject mLastObj;
-	private string mPath;
-	private string mLastPath;
-
-	public override void OnInspectorGUI()
+	[CustomEditor(typeof(DefaultAsset))]
+	public class FolderInspector : UnityEditor.Editor
 	{
-		var defaultLabelWidth = EditorGUIUtility.labelWidth;
-		EditorGUIUtility.labelWidth = 64;
-		GUI.enabled = true;
+		private string mGuid;
+		private string mLastGuid;
+		private Object mObj;
+		private Object mLastObj;
+		private string mPath;
+		private string mLastPath;
+
+		public override void OnInspectorGUI()
 		{
-			if (mObj == null)
-				mObj = target;
-
-			if (mGuid != mLastGuid)
+			var defaultLabelWidth = EditorGUIUtility.labelWidth;
+			EditorGUIUtility.labelWidth = 64;
+			GUI.enabled = true;
 			{
-				mLastGuid = mGuid;
-				mPath = AssetDatabase.GUIDToAssetPath(mGuid);
-				mObj = AssetDatabase.LoadAssetAtPath<UObject>(mPath);
-				mLastObj = mObj;
-				mLastPath = mPath;
-			}
+				if (mObj == null)
+					mObj = target;
 
-			if (mObj != mLastObj)
-			{
-				mLastObj = mObj;
-				mPath = AssetDatabase.GetAssetPath(mObj);
-				mGuid = AssetDatabase.AssetPathToGUID(mPath);
-				mLastGuid = mGuid;
-				mLastPath = mPath;
-			}
+				if (mGuid != mLastGuid)
+				{
+					mLastGuid = mGuid;
+					mPath = AssetDatabase.GUIDToAssetPath(mGuid);
+					mObj = AssetDatabase.LoadAssetAtPath<Object>(mPath);
+					mLastObj = mObj;
+					mLastPath = mPath;
+				}
 
-			if (mPath != mLastPath)
-			{
-				mLastPath = mPath;
-				mObj = AssetDatabase.LoadAssetAtPath<UObject>(mPath);
-				mGuid = AssetDatabase.AssetPathToGUID(mPath);
-				mLastObj = mObj;
-				mLastGuid = mGuid;
-			}
+				if (mObj != mLastObj)
+				{
+					mLastObj = mObj;
+					mPath = AssetDatabase.GetAssetPath(mObj);
+					mGuid = AssetDatabase.AssetPathToGUID(mPath);
+					mLastGuid = mGuid;
+					mLastPath = mPath;
+				}
 
-			mGuid = EditorGUILayout.TextField("GUID:", mGuid);
-			mPath = EditorGUILayout.TextField("Path:", mPath);
-			mObj = EditorGUILayout.ObjectField("Asset:", mObj, typeof(UObject), false);
+				if (mPath != mLastPath)
+				{
+					mLastPath = mPath;
+					mObj = AssetDatabase.LoadAssetAtPath<Object>(mPath);
+					mGuid = AssetDatabase.AssetPathToGUID(mPath);
+					mLastObj = mObj;
+					mLastGuid = mGuid;
+				}
+
+				mGuid = EditorGUILayout.TextField("GUID:", mGuid);
+				mPath = EditorGUILayout.TextField("Path:", mPath);
+				mObj = EditorGUILayout.ObjectField("Asset:", mObj, typeof(Object), false);
+			}
+			EditorGUIUtility.labelWidth = defaultLabelWidth;
+			GUI.enabled = false;
+			base.OnInspectorGUI();
 		}
-		EditorGUIUtility.labelWidth = defaultLabelWidth;
-		GUI.enabled = false;
-		base.OnInspectorGUI();
 	}
 }

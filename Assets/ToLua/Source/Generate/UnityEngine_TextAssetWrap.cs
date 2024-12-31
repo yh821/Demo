@@ -13,6 +13,7 @@ public class UnityEngine_TextAssetWrap
 		L.RegFunction("__tostring", ToLua.op_ToString);
 		L.RegVar("bytes", get_bytes, null);
 		L.RegVar("text", get_text, null);
+		L.RegVar("dataSize", get_dataSize, null);
 		L.EndClass();
 	}
 
@@ -117,6 +118,25 @@ public class UnityEngine_TextAssetWrap
 		catch(Exception e)
 		{
 			return LuaDLL.toluaL_exception(L, e, o, "attempt to index text on a nil value");
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int get_dataSize(IntPtr L)
+	{
+		object o = null;
+
+		try
+		{
+			o = ToLua.ToObject(L, 1);
+			UnityEngine.TextAsset obj = (UnityEngine.TextAsset)o;
+			long ret = obj.dataSize;
+			LuaDLL.tolua_pushint64(L, ret);
+			return 1;
+		}
+		catch(Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e, o, "attempt to index dataSize on a nil value");
 		}
 	}
 }

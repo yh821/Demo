@@ -6,7 +6,7 @@ using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace Game.Editor
+namespace Game.UI.Editor
 {
 	[CustomEditor(typeof(UINameTable))]
 	internal sealed class UINameTableEditor : UnityEditor.Editor

@@ -3,43 +3,46 @@ using System.Collections.Generic;
 using LuaInterface;
 using UnityEngine;
 
-[DisallowMultipleComponent]
-public sealed class ClickableObject : MonoBehaviour
+namespace Game
 {
-	private LinkedList<Clickable> clickables = new LinkedList<Clickable>();
-	private bool clickable = true;
-	private Action clickListener;
-
-	public void SetClickListener(Action listener)
+	[DisallowMultipleComponent]
+	public sealed class ClickableObject : MonoBehaviour
 	{
-		clickListener = listener;
-	}
+		private LinkedList<Clickable> clickables = new LinkedList<Clickable>();
+		private bool clickable = true;
+		private Action clickListener;
 
-	public void SetClickable(bool enable)
-	{
-		clickable = enable;
-		foreach (var click in clickables)
+		public void SetClickListener(Action listener)
 		{
-			click.SetClickable(enable);
+			clickListener = listener;
 		}
-	}
 
-	[NoToLua]
-	public void TriggerClick()
-	{
-		clickListener?.Invoke();
-	}
+		public void SetClickable(bool enable)
+		{
+			clickable = enable;
+			foreach (var click in clickables)
+			{
+				click.SetClickable(enable);
+			}
+		}
 
-	[NoToLua]
-	public LinkedListNode<Clickable> AddClickable(Clickable clickable)
-	{
-		clickable.SetClickable(this.clickable);
-		return clickables.AddLast(clickable);
-	}
+		[NoToLua]
+		public void TriggerClick()
+		{
+			clickListener?.Invoke();
+		}
 
-	[NoToLua]
-	public void RemoveClickable(LinkedListNode<Clickable> node)
-	{
-		clickables.Remove(node);
+		[NoToLua]
+		public LinkedListNode<Clickable> AddClickable(Clickable clickable)
+		{
+			clickable.SetClickable(this.clickable);
+			return clickables.AddLast(clickable);
+		}
+
+		[NoToLua]
+		public void RemoveClickable(LinkedListNode<Clickable> node)
+		{
+			clickables.Remove(node);
+		}
 	}
 }

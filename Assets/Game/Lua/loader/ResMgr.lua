@@ -31,3 +31,7 @@ function ResMgr:__delete()
     Runner.Instance:RemoveRunObj(ResMgr.Instance)
     ResMgr.Instance = nil
 end
+
+function ResMgr:Update(now_time, delta_time)
+
+end

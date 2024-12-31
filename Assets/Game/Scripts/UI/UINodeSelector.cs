@@ -1,30 +1,31 @@
 #if UNITY_EDITOR
-
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-[DisallowMultipleComponent]
-public class UINodeSelector : MonoBehaviour
+namespace Game
 {
-	private void Update()
+	[DisallowMultipleComponent]
+	public class UINodeSelector : MonoBehaviour
 	{
-		if (Input.GetKey(KeyCode.LeftControl) && Input.GetMouseButton(1))
+		private void Update()
 		{
-			var data = new PointerEventData(EventSystem.current);
-			data.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-
-			var resultList = new List<RaycastResult>();
-			EventSystem.current.RaycastAll(data, resultList);
-
-			if (resultList.Count > 0)
+			if (Input.GetKey(KeyCode.LeftControl) && Input.GetMouseButton(1))
 			{
-				EditorGUIUtility.PingObject(resultList[0].gameObject);
-				Selection.activeGameObject = resultList[0].gameObject;
+				var data = new PointerEventData(EventSystem.current);
+				data.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+
+				var resultList = new List<RaycastResult>();
+				EventSystem.current.RaycastAll(data, resultList);
+
+				if (resultList.Count > 0)
+				{
+					EditorGUIUtility.PingObject(resultList[0].gameObject);
+					Selection.activeGameObject = resultList[0].gameObject;
+				}
 			}
 		}
 	}
 }
-
 #endif

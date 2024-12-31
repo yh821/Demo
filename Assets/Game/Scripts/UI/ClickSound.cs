@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 
 namespace Game
 {
-	public sealed class ClickSound : MonoBehaviour, IPointerClickHandler, IEventSystemHandler
+	public sealed class UIClickSound : MonoBehaviour, IPointerClickHandler, IEventSystemHandler
 	{
 		public static ClickDelegate OnClick;
 

@@ -7,72 +7,81 @@ public class System_IO_FileWrap
 	public static void Register(LuaState L)
 	{
 		L.BeginStaticLibs("File");
-		L.RegFunction("AppendAllText", AppendAllText);
+		L.RegFunction("OpenText", OpenText);
+		L.RegFunction("CreateText", CreateText);
 		L.RegFunction("AppendText", AppendText);
 		L.RegFunction("Copy", Copy);
 		L.RegFunction("Create", Create);
-		L.RegFunction("CreateText", CreateText);
 		L.RegFunction("Delete", Delete);
 		L.RegFunction("Exists", Exists);
-		L.RegFunction("GetAttributes", GetAttributes);
-		L.RegFunction("GetCreationTime", GetCreationTime);
-		L.RegFunction("GetCreationTimeUtc", GetCreationTimeUtc);
-		L.RegFunction("GetLastAccessTime", GetLastAccessTime);
-		L.RegFunction("GetLastAccessTimeUtc", GetLastAccessTimeUtc);
-		L.RegFunction("GetLastWriteTime", GetLastWriteTime);
-		L.RegFunction("GetLastWriteTimeUtc", GetLastWriteTimeUtc);
-		L.RegFunction("Move", Move);
 		L.RegFunction("Open", Open);
-		L.RegFunction("OpenRead", OpenRead);
-		L.RegFunction("OpenText", OpenText);
-		L.RegFunction("OpenWrite", OpenWrite);
-		L.RegFunction("Replace", Replace);
-		L.RegFunction("SetAttributes", SetAttributes);
 		L.RegFunction("SetCreationTime", SetCreationTime);
 		L.RegFunction("SetCreationTimeUtc", SetCreationTimeUtc);
+		L.RegFunction("GetCreationTime", GetCreationTime);
+		L.RegFunction("GetCreationTimeUtc", GetCreationTimeUtc);
 		L.RegFunction("SetLastAccessTime", SetLastAccessTime);
 		L.RegFunction("SetLastAccessTimeUtc", SetLastAccessTimeUtc);
+		L.RegFunction("GetLastAccessTime", GetLastAccessTime);
+		L.RegFunction("GetLastAccessTimeUtc", GetLastAccessTimeUtc);
 		L.RegFunction("SetLastWriteTime", SetLastWriteTime);
 		L.RegFunction("SetLastWriteTimeUtc", SetLastWriteTimeUtc);
-		L.RegFunction("ReadAllBytes", ReadAllBytes);
-		L.RegFunction("ReadAllLines", ReadAllLines);
+		L.RegFunction("GetLastWriteTime", GetLastWriteTime);
+		L.RegFunction("GetLastWriteTimeUtc", GetLastWriteTimeUtc);
+		L.RegFunction("GetAttributes", GetAttributes);
+		L.RegFunction("SetAttributes", SetAttributes);
+		L.RegFunction("OpenRead", OpenRead);
+		L.RegFunction("OpenWrite", OpenWrite);
 		L.RegFunction("ReadAllText", ReadAllText);
-		L.RegFunction("WriteAllBytes", WriteAllBytes);
-		L.RegFunction("WriteAllLines", WriteAllLines);
 		L.RegFunction("WriteAllText", WriteAllText);
+		L.RegFunction("ReadAllBytes", ReadAllBytes);
+		L.RegFunction("WriteAllBytes", WriteAllBytes);
+		L.RegFunction("ReadAllLines", ReadAllLines);
+		L.RegFunction("ReadLines", ReadLines);
+		L.RegFunction("WriteAllLines", WriteAllLines);
+		L.RegFunction("AppendAllText", AppendAllText);
+		L.RegFunction("AppendAllLines", AppendAllLines);
+		L.RegFunction("Replace", Replace);
+		L.RegFunction("Move", Move);
 		L.RegFunction("Encrypt", Encrypt);
 		L.RegFunction("Decrypt", Decrypt);
-		L.RegFunction("ReadLines", ReadLines);
-		L.RegFunction("AppendAllLines", AppendAllLines);
+		L.RegFunction("ReadAllTextAsync", ReadAllTextAsync);
+		L.RegFunction("WriteAllTextAsync", WriteAllTextAsync);
+		L.RegFunction("ReadAllBytesAsync", ReadAllBytesAsync);
+		L.RegFunction("WriteAllBytesAsync", WriteAllBytesAsync);
+		L.RegFunction("ReadAllLinesAsync", ReadAllLinesAsync);
+		L.RegFunction("WriteAllLinesAsync", WriteAllLinesAsync);
+		L.RegFunction("AppendAllTextAsync", AppendAllTextAsync);
+		L.RegFunction("AppendAllLinesAsync", AppendAllLinesAsync);
 		L.EndStaticLibs();
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int AppendAllText(IntPtr L)
+	static int OpenText(IntPtr L)
 	{
 		try
 		{
-			int count = LuaDLL.lua_gettop(L);
+			ToLua.CheckArgsCount(L, 1);
+			string arg0 = ToLua.CheckString(L, 1);
+			System.IO.StreamReader o = System.IO.File.OpenText(arg0);
+			ToLua.PushObject(L, o);
+			return 1;
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
 
-			if (count == 2)
-			{
-				string arg0 = ToLua.CheckString(L, 1);
-				string arg1 = ToLua.CheckString(L, 2);
-				System.IO.File.AppendAllText(arg0, arg1);
-				return 0;
-			}
-			else if (count == 3)
-			{
-				string arg0 = ToLua.CheckString(L, 1);
-				string arg1 = ToLua.CheckString(L, 2);
-				System.Text.Encoding arg2 = (System.Text.Encoding)ToLua.CheckObject<System.Text.Encoding>(L, 3);
-				System.IO.File.AppendAllText(arg0, arg1, arg2);
-				return 0;
-			}
-			else
-			{
-				return LuaDLL.luaL_throw(L, "invalid arguments to method: System.IO.File.AppendAllText");
-			}
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int CreateText(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 1);
+			string arg0 = ToLua.CheckString(L, 1);
+			System.IO.StreamWriter o = System.IO.File.CreateText(arg0);
+			ToLua.PushObject(L, o);
+			return 1;
 		}
 		catch (Exception e)
 		{
@@ -173,23 +182,6 @@ public class System_IO_FileWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int CreateText(IntPtr L)
-	{
-		try
-		{
-			ToLua.CheckArgsCount(L, 1);
-			string arg0 = ToLua.CheckString(L, 1);
-			System.IO.StreamWriter o = System.IO.File.CreateText(arg0);
-			ToLua.PushObject(L, o);
-			return 1;
-		}
-		catch (Exception e)
-		{
-			return LuaDLL.toluaL_exception(L, e);
-		}
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int Delete(IntPtr L)
 	{
 		try
@@ -215,142 +207,6 @@ public class System_IO_FileWrap
 			bool o = System.IO.File.Exists(arg0);
 			LuaDLL.lua_pushboolean(L, o);
 			return 1;
-		}
-		catch (Exception e)
-		{
-			return LuaDLL.toluaL_exception(L, e);
-		}
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int GetAttributes(IntPtr L)
-	{
-		try
-		{
-			ToLua.CheckArgsCount(L, 1);
-			string arg0 = ToLua.CheckString(L, 1);
-			System.IO.FileAttributes o = System.IO.File.GetAttributes(arg0);
-			ToLua.Push(L, o);
-			return 1;
-		}
-		catch (Exception e)
-		{
-			return LuaDLL.toluaL_exception(L, e);
-		}
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int GetCreationTime(IntPtr L)
-	{
-		try
-		{
-			ToLua.CheckArgsCount(L, 1);
-			string arg0 = ToLua.CheckString(L, 1);
-			System.DateTime o = System.IO.File.GetCreationTime(arg0);
-			ToLua.PushValue(L, o);
-			return 1;
-		}
-		catch (Exception e)
-		{
-			return LuaDLL.toluaL_exception(L, e);
-		}
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int GetCreationTimeUtc(IntPtr L)
-	{
-		try
-		{
-			ToLua.CheckArgsCount(L, 1);
-			string arg0 = ToLua.CheckString(L, 1);
-			System.DateTime o = System.IO.File.GetCreationTimeUtc(arg0);
-			ToLua.PushValue(L, o);
-			return 1;
-		}
-		catch (Exception e)
-		{
-			return LuaDLL.toluaL_exception(L, e);
-		}
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int GetLastAccessTime(IntPtr L)
-	{
-		try
-		{
-			ToLua.CheckArgsCount(L, 1);
-			string arg0 = ToLua.CheckString(L, 1);
-			System.DateTime o = System.IO.File.GetLastAccessTime(arg0);
-			ToLua.PushValue(L, o);
-			return 1;
-		}
-		catch (Exception e)
-		{
-			return LuaDLL.toluaL_exception(L, e);
-		}
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int GetLastAccessTimeUtc(IntPtr L)
-	{
-		try
-		{
-			ToLua.CheckArgsCount(L, 1);
-			string arg0 = ToLua.CheckString(L, 1);
-			System.DateTime o = System.IO.File.GetLastAccessTimeUtc(arg0);
-			ToLua.PushValue(L, o);
-			return 1;
-		}
-		catch (Exception e)
-		{
-			return LuaDLL.toluaL_exception(L, e);
-		}
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int GetLastWriteTime(IntPtr L)
-	{
-		try
-		{
-			ToLua.CheckArgsCount(L, 1);
-			string arg0 = ToLua.CheckString(L, 1);
-			System.DateTime o = System.IO.File.GetLastWriteTime(arg0);
-			ToLua.PushValue(L, o);
-			return 1;
-		}
-		catch (Exception e)
-		{
-			return LuaDLL.toluaL_exception(L, e);
-		}
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int GetLastWriteTimeUtc(IntPtr L)
-	{
-		try
-		{
-			ToLua.CheckArgsCount(L, 1);
-			string arg0 = ToLua.CheckString(L, 1);
-			System.DateTime o = System.IO.File.GetLastWriteTimeUtc(arg0);
-			ToLua.PushValue(L, o);
-			return 1;
-		}
-		catch (Exception e)
-		{
-			return LuaDLL.toluaL_exception(L, e);
-		}
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int Move(IntPtr L)
-	{
-		try
-		{
-			ToLua.CheckArgsCount(L, 2);
-			string arg0 = ToLua.CheckString(L, 1);
-			string arg1 = ToLua.CheckString(L, 2);
-			System.IO.File.Move(arg0, arg1);
-			return 0;
 		}
 		catch (Exception e)
 		{
@@ -404,109 +260,6 @@ public class System_IO_FileWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int OpenRead(IntPtr L)
-	{
-		try
-		{
-			ToLua.CheckArgsCount(L, 1);
-			string arg0 = ToLua.CheckString(L, 1);
-			System.IO.FileStream o = System.IO.File.OpenRead(arg0);
-			ToLua.PushObject(L, o);
-			return 1;
-		}
-		catch (Exception e)
-		{
-			return LuaDLL.toluaL_exception(L, e);
-		}
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int OpenText(IntPtr L)
-	{
-		try
-		{
-			ToLua.CheckArgsCount(L, 1);
-			string arg0 = ToLua.CheckString(L, 1);
-			System.IO.StreamReader o = System.IO.File.OpenText(arg0);
-			ToLua.PushObject(L, o);
-			return 1;
-		}
-		catch (Exception e)
-		{
-			return LuaDLL.toluaL_exception(L, e);
-		}
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int OpenWrite(IntPtr L)
-	{
-		try
-		{
-			ToLua.CheckArgsCount(L, 1);
-			string arg0 = ToLua.CheckString(L, 1);
-			System.IO.FileStream o = System.IO.File.OpenWrite(arg0);
-			ToLua.PushObject(L, o);
-			return 1;
-		}
-		catch (Exception e)
-		{
-			return LuaDLL.toluaL_exception(L, e);
-		}
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int Replace(IntPtr L)
-	{
-		try
-		{
-			int count = LuaDLL.lua_gettop(L);
-
-			if (count == 3)
-			{
-				string arg0 = ToLua.CheckString(L, 1);
-				string arg1 = ToLua.CheckString(L, 2);
-				string arg2 = ToLua.CheckString(L, 3);
-				System.IO.File.Replace(arg0, arg1, arg2);
-				return 0;
-			}
-			else if (count == 4)
-			{
-				string arg0 = ToLua.CheckString(L, 1);
-				string arg1 = ToLua.CheckString(L, 2);
-				string arg2 = ToLua.CheckString(L, 3);
-				bool arg3 = LuaDLL.luaL_checkboolean(L, 4);
-				System.IO.File.Replace(arg0, arg1, arg2, arg3);
-				return 0;
-			}
-			else
-			{
-				return LuaDLL.luaL_throw(L, "invalid arguments to method: System.IO.File.Replace");
-			}
-		}
-		catch (Exception e)
-		{
-			return LuaDLL.toluaL_exception(L, e);
-		}
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int SetAttributes(IntPtr L)
-	{
-		try
-		{
-			ToLua.CheckArgsCount(L, 2);
-			string arg0 = ToLua.CheckString(L, 1);
-			System.IO.FileAttributes arg1 = (System.IO.FileAttributes)ToLua.CheckObject(L, 2, typeof(System.IO.FileAttributes));
-			System.IO.File.SetAttributes(arg0, arg1);
-			return 0;
-		}
-		catch (Exception e)
-		{
-			return LuaDLL.toluaL_exception(L, e);
-		}
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int SetCreationTime(IntPtr L)
 	{
 		try
@@ -533,6 +286,40 @@ public class System_IO_FileWrap
 			System.DateTime arg1 = StackTraits<System.DateTime>.Check(L, 2);
 			System.IO.File.SetCreationTimeUtc(arg0, arg1);
 			return 0;
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int GetCreationTime(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 1);
+			string arg0 = ToLua.CheckString(L, 1);
+			System.DateTime o = System.IO.File.GetCreationTime(arg0);
+			ToLua.PushValue(L, o);
+			return 1;
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int GetCreationTimeUtc(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 1);
+			string arg0 = ToLua.CheckString(L, 1);
+			System.DateTime o = System.IO.File.GetCreationTimeUtc(arg0);
+			ToLua.PushValue(L, o);
+			return 1;
 		}
 		catch (Exception e)
 		{
@@ -575,6 +362,40 @@ public class System_IO_FileWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int GetLastAccessTime(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 1);
+			string arg0 = ToLua.CheckString(L, 1);
+			System.DateTime o = System.IO.File.GetLastAccessTime(arg0);
+			ToLua.PushValue(L, o);
+			return 1;
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int GetLastAccessTimeUtc(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 1);
+			string arg0 = ToLua.CheckString(L, 1);
+			System.DateTime o = System.IO.File.GetLastAccessTimeUtc(arg0);
+			ToLua.PushValue(L, o);
+			return 1;
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int SetLastWriteTime(IntPtr L)
 	{
 		try
@@ -609,13 +430,47 @@ public class System_IO_FileWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int ReadAllBytes(IntPtr L)
+	static int GetLastWriteTime(IntPtr L)
 	{
 		try
 		{
 			ToLua.CheckArgsCount(L, 1);
 			string arg0 = ToLua.CheckString(L, 1);
-			byte[] o = System.IO.File.ReadAllBytes(arg0);
+			System.DateTime o = System.IO.File.GetLastWriteTime(arg0);
+			ToLua.PushValue(L, o);
+			return 1;
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int GetLastWriteTimeUtc(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 1);
+			string arg0 = ToLua.CheckString(L, 1);
+			System.DateTime o = System.IO.File.GetLastWriteTimeUtc(arg0);
+			ToLua.PushValue(L, o);
+			return 1;
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int GetAttributes(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 1);
+			string arg0 = ToLua.CheckString(L, 1);
+			System.IO.FileAttributes o = System.IO.File.GetAttributes(arg0);
 			ToLua.Push(L, o);
 			return 1;
 		}
@@ -626,31 +481,49 @@ public class System_IO_FileWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int ReadAllLines(IntPtr L)
+	static int SetAttributes(IntPtr L)
 	{
 		try
 		{
-			int count = LuaDLL.lua_gettop(L);
+			ToLua.CheckArgsCount(L, 2);
+			string arg0 = ToLua.CheckString(L, 1);
+			System.IO.FileAttributes arg1 = (System.IO.FileAttributes)ToLua.CheckObject(L, 2, typeof(System.IO.FileAttributes));
+			System.IO.File.SetAttributes(arg0, arg1);
+			return 0;
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
 
-			if (count == 1)
-			{
-				string arg0 = ToLua.CheckString(L, 1);
-				string[] o = System.IO.File.ReadAllLines(arg0);
-				ToLua.Push(L, o);
-				return 1;
-			}
-			else if (count == 2)
-			{
-				string arg0 = ToLua.CheckString(L, 1);
-				System.Text.Encoding arg1 = (System.Text.Encoding)ToLua.CheckObject<System.Text.Encoding>(L, 2);
-				string[] o = System.IO.File.ReadAllLines(arg0, arg1);
-				ToLua.Push(L, o);
-				return 1;
-			}
-			else
-			{
-				return LuaDLL.luaL_throw(L, "invalid arguments to method: System.IO.File.ReadAllLines");
-			}
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int OpenRead(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 1);
+			string arg0 = ToLua.CheckString(L, 1);
+			System.IO.FileStream o = System.IO.File.OpenRead(arg0);
+			ToLua.PushObject(L, o);
+			return 1;
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int OpenWrite(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 1);
+			string arg0 = ToLua.CheckString(L, 1);
+			System.IO.FileStream o = System.IO.File.OpenWrite(arg0);
+			ToLua.PushObject(L, o);
+			return 1;
 		}
 		catch (Exception e)
 		{
@@ -692,6 +565,56 @@ public class System_IO_FileWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int WriteAllText(IntPtr L)
+	{
+		try
+		{
+			int count = LuaDLL.lua_gettop(L);
+
+			if (count == 2)
+			{
+				string arg0 = ToLua.CheckString(L, 1);
+				string arg1 = ToLua.CheckString(L, 2);
+				System.IO.File.WriteAllText(arg0, arg1);
+				return 0;
+			}
+			else if (count == 3)
+			{
+				string arg0 = ToLua.CheckString(L, 1);
+				string arg1 = ToLua.CheckString(L, 2);
+				System.Text.Encoding arg2 = (System.Text.Encoding)ToLua.CheckObject<System.Text.Encoding>(L, 3);
+				System.IO.File.WriteAllText(arg0, arg1, arg2);
+				return 0;
+			}
+			else
+			{
+				return LuaDLL.luaL_throw(L, "invalid arguments to method: System.IO.File.WriteAllText");
+			}
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int ReadAllBytes(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 1);
+			string arg0 = ToLua.CheckString(L, 1);
+			byte[] o = System.IO.File.ReadAllBytes(arg0);
+			ToLua.Push(L, o);
+			return 1;
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int WriteAllBytes(IntPtr L)
 	{
 		try
@@ -701,6 +624,72 @@ public class System_IO_FileWrap
 			byte[] arg1 = ToLua.CheckByteBuffer(L, 2);
 			System.IO.File.WriteAllBytes(arg0, arg1);
 			return 0;
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int ReadAllLines(IntPtr L)
+	{
+		try
+		{
+			int count = LuaDLL.lua_gettop(L);
+
+			if (count == 1)
+			{
+				string arg0 = ToLua.CheckString(L, 1);
+				string[] o = System.IO.File.ReadAllLines(arg0);
+				ToLua.Push(L, o);
+				return 1;
+			}
+			else if (count == 2)
+			{
+				string arg0 = ToLua.CheckString(L, 1);
+				System.Text.Encoding arg1 = (System.Text.Encoding)ToLua.CheckObject<System.Text.Encoding>(L, 2);
+				string[] o = System.IO.File.ReadAllLines(arg0, arg1);
+				ToLua.Push(L, o);
+				return 1;
+			}
+			else
+			{
+				return LuaDLL.luaL_throw(L, "invalid arguments to method: System.IO.File.ReadAllLines");
+			}
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int ReadLines(IntPtr L)
+	{
+		try
+		{
+			int count = LuaDLL.lua_gettop(L);
+
+			if (count == 1)
+			{
+				string arg0 = ToLua.CheckString(L, 1);
+				System.Collections.Generic.IEnumerable<string> o = System.IO.File.ReadLines(arg0);
+				ToLua.PushObject(L, o);
+				return 1;
+			}
+			else if (count == 2)
+			{
+				string arg0 = ToLua.CheckString(L, 1);
+				System.Text.Encoding arg1 = (System.Text.Encoding)ToLua.CheckObject<System.Text.Encoding>(L, 2);
+				System.Collections.Generic.IEnumerable<string> o = System.IO.File.ReadLines(arg0, arg1);
+				ToLua.PushObject(L, o);
+				return 1;
+			}
+			else
+			{
+				return LuaDLL.luaL_throw(L, "invalid arguments to method: System.IO.File.ReadLines");
+			}
 		}
 		catch (Exception e)
 		{
@@ -757,7 +746,7 @@ public class System_IO_FileWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int WriteAllText(IntPtr L)
+	static int AppendAllText(IntPtr L)
 	{
 		try
 		{
@@ -767,7 +756,7 @@ public class System_IO_FileWrap
 			{
 				string arg0 = ToLua.CheckString(L, 1);
 				string arg1 = ToLua.CheckString(L, 2);
-				System.IO.File.WriteAllText(arg0, arg1);
+				System.IO.File.AppendAllText(arg0, arg1);
 				return 0;
 			}
 			else if (count == 3)
@@ -775,13 +764,98 @@ public class System_IO_FileWrap
 				string arg0 = ToLua.CheckString(L, 1);
 				string arg1 = ToLua.CheckString(L, 2);
 				System.Text.Encoding arg2 = (System.Text.Encoding)ToLua.CheckObject<System.Text.Encoding>(L, 3);
-				System.IO.File.WriteAllText(arg0, arg1, arg2);
+				System.IO.File.AppendAllText(arg0, arg1, arg2);
 				return 0;
 			}
 			else
 			{
-				return LuaDLL.luaL_throw(L, "invalid arguments to method: System.IO.File.WriteAllText");
+				return LuaDLL.luaL_throw(L, "invalid arguments to method: System.IO.File.AppendAllText");
 			}
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int AppendAllLines(IntPtr L)
+	{
+		try
+		{
+			int count = LuaDLL.lua_gettop(L);
+
+			if (count == 2)
+			{
+				string arg0 = ToLua.CheckString(L, 1);
+				System.Collections.Generic.IEnumerable<string> arg1 = (System.Collections.Generic.IEnumerable<string>)ToLua.CheckObject<System.Collections.Generic.IEnumerable<string>>(L, 2);
+				System.IO.File.AppendAllLines(arg0, arg1);
+				return 0;
+			}
+			else if (count == 3)
+			{
+				string arg0 = ToLua.CheckString(L, 1);
+				System.Collections.Generic.IEnumerable<string> arg1 = (System.Collections.Generic.IEnumerable<string>)ToLua.CheckObject<System.Collections.Generic.IEnumerable<string>>(L, 2);
+				System.Text.Encoding arg2 = (System.Text.Encoding)ToLua.CheckObject<System.Text.Encoding>(L, 3);
+				System.IO.File.AppendAllLines(arg0, arg1, arg2);
+				return 0;
+			}
+			else
+			{
+				return LuaDLL.luaL_throw(L, "invalid arguments to method: System.IO.File.AppendAllLines");
+			}
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int Replace(IntPtr L)
+	{
+		try
+		{
+			int count = LuaDLL.lua_gettop(L);
+
+			if (count == 3)
+			{
+				string arg0 = ToLua.CheckString(L, 1);
+				string arg1 = ToLua.CheckString(L, 2);
+				string arg2 = ToLua.CheckString(L, 3);
+				System.IO.File.Replace(arg0, arg1, arg2);
+				return 0;
+			}
+			else if (count == 4)
+			{
+				string arg0 = ToLua.CheckString(L, 1);
+				string arg1 = ToLua.CheckString(L, 2);
+				string arg2 = ToLua.CheckString(L, 3);
+				bool arg3 = LuaDLL.luaL_checkboolean(L, 4);
+				System.IO.File.Replace(arg0, arg1, arg2, arg3);
+				return 0;
+			}
+			else
+			{
+				return LuaDLL.luaL_throw(L, "invalid arguments to method: System.IO.File.Replace");
+			}
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int Move(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 2);
+			string arg0 = ToLua.CheckString(L, 1);
+			string arg1 = ToLua.CheckString(L, 2);
+			System.IO.File.Move(arg0, arg1);
+			return 0;
 		}
 		catch (Exception e)
 		{
@@ -822,7 +896,7 @@ public class System_IO_FileWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int ReadLines(IntPtr L)
+	static int ReadAllTextAsync(IntPtr L)
 	{
 		try
 		{
@@ -831,21 +905,38 @@ public class System_IO_FileWrap
 			if (count == 1)
 			{
 				string arg0 = ToLua.CheckString(L, 1);
-				System.Collections.Generic.IEnumerable<string> o = System.IO.File.ReadLines(arg0);
+				System.Threading.Tasks.Task<string> o = System.IO.File.ReadAllTextAsync(arg0);
 				ToLua.PushObject(L, o);
 				return 1;
 			}
-			else if (count == 2)
+			else if (count == 2 && TypeChecker.CheckTypes<System.Threading.CancellationToken>(L, 2))
+			{
+				string arg0 = ToLua.CheckString(L, 1);
+				System.Threading.CancellationToken arg1 = StackTraits<System.Threading.CancellationToken>.To(L, 2);
+				System.Threading.Tasks.Task<string> o = System.IO.File.ReadAllTextAsync(arg0, arg1);
+				ToLua.PushObject(L, o);
+				return 1;
+			}
+			else if (count == 2 && TypeChecker.CheckTypes<System.Text.Encoding>(L, 2))
+			{
+				string arg0 = ToLua.CheckString(L, 1);
+				System.Text.Encoding arg1 = (System.Text.Encoding)ToLua.ToObject(L, 2);
+				System.Threading.Tasks.Task<string> o = System.IO.File.ReadAllTextAsync(arg0, arg1);
+				ToLua.PushObject(L, o);
+				return 1;
+			}
+			else if (count == 3)
 			{
 				string arg0 = ToLua.CheckString(L, 1);
 				System.Text.Encoding arg1 = (System.Text.Encoding)ToLua.CheckObject<System.Text.Encoding>(L, 2);
-				System.Collections.Generic.IEnumerable<string> o = System.IO.File.ReadLines(arg0, arg1);
+				System.Threading.CancellationToken arg2 = StackTraits<System.Threading.CancellationToken>.Check(L, 3);
+				System.Threading.Tasks.Task<string> o = System.IO.File.ReadAllTextAsync(arg0, arg1, arg2);
 				ToLua.PushObject(L, o);
 				return 1;
 			}
 			else
 			{
-				return LuaDLL.luaL_throw(L, "invalid arguments to method: System.IO.File.ReadLines");
+				return LuaDLL.luaL_throw(L, "invalid arguments to method: System.IO.File.ReadAllTextAsync");
 			}
 		}
 		catch (Exception e)
@@ -855,7 +946,179 @@ public class System_IO_FileWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int AppendAllLines(IntPtr L)
+	static int WriteAllTextAsync(IntPtr L)
+	{
+		try
+		{
+			int count = LuaDLL.lua_gettop(L);
+
+			if (count == 2)
+			{
+				string arg0 = ToLua.CheckString(L, 1);
+				string arg1 = ToLua.CheckString(L, 2);
+				System.Threading.Tasks.Task o = System.IO.File.WriteAllTextAsync(arg0, arg1);
+				ToLua.PushObject(L, o);
+				return 1;
+			}
+			else if (count == 3 && TypeChecker.CheckTypes<System.Threading.CancellationToken>(L, 3))
+			{
+				string arg0 = ToLua.CheckString(L, 1);
+				string arg1 = ToLua.CheckString(L, 2);
+				System.Threading.CancellationToken arg2 = StackTraits<System.Threading.CancellationToken>.To(L, 3);
+				System.Threading.Tasks.Task o = System.IO.File.WriteAllTextAsync(arg0, arg1, arg2);
+				ToLua.PushObject(L, o);
+				return 1;
+			}
+			else if (count == 3 && TypeChecker.CheckTypes<System.Text.Encoding>(L, 3))
+			{
+				string arg0 = ToLua.CheckString(L, 1);
+				string arg1 = ToLua.CheckString(L, 2);
+				System.Text.Encoding arg2 = (System.Text.Encoding)ToLua.ToObject(L, 3);
+				System.Threading.Tasks.Task o = System.IO.File.WriteAllTextAsync(arg0, arg1, arg2);
+				ToLua.PushObject(L, o);
+				return 1;
+			}
+			else if (count == 4)
+			{
+				string arg0 = ToLua.CheckString(L, 1);
+				string arg1 = ToLua.CheckString(L, 2);
+				System.Text.Encoding arg2 = (System.Text.Encoding)ToLua.CheckObject<System.Text.Encoding>(L, 3);
+				System.Threading.CancellationToken arg3 = StackTraits<System.Threading.CancellationToken>.Check(L, 4);
+				System.Threading.Tasks.Task o = System.IO.File.WriteAllTextAsync(arg0, arg1, arg2, arg3);
+				ToLua.PushObject(L, o);
+				return 1;
+			}
+			else
+			{
+				return LuaDLL.luaL_throw(L, "invalid arguments to method: System.IO.File.WriteAllTextAsync");
+			}
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int ReadAllBytesAsync(IntPtr L)
+	{
+		try
+		{
+			int count = LuaDLL.lua_gettop(L);
+
+			if (count == 1)
+			{
+				string arg0 = ToLua.CheckString(L, 1);
+				System.Threading.Tasks.Task<byte[]> o = System.IO.File.ReadAllBytesAsync(arg0);
+				ToLua.PushObject(L, o);
+				return 1;
+			}
+			else if (count == 2)
+			{
+				string arg0 = ToLua.CheckString(L, 1);
+				System.Threading.CancellationToken arg1 = StackTraits<System.Threading.CancellationToken>.Check(L, 2);
+				System.Threading.Tasks.Task<byte[]> o = System.IO.File.ReadAllBytesAsync(arg0, arg1);
+				ToLua.PushObject(L, o);
+				return 1;
+			}
+			else
+			{
+				return LuaDLL.luaL_throw(L, "invalid arguments to method: System.IO.File.ReadAllBytesAsync");
+			}
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int WriteAllBytesAsync(IntPtr L)
+	{
+		try
+		{
+			int count = LuaDLL.lua_gettop(L);
+
+			if (count == 2)
+			{
+				string arg0 = ToLua.CheckString(L, 1);
+				byte[] arg1 = ToLua.CheckByteBuffer(L, 2);
+				System.Threading.Tasks.Task o = System.IO.File.WriteAllBytesAsync(arg0, arg1);
+				ToLua.PushObject(L, o);
+				return 1;
+			}
+			else if (count == 3)
+			{
+				string arg0 = ToLua.CheckString(L, 1);
+				byte[] arg1 = ToLua.CheckByteBuffer(L, 2);
+				System.Threading.CancellationToken arg2 = StackTraits<System.Threading.CancellationToken>.Check(L, 3);
+				System.Threading.Tasks.Task o = System.IO.File.WriteAllBytesAsync(arg0, arg1, arg2);
+				ToLua.PushObject(L, o);
+				return 1;
+			}
+			else
+			{
+				return LuaDLL.luaL_throw(L, "invalid arguments to method: System.IO.File.WriteAllBytesAsync");
+			}
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int ReadAllLinesAsync(IntPtr L)
+	{
+		try
+		{
+			int count = LuaDLL.lua_gettop(L);
+
+			if (count == 1)
+			{
+				string arg0 = ToLua.CheckString(L, 1);
+				System.Threading.Tasks.Task<string[]> o = System.IO.File.ReadAllLinesAsync(arg0);
+				ToLua.PushObject(L, o);
+				return 1;
+			}
+			else if (count == 2 && TypeChecker.CheckTypes<System.Threading.CancellationToken>(L, 2))
+			{
+				string arg0 = ToLua.CheckString(L, 1);
+				System.Threading.CancellationToken arg1 = StackTraits<System.Threading.CancellationToken>.To(L, 2);
+				System.Threading.Tasks.Task<string[]> o = System.IO.File.ReadAllLinesAsync(arg0, arg1);
+				ToLua.PushObject(L, o);
+				return 1;
+			}
+			else if (count == 2 && TypeChecker.CheckTypes<System.Text.Encoding>(L, 2))
+			{
+				string arg0 = ToLua.CheckString(L, 1);
+				System.Text.Encoding arg1 = (System.Text.Encoding)ToLua.ToObject(L, 2);
+				System.Threading.Tasks.Task<string[]> o = System.IO.File.ReadAllLinesAsync(arg0, arg1);
+				ToLua.PushObject(L, o);
+				return 1;
+			}
+			else if (count == 3)
+			{
+				string arg0 = ToLua.CheckString(L, 1);
+				System.Text.Encoding arg1 = (System.Text.Encoding)ToLua.CheckObject<System.Text.Encoding>(L, 2);
+				System.Threading.CancellationToken arg2 = StackTraits<System.Threading.CancellationToken>.Check(L, 3);
+				System.Threading.Tasks.Task<string[]> o = System.IO.File.ReadAllLinesAsync(arg0, arg1, arg2);
+				ToLua.PushObject(L, o);
+				return 1;
+			}
+			else
+			{
+				return LuaDLL.luaL_throw(L, "invalid arguments to method: System.IO.File.ReadAllLinesAsync");
+			}
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int WriteAllLinesAsync(IntPtr L)
 	{
 		try
 		{
@@ -865,20 +1128,149 @@ public class System_IO_FileWrap
 			{
 				string arg0 = ToLua.CheckString(L, 1);
 				System.Collections.Generic.IEnumerable<string> arg1 = (System.Collections.Generic.IEnumerable<string>)ToLua.CheckObject<System.Collections.Generic.IEnumerable<string>>(L, 2);
-				System.IO.File.AppendAllLines(arg0, arg1);
-				return 0;
+				System.Threading.Tasks.Task o = System.IO.File.WriteAllLinesAsync(arg0, arg1);
+				ToLua.PushObject(L, o);
+				return 1;
 			}
-			else if (count == 3)
+			else if (count == 3 && TypeChecker.CheckTypes<System.Threading.CancellationToken>(L, 3))
+			{
+				string arg0 = ToLua.CheckString(L, 1);
+				System.Collections.Generic.IEnumerable<string> arg1 = (System.Collections.Generic.IEnumerable<string>)ToLua.CheckObject<System.Collections.Generic.IEnumerable<string>>(L, 2);
+				System.Threading.CancellationToken arg2 = StackTraits<System.Threading.CancellationToken>.To(L, 3);
+				System.Threading.Tasks.Task o = System.IO.File.WriteAllLinesAsync(arg0, arg1, arg2);
+				ToLua.PushObject(L, o);
+				return 1;
+			}
+			else if (count == 3 && TypeChecker.CheckTypes<System.Text.Encoding>(L, 3))
+			{
+				string arg0 = ToLua.CheckString(L, 1);
+				System.Collections.Generic.IEnumerable<string> arg1 = (System.Collections.Generic.IEnumerable<string>)ToLua.CheckObject<System.Collections.Generic.IEnumerable<string>>(L, 2);
+				System.Text.Encoding arg2 = (System.Text.Encoding)ToLua.ToObject(L, 3);
+				System.Threading.Tasks.Task o = System.IO.File.WriteAllLinesAsync(arg0, arg1, arg2);
+				ToLua.PushObject(L, o);
+				return 1;
+			}
+			else if (count == 4)
 			{
 				string arg0 = ToLua.CheckString(L, 1);
 				System.Collections.Generic.IEnumerable<string> arg1 = (System.Collections.Generic.IEnumerable<string>)ToLua.CheckObject<System.Collections.Generic.IEnumerable<string>>(L, 2);
 				System.Text.Encoding arg2 = (System.Text.Encoding)ToLua.CheckObject<System.Text.Encoding>(L, 3);
-				System.IO.File.AppendAllLines(arg0, arg1, arg2);
-				return 0;
+				System.Threading.CancellationToken arg3 = StackTraits<System.Threading.CancellationToken>.Check(L, 4);
+				System.Threading.Tasks.Task o = System.IO.File.WriteAllLinesAsync(arg0, arg1, arg2, arg3);
+				ToLua.PushObject(L, o);
+				return 1;
 			}
 			else
 			{
-				return LuaDLL.luaL_throw(L, "invalid arguments to method: System.IO.File.AppendAllLines");
+				return LuaDLL.luaL_throw(L, "invalid arguments to method: System.IO.File.WriteAllLinesAsync");
+			}
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int AppendAllTextAsync(IntPtr L)
+	{
+		try
+		{
+			int count = LuaDLL.lua_gettop(L);
+
+			if (count == 2)
+			{
+				string arg0 = ToLua.CheckString(L, 1);
+				string arg1 = ToLua.CheckString(L, 2);
+				System.Threading.Tasks.Task o = System.IO.File.AppendAllTextAsync(arg0, arg1);
+				ToLua.PushObject(L, o);
+				return 1;
+			}
+			else if (count == 3 && TypeChecker.CheckTypes<System.Threading.CancellationToken>(L, 3))
+			{
+				string arg0 = ToLua.CheckString(L, 1);
+				string arg1 = ToLua.CheckString(L, 2);
+				System.Threading.CancellationToken arg2 = StackTraits<System.Threading.CancellationToken>.To(L, 3);
+				System.Threading.Tasks.Task o = System.IO.File.AppendAllTextAsync(arg0, arg1, arg2);
+				ToLua.PushObject(L, o);
+				return 1;
+			}
+			else if (count == 3 && TypeChecker.CheckTypes<System.Text.Encoding>(L, 3))
+			{
+				string arg0 = ToLua.CheckString(L, 1);
+				string arg1 = ToLua.CheckString(L, 2);
+				System.Text.Encoding arg2 = (System.Text.Encoding)ToLua.ToObject(L, 3);
+				System.Threading.Tasks.Task o = System.IO.File.AppendAllTextAsync(arg0, arg1, arg2);
+				ToLua.PushObject(L, o);
+				return 1;
+			}
+			else if (count == 4)
+			{
+				string arg0 = ToLua.CheckString(L, 1);
+				string arg1 = ToLua.CheckString(L, 2);
+				System.Text.Encoding arg2 = (System.Text.Encoding)ToLua.CheckObject<System.Text.Encoding>(L, 3);
+				System.Threading.CancellationToken arg3 = StackTraits<System.Threading.CancellationToken>.Check(L, 4);
+				System.Threading.Tasks.Task o = System.IO.File.AppendAllTextAsync(arg0, arg1, arg2, arg3);
+				ToLua.PushObject(L, o);
+				return 1;
+			}
+			else
+			{
+				return LuaDLL.luaL_throw(L, "invalid arguments to method: System.IO.File.AppendAllTextAsync");
+			}
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int AppendAllLinesAsync(IntPtr L)
+	{
+		try
+		{
+			int count = LuaDLL.lua_gettop(L);
+
+			if (count == 2)
+			{
+				string arg0 = ToLua.CheckString(L, 1);
+				System.Collections.Generic.IEnumerable<string> arg1 = (System.Collections.Generic.IEnumerable<string>)ToLua.CheckObject<System.Collections.Generic.IEnumerable<string>>(L, 2);
+				System.Threading.Tasks.Task o = System.IO.File.AppendAllLinesAsync(arg0, arg1);
+				ToLua.PushObject(L, o);
+				return 1;
+			}
+			else if (count == 3 && TypeChecker.CheckTypes<System.Threading.CancellationToken>(L, 3))
+			{
+				string arg0 = ToLua.CheckString(L, 1);
+				System.Collections.Generic.IEnumerable<string> arg1 = (System.Collections.Generic.IEnumerable<string>)ToLua.CheckObject<System.Collections.Generic.IEnumerable<string>>(L, 2);
+				System.Threading.CancellationToken arg2 = StackTraits<System.Threading.CancellationToken>.To(L, 3);
+				System.Threading.Tasks.Task o = System.IO.File.AppendAllLinesAsync(arg0, arg1, arg2);
+				ToLua.PushObject(L, o);
+				return 1;
+			}
+			else if (count == 3 && TypeChecker.CheckTypes<System.Text.Encoding>(L, 3))
+			{
+				string arg0 = ToLua.CheckString(L, 1);
+				System.Collections.Generic.IEnumerable<string> arg1 = (System.Collections.Generic.IEnumerable<string>)ToLua.CheckObject<System.Collections.Generic.IEnumerable<string>>(L, 2);
+				System.Text.Encoding arg2 = (System.Text.Encoding)ToLua.ToObject(L, 3);
+				System.Threading.Tasks.Task o = System.IO.File.AppendAllLinesAsync(arg0, arg1, arg2);
+				ToLua.PushObject(L, o);
+				return 1;
+			}
+			else if (count == 4)
+			{
+				string arg0 = ToLua.CheckString(L, 1);
+				System.Collections.Generic.IEnumerable<string> arg1 = (System.Collections.Generic.IEnumerable<string>)ToLua.CheckObject<System.Collections.Generic.IEnumerable<string>>(L, 2);
+				System.Text.Encoding arg2 = (System.Text.Encoding)ToLua.CheckObject<System.Text.Encoding>(L, 3);
+				System.Threading.CancellationToken arg3 = StackTraits<System.Threading.CancellationToken>.Check(L, 4);
+				System.Threading.Tasks.Task o = System.IO.File.AppendAllLinesAsync(arg0, arg1, arg2, arg3);
+				ToLua.PushObject(L, o);
+				return 1;
+			}
+			else
+			{
+				return LuaDLL.luaL_throw(L, "invalid arguments to method: System.IO.File.AppendAllLinesAsync");
 			}
 		}
 		catch (Exception e)

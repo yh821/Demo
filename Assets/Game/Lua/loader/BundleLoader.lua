@@ -877,14 +877,14 @@ function BundleLoader:ReleaseInObjId(instance_id, release_policy)
 end
 
 function BundleLoader:IsCanSafeUseBundle(bundle_name)
-    if not BundleCacheMgr.Instance:IsBundleRefing(bundle_name) then
+    if not BundleCacheMgr.Instance:IsBundleInRef(bundle_name) then
         return false
     end
 
     local deps = self:GetBundleDeps(bundle_name)
     if deps then
         for _, dep in ipairs(deps) do
-            if not BundleCacheMgr.Instance:IsBundleRefing(dep) then
+            if not BundleCacheMgr.Instance:IsBundleInRef(dep) then
                 return false
             end
         end

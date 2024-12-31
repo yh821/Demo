@@ -20,7 +20,7 @@ function Event:Fire(args)
         end
     else
         for i, v in pairs(self.event_func_list) do
-            local s, e = pcall(func, unpack(args))
+            local s, e = pcall(v, unpack(args))
             if not s then
                 print_error("Event:", self.event_id, ", Invoke Error:", e)
             end

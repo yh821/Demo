@@ -1,60 +1,63 @@
-using UnityEngine;
 using UnityEditor;
+using UnityEngine;
 
-[CustomEditor(typeof(MeshRenderer))]
-public class MeshRendererSorting : Editor
+namespace Common.Editor
 {
-	public override void OnInspectorGUI()
+	[CustomEditor(typeof(MeshRenderer))]
+	public class MeshRendererSorting : UnityEditor.Editor
 	{
-		base.OnInspectorGUI();
-		var renderer = target as MeshRenderer;
-
-		var layerNames = new string[SortingLayer.layers.Length];
-		for (int i = 0; i < layerNames.Length; i++)
+		public override void OnInspectorGUI()
 		{
-			layerNames[i] = SortingLayer.layers[i].name;
-		}
+			base.OnInspectorGUI();
+			var renderer = target as MeshRenderer;
 
-		var layerValue = SortingLayer.GetLayerValueFromID(renderer.sortingLayerID);
-		layerValue = EditorGUILayout.Popup("Sorting Layer", layerValue, layerNames);
+			var layerNames = new string[SortingLayer.layers.Length];
+			for (int i = 0; i < layerNames.Length; i++)
+			{
+				layerNames[i] = SortingLayer.layers[i].name;
+			}
 
-		var layer = SortingLayer.layers[layerValue];
-		renderer.sortingLayerName = layer.name;
-		renderer.sortingLayerID = layer.id;
-		renderer.sortingOrder = EditorGUILayout.IntField("Order in Layer", renderer.sortingOrder);
+			var layerValue = SortingLayer.GetLayerValueFromID(renderer.sortingLayerID);
+			layerValue = EditorGUILayout.Popup("Sorting Layer", layerValue, layerNames);
 
-		foreach (var mat in renderer.sharedMaterials)
-		{
-			mat.renderQueue = EditorGUILayout.IntField(mat.name, mat.renderQueue);
+			var layer = SortingLayer.layers[layerValue];
+			renderer.sortingLayerName = layer.name;
+			renderer.sortingLayerID = layer.id;
+			renderer.sortingOrder = EditorGUILayout.IntField("Order in Layer", renderer.sortingOrder);
+
+			foreach (var mat in renderer.sharedMaterials)
+			{
+				mat.renderQueue = EditorGUILayout.IntField(mat.name, mat.renderQueue);
+			}
 		}
 	}
-}
 
-[CustomEditor(typeof(SkinnedMeshRenderer))]
-public class SkinnedMeshRendererSorting : Editor
-{
-	public override void OnInspectorGUI()
+	[CustomEditor(typeof(SkinnedMeshRenderer))]
+	public class SkinnedMeshRendererSorting : UnityEditor.Editor
 	{
-		base.OnInspectorGUI();
-		var renderer = target as SkinnedMeshRenderer;
-
-		var layerNames = new string[SortingLayer.layers.Length];
-		for (int i = 0; i < layerNames.Length; i++)
+		public override void OnInspectorGUI()
 		{
-			layerNames[i] = SortingLayer.layers[i].name;
-		}
+			base.OnInspectorGUI();
+			var renderer = target as SkinnedMeshRenderer;
 
-		var layerValue = SortingLayer.GetLayerValueFromID(renderer.sortingLayerID);
-		layerValue = EditorGUILayout.Popup("Sorting Layer", layerValue, layerNames);
+			var layerNames = new string[SortingLayer.layers.Length];
+			for (int i = 0; i < layerNames.Length; i++)
+			{
+				layerNames[i] = SortingLayer.layers[i].name;
+			}
 
-		var layer = SortingLayer.layers[layerValue];
-		renderer.sortingLayerName = layer.name;
-		renderer.sortingLayerID = layer.id;
-		renderer.sortingOrder = EditorGUILayout.IntField("Order in Layer", renderer.sortingOrder);
+			var layerValue = SortingLayer.GetLayerValueFromID(renderer.sortingLayerID);
+			layerValue = EditorGUILayout.Popup("Sorting Layer", layerValue, layerNames);
 
-		foreach (var mat in renderer.sharedMaterials)
-		{
-			mat.renderQueue = EditorGUILayout.IntField(mat.name, mat.renderQueue);
+			var layer = SortingLayer.layers[layerValue];
+			renderer.sortingLayerName = layer.name;
+			renderer.sortingLayerID = layer.id;
+			renderer.sortingOrder = EditorGUILayout.IntField("Order in Layer", renderer.sortingOrder);
+
+			foreach (var mat in renderer.sharedMaterials)
+			{
+				mat.renderQueue = EditorGUILayout.IntField(mat.name, mat.renderQueue);
+			}
 		}
 	}
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using LuaInterface;
+﻿using LuaInterface;
 using UnityEngine;
 using UnityEngine.UI;
 

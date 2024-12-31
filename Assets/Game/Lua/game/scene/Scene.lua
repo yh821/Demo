@@ -9,6 +9,8 @@ require("core/DrawObj")
 require("game/scene/ResPath")
 require("game/scene/StateMachine")
 
+require("game/scene/scenelogic/SceneLogic")
+
 require("game/scene/trigger/ActorCtrl")
 require("game/scene/trigger/ActorTrigger")
 
@@ -36,6 +38,8 @@ function Scene:__init()
     self.obj_group_list = {}
     self.instance_id_list = {}
 
+    self:RegisterEvents() --监听事件
+
     Runner.Instance:AddRunObj(self, RunnerPriority.slower)
 end
 
@@ -44,9 +48,14 @@ function Scene:__delete()
 
     self.obj_list = nil
     self.instance_id_list = nil
-    self:DeleteAllObj()
+    self:ClearScene()
 
     Scene.Instance = nil
+end
+
+function Scene:RegisterEvents()
+    self:Bind(SceneEventType.SCENE_START_LOAD, BindTool.Bind(self.OnChangeScene, self))
+    self:Bind(SceneEventType.SCENE_LOAD_COMPLETE, BindTool.Bind1(self.OnLoadAssetEnd, self))
 end
 
 function Scene:CreateMainRole()
@@ -149,9 +158,9 @@ function Scene:DeleteObj(obj_id, delay)
     end
 end
 
-function Scene:Update(realtime, unscaledDeltaTime)
+function Scene:Update(now_time, delta_time)
     for _, v in pairs(self.obj_list) do
-        v:Update(realtime, unscaledDeltaTime)
+        v:Update(now_time, delta_time)
     end
 end
 
@@ -192,4 +201,110 @@ function Scene:CreateCamera()
         self.camera_obj.transform:SetParent(GameRootTransform, false)
         MainCamera = self.camera_obj:GetComponent(typeof(SimpleCamera))
     end
+end
+
+function Scene:OnChangeScene(scene_id)
+    local scene_cfg = ConfigManager.Instance:GetSceneConfig(scene_id)
+    if not scene_cfg then
+        print_error("can not find scene config, scene id:" .. scene_id)
+        return
+    end
+
+    if self.old_scene_id then
+        self.old_scene_id = self:GetSceneId()
+    else
+        self.old_scene_id = -1
+    end
+
+    self.old_scene_type = self.scene_cfg and self.scene_cfg.scene_type or -1
+    if self.scene_logic then
+        self.scene_logic:Out(self.old_scene_type, scene_cfg.scene_type)
+    end
+
+    local is_same_asset = false --是否同资源场景
+    --上个场景配置
+    if self.scene_cfg and self.scene_cfg.bundle_name == scene_cfg.bundle_name and self.scene_cfg.asset_name == scene_cfg.asset_name then
+        is_same_asset = true
+    end
+    self.scene_cfg = scene_cfg
+
+    self:ClearScene()
+
+    self.scene_logic = SceneLogic.Create(scene_cfg.scene_type, scene_id)
+    if is_same_asset then
+        if not sel:LoadingViewIsOpen() then
+            self:LoadSameScene(scene_id, scene_cfg.scene_type)
+        end
+        self:ResetMainRole()
+    else
+        self:StartLoadScene(scene_id)
+    end
+end
+
+function Scene:GetSceneId()
+    return self.scene_cfg and self.scene_cfg.id or 0
+end
+
+function Scene:GetOldSceneId()
+    return self.old_scene_id
+end
+
+function Scene:ClearScene()
+    self:DeleteAllObj()
+
+    if self.scene_logic then
+        self.scene_logic:DeleteMe()
+        self.scene_logic = nil
+    end
+end
+
+function Scene:LoadSameScene(scene_id, scene_type)
+    self.start_loading_time = Status.NowTime
+    self.asset_scene_id = scene_id
+    self.OnLoadSceneMainComplete(scene_id, scene_type)
+    self:OnLoadAssetEnd(scene_id, true)
+end
+
+function Scene:StartLoadScene(scene_id)
+    if not self:IsSceneLoading() and self.asset_scene_id == scene_id then
+        self.OnLoadSceneMainComplete(scene_id)
+        --self.OnLoadSceneDetailComplete(scene_id)
+        return
+    end
+    self.loadingCtrl:StartLoad(scene_id)
+end
+
+function Scene:OnLoadStart(scene_id)
+    self.isLoading = true
+    self.start_loading_time = Status.NowTime
+    --ViewManager.Instance:Close(ModuleName.Login)
+end
+
+function Scene:OnLoadMainEnd(scene_id)
+    if self.camera then
+        self.camera:ResetParameters()
+    end
+    self.asset_scene_id = scene_id
+    self.IsChangingScene(false)
+
+    self:CreateCamera()
+    self:OnLoadSceneMainComplete(scene_id)
+end
+
+function Scene:OnLoadAssetEnd(scene_id, is_same_asset)
+    local loading_time = Status.NowTime - self.start_loading_time
+    print_log("[Scene] OnLoadAssetEnd", scene_id, loading_time)
+    self.asset_scene_id = scene_id
+    --self:OnLoadSceneDetailComplete(scene_id)
+    self:Fire(SceneEventType.SCENE_LOAD_ASSET_COMPLETE)
+end
+
+function Scene:IsSceneLoading()
+    return self.isLoading == true
+end
+
+function Scene:OnLoadSceneMainComplete(scene_id,scene_type)
+    self.isLoading=false
+    --self:SceneObjLoadSceneComplete()
+    self:Fire(SceneEventType.SCENE_LOAD_MAIN_COMPLETE)
 end

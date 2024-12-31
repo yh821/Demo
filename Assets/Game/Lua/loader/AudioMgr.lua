@@ -35,7 +35,7 @@ function AudioMgr:__delete()
     AudioMgr.Instance = nil
 end
 
-function AudioMgr:Update()
+function AudioMgr:Update(now_time, delta_time)
     for ctrl, stop_time in pairs(self.v_ctrl_stop_times) do
         if stop_time <= Status.NowTime then
             self:StopAudio(ctrl)

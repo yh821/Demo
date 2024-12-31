@@ -3,6 +3,12 @@
 --- DateTime: 2023/12/21 15:22
 ---
 
+SceneEventType = {
+    SCENE_START_LOAD = "scene_start_load", --开始加载场景
+    SCENE_LOADING = "scene_loading", --正在加载场景
+    SCENE_LOAD_COMPLETE = "scene_load_complete", --完成加载场景
+}
+
 ObjectEventType = {
     CREATE_OBJ = "create_obj",
     DELETE_OBJ = "delete_obj",

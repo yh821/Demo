@@ -64,6 +64,7 @@ public class DelegateFactory
 		dict.Add(typeof(UnityEngine.Application.LowMemoryCallback), factory.UnityEngine_Application_LowMemoryCallback);
 		dict.Add(typeof(UnityEngine.Application.LogCallback), factory.UnityEngine_Application_LogCallback);
 		dict.Add(typeof(System.Func<bool>), factory.System_Func_bool);
+		dict.Add(typeof(System.Action<UnityEngine.PhysicsScene,Unity.Collections.NativeArray<UnityEngine.ModifiableContactPair>>), factory.System_Action_UnityEngine_PhysicsScene_Unity_Collections_NativeArray_UnityEngine_ModifiableContactPair);
 		dict.Add(typeof(UnityEngine.AudioClip.PCMReaderCallback), factory.UnityEngine_AudioClip_PCMReaderCallback);
 		dict.Add(typeof(UnityEngine.AudioClip.PCMSetPositionCallback), factory.UnityEngine_AudioClip_PCMSetPositionCallback);
 		dict.Add(typeof(System.Action<UnityEngine.AsyncOperation>), factory.System_Action_UnityEngine_AsyncOperation);
@@ -72,8 +73,6 @@ public class DelegateFactory
 		dict.Add(typeof(UnityEngine.Events.UnityAction<UnityEngine.SceneManagement.Scene,UnityEngine.SceneManagement.Scene>), factory.UnityEngine_Events_UnityAction_UnityEngine_SceneManagement_Scene_UnityEngine_SceneManagement_Scene);
 		dict.Add(typeof(UnityEngine.RectTransform.ReapplyDrivenProperties), factory.UnityEngine_RectTransform_ReapplyDrivenProperties);
 		dict.Add(typeof(UnityEngine.Canvas.WillRenderCanvases), factory.UnityEngine_Canvas_WillRenderCanvases);
-		dict.Add(typeof(System.Action<float,float>), factory.System_Action_float_float);
-		dict.Add(typeof(System.Action<bool,int>), factory.System_Action_bool_int);
 		dict.Add(typeof(System.Action<string,string>), factory.System_Action_string_string);
 		dict.Add(typeof(HedgehogTeam.EasyTouch.EasyTouch.TouchCancelHandler), factory.HedgehogTeam_EasyTouch_EasyTouch_TouchCancelHandler);
 		dict.Add(typeof(HedgehogTeam.EasyTouch.EasyTouch.Cancel2FingersHandler), factory.HedgehogTeam_EasyTouch_EasyTouch_Cancel2FingersHandler);
@@ -114,6 +113,9 @@ public class DelegateFactory
 		dict.Add(typeof(HedgehogTeam.EasyTouch.EasyTouch.EasyTouchIsReadyHandler), factory.HedgehogTeam_EasyTouch_EasyTouch_EasyTouchIsReadyHandler);
 		dict.Add(typeof(HedgehogTeam.EasyTouch.EasyTouch.OverUIElementHandler), factory.HedgehogTeam_EasyTouch_EasyTouch_OverUIElementHandler);
 		dict.Add(typeof(HedgehogTeam.EasyTouch.EasyTouch.UIElementTouchUpHandler), factory.HedgehogTeam_EasyTouch_EasyTouch_UIElementTouchUpHandler);
+		dict.Add(typeof(Game.ClickManager.ClickGroundDelegate), factory.Game_ClickManager_ClickGroundDelegate);
+		dict.Add(typeof(System.Action<float,float>), factory.System_Action_float_float);
+		dict.Add(typeof(System.Action<bool,int>), factory.System_Action_bool_int);
 
 		DelegateTraits<System.Predicate<int>>.Init(factory.System_Predicate_int);
 		DelegateTraits<System.Comparison<int>>.Init(factory.System_Comparison_int);
@@ -162,6 +164,7 @@ public class DelegateFactory
 		DelegateTraits<UnityEngine.Application.LowMemoryCallback>.Init(factory.UnityEngine_Application_LowMemoryCallback);
 		DelegateTraits<UnityEngine.Application.LogCallback>.Init(factory.UnityEngine_Application_LogCallback);
 		DelegateTraits<System.Func<bool>>.Init(factory.System_Func_bool);
+		DelegateTraits<System.Action<UnityEngine.PhysicsScene,Unity.Collections.NativeArray<UnityEngine.ModifiableContactPair>>>.Init(factory.System_Action_UnityEngine_PhysicsScene_Unity_Collections_NativeArray_UnityEngine_ModifiableContactPair);
 		DelegateTraits<UnityEngine.AudioClip.PCMReaderCallback>.Init(factory.UnityEngine_AudioClip_PCMReaderCallback);
 		DelegateTraits<UnityEngine.AudioClip.PCMSetPositionCallback>.Init(factory.UnityEngine_AudioClip_PCMSetPositionCallback);
 		DelegateTraits<System.Action<UnityEngine.AsyncOperation>>.Init(factory.System_Action_UnityEngine_AsyncOperation);
@@ -170,8 +173,6 @@ public class DelegateFactory
 		DelegateTraits<UnityEngine.Events.UnityAction<UnityEngine.SceneManagement.Scene,UnityEngine.SceneManagement.Scene>>.Init(factory.UnityEngine_Events_UnityAction_UnityEngine_SceneManagement_Scene_UnityEngine_SceneManagement_Scene);
 		DelegateTraits<UnityEngine.RectTransform.ReapplyDrivenProperties>.Init(factory.UnityEngine_RectTransform_ReapplyDrivenProperties);
 		DelegateTraits<UnityEngine.Canvas.WillRenderCanvases>.Init(factory.UnityEngine_Canvas_WillRenderCanvases);
-		DelegateTraits<System.Action<float,float>>.Init(factory.System_Action_float_float);
-		DelegateTraits<System.Action<bool,int>>.Init(factory.System_Action_bool_int);
 		DelegateTraits<System.Action<string,string>>.Init(factory.System_Action_string_string);
 		DelegateTraits<HedgehogTeam.EasyTouch.EasyTouch.TouchCancelHandler>.Init(factory.HedgehogTeam_EasyTouch_EasyTouch_TouchCancelHandler);
 		DelegateTraits<HedgehogTeam.EasyTouch.EasyTouch.Cancel2FingersHandler>.Init(factory.HedgehogTeam_EasyTouch_EasyTouch_Cancel2FingersHandler);
@@ -212,6 +213,9 @@ public class DelegateFactory
 		DelegateTraits<HedgehogTeam.EasyTouch.EasyTouch.EasyTouchIsReadyHandler>.Init(factory.HedgehogTeam_EasyTouch_EasyTouch_EasyTouchIsReadyHandler);
 		DelegateTraits<HedgehogTeam.EasyTouch.EasyTouch.OverUIElementHandler>.Init(factory.HedgehogTeam_EasyTouch_EasyTouch_OverUIElementHandler);
 		DelegateTraits<HedgehogTeam.EasyTouch.EasyTouch.UIElementTouchUpHandler>.Init(factory.HedgehogTeam_EasyTouch_EasyTouch_UIElementTouchUpHandler);
+		DelegateTraits<Game.ClickManager.ClickGroundDelegate>.Init(factory.Game_ClickManager_ClickGroundDelegate);
+		DelegateTraits<System.Action<float,float>>.Init(factory.System_Action_float_float);
+		DelegateTraits<System.Action<bool,int>>.Init(factory.System_Action_bool_int);
 
 		TypeTraits<System.Predicate<int>>.Init(factory.Check_System_Predicate_int);
 		TypeTraits<System.Comparison<int>>.Init(factory.Check_System_Comparison_int);
@@ -260,6 +264,7 @@ public class DelegateFactory
 		TypeTraits<UnityEngine.Application.LowMemoryCallback>.Init(factory.Check_UnityEngine_Application_LowMemoryCallback);
 		TypeTraits<UnityEngine.Application.LogCallback>.Init(factory.Check_UnityEngine_Application_LogCallback);
 		TypeTraits<System.Func<bool>>.Init(factory.Check_System_Func_bool);
+		TypeTraits<System.Action<UnityEngine.PhysicsScene,Unity.Collections.NativeArray<UnityEngine.ModifiableContactPair>>>.Init(factory.Check_System_Action_UnityEngine_PhysicsScene_Unity_Collections_NativeArray_UnityEngine_ModifiableContactPair);
 		TypeTraits<UnityEngine.AudioClip.PCMReaderCallback>.Init(factory.Check_UnityEngine_AudioClip_PCMReaderCallback);
 		TypeTraits<UnityEngine.AudioClip.PCMSetPositionCallback>.Init(factory.Check_UnityEngine_AudioClip_PCMSetPositionCallback);
 		TypeTraits<System.Action<UnityEngine.AsyncOperation>>.Init(factory.Check_System_Action_UnityEngine_AsyncOperation);
@@ -268,8 +273,6 @@ public class DelegateFactory
 		TypeTraits<UnityEngine.Events.UnityAction<UnityEngine.SceneManagement.Scene,UnityEngine.SceneManagement.Scene>>.Init(factory.Check_UnityEngine_Events_UnityAction_UnityEngine_SceneManagement_Scene_UnityEngine_SceneManagement_Scene);
 		TypeTraits<UnityEngine.RectTransform.ReapplyDrivenProperties>.Init(factory.Check_UnityEngine_RectTransform_ReapplyDrivenProperties);
 		TypeTraits<UnityEngine.Canvas.WillRenderCanvases>.Init(factory.Check_UnityEngine_Canvas_WillRenderCanvases);
-		TypeTraits<System.Action<float,float>>.Init(factory.Check_System_Action_float_float);
-		TypeTraits<System.Action<bool,int>>.Init(factory.Check_System_Action_bool_int);
 		TypeTraits<System.Action<string,string>>.Init(factory.Check_System_Action_string_string);
 		TypeTraits<HedgehogTeam.EasyTouch.EasyTouch.TouchCancelHandler>.Init(factory.Check_HedgehogTeam_EasyTouch_EasyTouch_TouchCancelHandler);
 		TypeTraits<HedgehogTeam.EasyTouch.EasyTouch.Cancel2FingersHandler>.Init(factory.Check_HedgehogTeam_EasyTouch_EasyTouch_Cancel2FingersHandler);
@@ -310,6 +313,9 @@ public class DelegateFactory
 		TypeTraits<HedgehogTeam.EasyTouch.EasyTouch.EasyTouchIsReadyHandler>.Init(factory.Check_HedgehogTeam_EasyTouch_EasyTouch_EasyTouchIsReadyHandler);
 		TypeTraits<HedgehogTeam.EasyTouch.EasyTouch.OverUIElementHandler>.Init(factory.Check_HedgehogTeam_EasyTouch_EasyTouch_OverUIElementHandler);
 		TypeTraits<HedgehogTeam.EasyTouch.EasyTouch.UIElementTouchUpHandler>.Init(factory.Check_HedgehogTeam_EasyTouch_EasyTouch_UIElementTouchUpHandler);
+		TypeTraits<Game.ClickManager.ClickGroundDelegate>.Init(factory.Check_Game_ClickManager_ClickGroundDelegate);
+		TypeTraits<System.Action<float,float>>.Init(factory.Check_System_Action_float_float);
+		TypeTraits<System.Action<bool,int>>.Init(factory.Check_System_Action_bool_int);
 
 		StackTraits<System.Predicate<int>>.Push = factory.Push_System_Predicate_int;
 		StackTraits<System.Comparison<int>>.Push = factory.Push_System_Comparison_int;
@@ -358,6 +364,7 @@ public class DelegateFactory
 		StackTraits<UnityEngine.Application.LowMemoryCallback>.Push = factory.Push_UnityEngine_Application_LowMemoryCallback;
 		StackTraits<UnityEngine.Application.LogCallback>.Push = factory.Push_UnityEngine_Application_LogCallback;
 		StackTraits<System.Func<bool>>.Push = factory.Push_System_Func_bool;
+		StackTraits<System.Action<UnityEngine.PhysicsScene,Unity.Collections.NativeArray<UnityEngine.ModifiableContactPair>>>.Push = factory.Push_System_Action_UnityEngine_PhysicsScene_Unity_Collections_NativeArray_UnityEngine_ModifiableContactPair;
 		StackTraits<UnityEngine.AudioClip.PCMReaderCallback>.Push = factory.Push_UnityEngine_AudioClip_PCMReaderCallback;
 		StackTraits<UnityEngine.AudioClip.PCMSetPositionCallback>.Push = factory.Push_UnityEngine_AudioClip_PCMSetPositionCallback;
 		StackTraits<System.Action<UnityEngine.AsyncOperation>>.Push = factory.Push_System_Action_UnityEngine_AsyncOperation;
@@ -366,8 +373,6 @@ public class DelegateFactory
 		StackTraits<UnityEngine.Events.UnityAction<UnityEngine.SceneManagement.Scene,UnityEngine.SceneManagement.Scene>>.Push = factory.Push_UnityEngine_Events_UnityAction_UnityEngine_SceneManagement_Scene_UnityEngine_SceneManagement_Scene;
 		StackTraits<UnityEngine.RectTransform.ReapplyDrivenProperties>.Push = factory.Push_UnityEngine_RectTransform_ReapplyDrivenProperties;
 		StackTraits<UnityEngine.Canvas.WillRenderCanvases>.Push = factory.Push_UnityEngine_Canvas_WillRenderCanvases;
-		StackTraits<System.Action<float,float>>.Push = factory.Push_System_Action_float_float;
-		StackTraits<System.Action<bool,int>>.Push = factory.Push_System_Action_bool_int;
 		StackTraits<System.Action<string,string>>.Push = factory.Push_System_Action_string_string;
 		StackTraits<HedgehogTeam.EasyTouch.EasyTouch.TouchCancelHandler>.Push = factory.Push_HedgehogTeam_EasyTouch_EasyTouch_TouchCancelHandler;
 		StackTraits<HedgehogTeam.EasyTouch.EasyTouch.Cancel2FingersHandler>.Push = factory.Push_HedgehogTeam_EasyTouch_EasyTouch_Cancel2FingersHandler;
@@ -408,6 +413,9 @@ public class DelegateFactory
 		StackTraits<HedgehogTeam.EasyTouch.EasyTouch.EasyTouchIsReadyHandler>.Push = factory.Push_HedgehogTeam_EasyTouch_EasyTouch_EasyTouchIsReadyHandler;
 		StackTraits<HedgehogTeam.EasyTouch.EasyTouch.OverUIElementHandler>.Push = factory.Push_HedgehogTeam_EasyTouch_EasyTouch_OverUIElementHandler;
 		StackTraits<HedgehogTeam.EasyTouch.EasyTouch.UIElementTouchUpHandler>.Push = factory.Push_HedgehogTeam_EasyTouch_EasyTouch_UIElementTouchUpHandler;
+		StackTraits<Game.ClickManager.ClickGroundDelegate>.Push = factory.Push_Game_ClickManager_ClickGroundDelegate;
+		StackTraits<System.Action<float,float>>.Push = factory.Push_System_Action_float_float;
+		StackTraits<System.Action<bool,int>>.Push = factory.Push_System_Action_bool_int;
 	}
     
     public static Delegate CreateDelegate(Type t, LuaFunction func = null)
@@ -3252,6 +3260,65 @@ public class DelegateFactory
 		ToLua.Push(L, o);
 	}
 
+	class System_Action_UnityEngine_PhysicsScene_Unity_Collections_NativeArray_UnityEngine_ModifiableContactPair_Event : LuaDelegate
+	{
+		public System_Action_UnityEngine_PhysicsScene_Unity_Collections_NativeArray_UnityEngine_ModifiableContactPair_Event(LuaFunction func) : base(func) { }
+		public System_Action_UnityEngine_PhysicsScene_Unity_Collections_NativeArray_UnityEngine_ModifiableContactPair_Event(LuaFunction func, LuaTable self) : base(func, self) { }
+
+		public void Call(UnityEngine.PhysicsScene param0, Unity.Collections.NativeArray<UnityEngine.ModifiableContactPair> param1)
+		{
+			func.BeginPCall();
+			func.PushValue(param0);
+			func.PushValue(param1);
+			func.PCall();
+			func.EndPCall();
+		}
+
+		public void CallWithSelf(UnityEngine.PhysicsScene param0, Unity.Collections.NativeArray<UnityEngine.ModifiableContactPair> param1)
+		{
+			func.BeginPCall();
+			func.Push(self);
+			func.PushValue(param0);
+			func.PushValue(param1);
+			func.PCall();
+			func.EndPCall();
+		}
+	}
+
+	public System.Action<UnityEngine.PhysicsScene,Unity.Collections.NativeArray<UnityEngine.ModifiableContactPair>> System_Action_UnityEngine_PhysicsScene_Unity_Collections_NativeArray_UnityEngine_ModifiableContactPair(LuaFunction func, LuaTable self, bool flag)
+	{
+		if (func == null)
+		{
+			System.Action<UnityEngine.PhysicsScene,Unity.Collections.NativeArray<UnityEngine.ModifiableContactPair>> fn = delegate(UnityEngine.PhysicsScene param0, Unity.Collections.NativeArray<UnityEngine.ModifiableContactPair> param1) { };
+			return fn;
+		}
+
+		if(!flag)
+		{
+			System_Action_UnityEngine_PhysicsScene_Unity_Collections_NativeArray_UnityEngine_ModifiableContactPair_Event target = new System_Action_UnityEngine_PhysicsScene_Unity_Collections_NativeArray_UnityEngine_ModifiableContactPair_Event(func);
+			System.Action<UnityEngine.PhysicsScene,Unity.Collections.NativeArray<UnityEngine.ModifiableContactPair>> d = target.Call;
+			target.method = d.Method;
+			return d;
+		}
+		else
+		{
+			System_Action_UnityEngine_PhysicsScene_Unity_Collections_NativeArray_UnityEngine_ModifiableContactPair_Event target = new System_Action_UnityEngine_PhysicsScene_Unity_Collections_NativeArray_UnityEngine_ModifiableContactPair_Event(func, self);
+			System.Action<UnityEngine.PhysicsScene,Unity.Collections.NativeArray<UnityEngine.ModifiableContactPair>> d = target.CallWithSelf;
+			target.method = d.Method;
+			return d;
+		}
+	}
+
+	bool Check_System_Action_UnityEngine_PhysicsScene_Unity_Collections_NativeArray_UnityEngine_ModifiableContactPair(IntPtr L, int pos)
+	{
+		return TypeChecker.CheckDelegateType(typeof(System.Action<UnityEngine.PhysicsScene,Unity.Collections.NativeArray<UnityEngine.ModifiableContactPair>>), L, pos);
+	}
+
+	void Push_System_Action_UnityEngine_PhysicsScene_Unity_Collections_NativeArray_UnityEngine_ModifiableContactPair(IntPtr L, System.Action<UnityEngine.PhysicsScene,Unity.Collections.NativeArray<UnityEngine.ModifiableContactPair>> o)
+	{
+		ToLua.Push(L, o);
+	}
+
 	class UnityEngine_AudioClip_PCMReaderCallback_Event : LuaDelegate
 	{
 		public UnityEngine_AudioClip_PCMReaderCallback_Event(LuaFunction func) : base(func) { }
@@ -3704,124 +3771,6 @@ public class DelegateFactory
 	}
 
 	void Push_UnityEngine_Canvas_WillRenderCanvases(IntPtr L, UnityEngine.Canvas.WillRenderCanvases o)
-	{
-		ToLua.Push(L, o);
-	}
-
-	class System_Action_float_float_Event : LuaDelegate
-	{
-		public System_Action_float_float_Event(LuaFunction func) : base(func) { }
-		public System_Action_float_float_Event(LuaFunction func, LuaTable self) : base(func, self) { }
-
-		public void Call(float param0, float param1)
-		{
-			func.BeginPCall();
-			func.Push(param0);
-			func.Push(param1);
-			func.PCall();
-			func.EndPCall();
-		}
-
-		public void CallWithSelf(float param0, float param1)
-		{
-			func.BeginPCall();
-			func.Push(self);
-			func.Push(param0);
-			func.Push(param1);
-			func.PCall();
-			func.EndPCall();
-		}
-	}
-
-	public System.Action<float,float> System_Action_float_float(LuaFunction func, LuaTable self, bool flag)
-	{
-		if (func == null)
-		{
-			System.Action<float,float> fn = delegate(float param0, float param1) { };
-			return fn;
-		}
-
-		if(!flag)
-		{
-			System_Action_float_float_Event target = new System_Action_float_float_Event(func);
-			System.Action<float,float> d = target.Call;
-			target.method = d.Method;
-			return d;
-		}
-		else
-		{
-			System_Action_float_float_Event target = new System_Action_float_float_Event(func, self);
-			System.Action<float,float> d = target.CallWithSelf;
-			target.method = d.Method;
-			return d;
-		}
-	}
-
-	bool Check_System_Action_float_float(IntPtr L, int pos)
-	{
-		return TypeChecker.CheckDelegateType(typeof(System.Action<float,float>), L, pos);
-	}
-
-	void Push_System_Action_float_float(IntPtr L, System.Action<float,float> o)
-	{
-		ToLua.Push(L, o);
-	}
-
-	class System_Action_bool_int_Event : LuaDelegate
-	{
-		public System_Action_bool_int_Event(LuaFunction func) : base(func) { }
-		public System_Action_bool_int_Event(LuaFunction func, LuaTable self) : base(func, self) { }
-
-		public void Call(bool param0, int param1)
-		{
-			func.BeginPCall();
-			func.Push(param0);
-			func.Push(param1);
-			func.PCall();
-			func.EndPCall();
-		}
-
-		public void CallWithSelf(bool param0, int param1)
-		{
-			func.BeginPCall();
-			func.Push(self);
-			func.Push(param0);
-			func.Push(param1);
-			func.PCall();
-			func.EndPCall();
-		}
-	}
-
-	public System.Action<bool,int> System_Action_bool_int(LuaFunction func, LuaTable self, bool flag)
-	{
-		if (func == null)
-		{
-			System.Action<bool,int> fn = delegate(bool param0, int param1) { };
-			return fn;
-		}
-
-		if(!flag)
-		{
-			System_Action_bool_int_Event target = new System_Action_bool_int_Event(func);
-			System.Action<bool,int> d = target.Call;
-			target.method = d.Method;
-			return d;
-		}
-		else
-		{
-			System_Action_bool_int_Event target = new System_Action_bool_int_Event(func, self);
-			System.Action<bool,int> d = target.CallWithSelf;
-			target.method = d.Method;
-			return d;
-		}
-	}
-
-	bool Check_System_Action_bool_int(IntPtr L, int pos)
-	{
-		return TypeChecker.CheckDelegateType(typeof(System.Action<bool,int>), L, pos);
-	}
-
-	void Push_System_Action_bool_int(IntPtr L, System.Action<bool,int> o)
 	{
 		ToLua.Push(L, o);
 	}
@@ -6100,6 +6049,181 @@ public class DelegateFactory
 	}
 
 	void Push_HedgehogTeam_EasyTouch_EasyTouch_UIElementTouchUpHandler(IntPtr L, HedgehogTeam.EasyTouch.EasyTouch.UIElementTouchUpHandler o)
+	{
+		ToLua.Push(L, o);
+	}
+
+	class Game_ClickManager_ClickGroundDelegate_Event : LuaDelegate
+	{
+		public Game_ClickManager_ClickGroundDelegate_Event(LuaFunction func) : base(func) { }
+		public Game_ClickManager_ClickGroundDelegate_Event(LuaFunction func, LuaTable self) : base(func, self) { }
+
+		public void Call(UnityEngine.RaycastHit param0)
+		{
+			func.BeginPCall();
+			func.Push(param0);
+			func.PCall();
+			func.EndPCall();
+		}
+
+		public void CallWithSelf(UnityEngine.RaycastHit param0)
+		{
+			func.BeginPCall();
+			func.Push(self);
+			func.Push(param0);
+			func.PCall();
+			func.EndPCall();
+		}
+	}
+
+	public Game.ClickManager.ClickGroundDelegate Game_ClickManager_ClickGroundDelegate(LuaFunction func, LuaTable self, bool flag)
+	{
+		if (func == null)
+		{
+			Game.ClickManager.ClickGroundDelegate fn = delegate(UnityEngine.RaycastHit param0) { };
+			return fn;
+		}
+
+		if(!flag)
+		{
+			Game_ClickManager_ClickGroundDelegate_Event target = new Game_ClickManager_ClickGroundDelegate_Event(func);
+			Game.ClickManager.ClickGroundDelegate d = target.Call;
+			target.method = d.Method;
+			return d;
+		}
+		else
+		{
+			Game_ClickManager_ClickGroundDelegate_Event target = new Game_ClickManager_ClickGroundDelegate_Event(func, self);
+			Game.ClickManager.ClickGroundDelegate d = target.CallWithSelf;
+			target.method = d.Method;
+			return d;
+		}
+	}
+
+	bool Check_Game_ClickManager_ClickGroundDelegate(IntPtr L, int pos)
+	{
+		return TypeChecker.CheckDelegateType(typeof(Game.ClickManager.ClickGroundDelegate), L, pos);
+	}
+
+	void Push_Game_ClickManager_ClickGroundDelegate(IntPtr L, Game.ClickManager.ClickGroundDelegate o)
+	{
+		ToLua.Push(L, o);
+	}
+
+	class System_Action_float_float_Event : LuaDelegate
+	{
+		public System_Action_float_float_Event(LuaFunction func) : base(func) { }
+		public System_Action_float_float_Event(LuaFunction func, LuaTable self) : base(func, self) { }
+
+		public void Call(float param0, float param1)
+		{
+			func.BeginPCall();
+			func.Push(param0);
+			func.Push(param1);
+			func.PCall();
+			func.EndPCall();
+		}
+
+		public void CallWithSelf(float param0, float param1)
+		{
+			func.BeginPCall();
+			func.Push(self);
+			func.Push(param0);
+			func.Push(param1);
+			func.PCall();
+			func.EndPCall();
+		}
+	}
+
+	public System.Action<float,float> System_Action_float_float(LuaFunction func, LuaTable self, bool flag)
+	{
+		if (func == null)
+		{
+			System.Action<float,float> fn = delegate(float param0, float param1) { };
+			return fn;
+		}
+
+		if(!flag)
+		{
+			System_Action_float_float_Event target = new System_Action_float_float_Event(func);
+			System.Action<float,float> d = target.Call;
+			target.method = d.Method;
+			return d;
+		}
+		else
+		{
+			System_Action_float_float_Event target = new System_Action_float_float_Event(func, self);
+			System.Action<float,float> d = target.CallWithSelf;
+			target.method = d.Method;
+			return d;
+		}
+	}
+
+	bool Check_System_Action_float_float(IntPtr L, int pos)
+	{
+		return TypeChecker.CheckDelegateType(typeof(System.Action<float,float>), L, pos);
+	}
+
+	void Push_System_Action_float_float(IntPtr L, System.Action<float,float> o)
+	{
+		ToLua.Push(L, o);
+	}
+
+	class System_Action_bool_int_Event : LuaDelegate
+	{
+		public System_Action_bool_int_Event(LuaFunction func) : base(func) { }
+		public System_Action_bool_int_Event(LuaFunction func, LuaTable self) : base(func, self) { }
+
+		public void Call(bool param0, int param1)
+		{
+			func.BeginPCall();
+			func.Push(param0);
+			func.Push(param1);
+			func.PCall();
+			func.EndPCall();
+		}
+
+		public void CallWithSelf(bool param0, int param1)
+		{
+			func.BeginPCall();
+			func.Push(self);
+			func.Push(param0);
+			func.Push(param1);
+			func.PCall();
+			func.EndPCall();
+		}
+	}
+
+	public System.Action<bool,int> System_Action_bool_int(LuaFunction func, LuaTable self, bool flag)
+	{
+		if (func == null)
+		{
+			System.Action<bool,int> fn = delegate(bool param0, int param1) { };
+			return fn;
+		}
+
+		if(!flag)
+		{
+			System_Action_bool_int_Event target = new System_Action_bool_int_Event(func);
+			System.Action<bool,int> d = target.Call;
+			target.method = d.Method;
+			return d;
+		}
+		else
+		{
+			System_Action_bool_int_Event target = new System_Action_bool_int_Event(func, self);
+			System.Action<bool,int> d = target.CallWithSelf;
+			target.method = d.Method;
+			return d;
+		}
+	}
+
+	bool Check_System_Action_bool_int(IntPtr L, int pos)
+	{
+		return TypeChecker.CheckDelegateType(typeof(System.Action<bool,int>), L, pos);
+	}
+
+	void Push_System_Action_bool_int(IntPtr L, System.Action<bool,int> o)
 	{
 		ToLua.Push(L, o);
 	}

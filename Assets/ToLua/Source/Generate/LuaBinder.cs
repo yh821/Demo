@@ -11,22 +11,27 @@ public static class LuaBinder
 		L.BeginModule(null);
 		LuaInterface_DebuggerWrap.Register(L);
 		LuaProfilerWrap.Register(L);
-		SimpleCameraWrap.Register(L);
-		UIJoystickWrap.Register(L);
-		MovableObjectWrap.Register(L);
-		EditorResourceMgrWrap.Register(L);
+		Game_SimpleCameraWrap.Register(L);
+		Game_MovableObjectWrap.Register(L);
+		Game_EditorResourceMgrWrap.Register(L);
 		HedgehogTeam_EasyTouch_EasyTouchWrap.Register(L);
 		HedgehogTeam_EasyTouch_GestureWrap.Register(L);
-		Game_UINameTableWrap.Register(L);
 		Game_AssetIDWrap.Register(L);
-		ClickableObjectWrap.Register(L);
-		ZipUtilWrap.Register(L);
-		ProjectileWrap.Register(L);
+		Game_ClickManagerWrap.Register(L);
+		Game_ClickableObjectWrap.Register(L);
+		Game_ZipUtilWrap.Register(L);
+		Game_ProjectileWrap.Register(L);
 		Game_EffectControllerWrap.Register(L);
-		LoadRawImageWrap.Register(L);
-		StreamingAssetsWrap.Register(L);
+		Game_LoadRawImageWrap.Register(L);
+		Game_GameObjectAttachWrap.Register(L);
+		Game_StreamingAssetsWrap.Register(L);
 		Game_AudioItemWrap.Register(L);
 		Game_AudioSourcePoolWrap.Register(L);
+		Game_UINameTableWrap.Register(L);
+		Game_UIJoystickWrap.Register(L);
+		Game_UI3DModelWrap.Register(L);
+		Game_UIEffectWrap.Register(L);
+		Game_UIOverrideOrderWrap.Register(L);
 		L.BeginModule("LuaInterface");
 		LuaInterface_LuaInjectionStationWrap.Register(L);
 		LuaInterface_InjectTypeWrap.Register(L);
@@ -143,6 +148,7 @@ public static class LuaBinder
 		UnityEngine_UI_TextWrap.Register(L);
 		UnityEngine_UI_ImageWrap.Register(L);
 		UnityEngine_UI_RawImageWrap.Register(L);
+		UnityEngine_UI_RectMask2DWrap.Register(L);
 		UnityEngine_UI_SelectableWrap.Register(L);
 		UnityEngine_UI_MaskableGraphicWrap.Register(L);
 		UnityEngine_UI_GraphicWrap.Register(L);
@@ -180,7 +186,9 @@ public static class LuaBinder
 		L.EndModule();
 		L.BeginModule("Game");
 		Game_AnimatorStateListenerWrap.Register(L);
-		Game_GameObjectAttachWrap.Register(L);
+		L.BeginModule("ClickManager");
+		L.RegFunction("ClickGroundDelegate", Game_ClickManager_ClickGroundDelegate);
+		L.EndModule();
 		L.EndModule();
 		L.BeginModule("System");
 		L.RegFunction("Predicate_int", System_Predicate_int);
@@ -194,10 +202,11 @@ public static class LuaBinder
 		L.RegFunction("Action_string_UnityEngine_AnimatorStateInfo", System_Action_string_UnityEngine_AnimatorStateInfo);
 		L.RegFunction("Func_UnityEngine_LogType_object_bool", System_Func_UnityEngine_LogType_object_bool);
 		L.RegFunction("Func_bool", System_Func_bool);
+		L.RegFunction("Action_UnityEngine_PhysicsScene_Unity_Collections_NativeArray_UnityEngine_ModifiableContactPair", System_Action_UnityEngine_PhysicsScene_Unity_Collections_NativeArray_UnityEngine_ModifiableContactPair);
 		L.RegFunction("Action_UnityEngine_AsyncOperation", System_Action_UnityEngine_AsyncOperation);
+		L.RegFunction("Action_string_string", System_Action_string_string);
 		L.RegFunction("Action_float_float", System_Action_float_float);
 		L.RegFunction("Action_bool_int", System_Action_bool_int);
-		L.RegFunction("Action_string_string", System_Action_string_string);
 		L.BeginModule("IO");
 		System_IO_DirectoryWrap.Register(L);
 		System_IO_SearchOptionWrap.Register(L);
@@ -1431,6 +1440,33 @@ public static class LuaBinder
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int Game_ClickManager_ClickGroundDelegate(IntPtr L)
+	{
+		try
+		{
+			int count = LuaDLL.lua_gettop(L);
+			LuaFunction func = ToLua.CheckLuaFunction(L, 1);
+
+			if (count == 1)
+			{
+				Delegate arg1 = DelegateTraits<Game.ClickManager.ClickGroundDelegate>.Create(func);
+				ToLua.Push(L, arg1);
+			}
+			else
+			{
+				LuaTable self = ToLua.CheckLuaTable(L, 2);
+				Delegate arg1 = DelegateTraits<Game.ClickManager.ClickGroundDelegate>.Create(func, self);
+				ToLua.Push(L, arg1);
+			}
+			return 1;
+		}
+		catch(Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int System_Predicate_int(IntPtr L)
 	{
 		try
@@ -1728,6 +1764,33 @@ public static class LuaBinder
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int System_Action_UnityEngine_PhysicsScene_Unity_Collections_NativeArray_UnityEngine_ModifiableContactPair(IntPtr L)
+	{
+		try
+		{
+			int count = LuaDLL.lua_gettop(L);
+			LuaFunction func = ToLua.CheckLuaFunction(L, 1);
+
+			if (count == 1)
+			{
+				Delegate arg1 = DelegateTraits<System.Action<UnityEngine.PhysicsScene,Unity.Collections.NativeArray<UnityEngine.ModifiableContactPair>>>.Create(func);
+				ToLua.Push(L, arg1);
+			}
+			else
+			{
+				LuaTable self = ToLua.CheckLuaTable(L, 2);
+				Delegate arg1 = DelegateTraits<System.Action<UnityEngine.PhysicsScene,Unity.Collections.NativeArray<UnityEngine.ModifiableContactPair>>>.Create(func, self);
+				ToLua.Push(L, arg1);
+			}
+			return 1;
+		}
+		catch(Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int System_Action_UnityEngine_AsyncOperation(IntPtr L)
 	{
 		try
@@ -1744,6 +1807,33 @@ public static class LuaBinder
 			{
 				LuaTable self = ToLua.CheckLuaTable(L, 2);
 				Delegate arg1 = DelegateTraits<System.Action<UnityEngine.AsyncOperation>>.Create(func, self);
+				ToLua.Push(L, arg1);
+			}
+			return 1;
+		}
+		catch(Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int System_Action_string_string(IntPtr L)
+	{
+		try
+		{
+			int count = LuaDLL.lua_gettop(L);
+			LuaFunction func = ToLua.CheckLuaFunction(L, 1);
+
+			if (count == 1)
+			{
+				Delegate arg1 = DelegateTraits<System.Action<string,string>>.Create(func);
+				ToLua.Push(L, arg1);
+			}
+			else
+			{
+				LuaTable self = ToLua.CheckLuaTable(L, 2);
+				Delegate arg1 = DelegateTraits<System.Action<string,string>>.Create(func, self);
 				ToLua.Push(L, arg1);
 			}
 			return 1;
@@ -1798,33 +1888,6 @@ public static class LuaBinder
 			{
 				LuaTable self = ToLua.CheckLuaTable(L, 2);
 				Delegate arg1 = DelegateTraits<System.Action<bool,int>>.Create(func, self);
-				ToLua.Push(L, arg1);
-			}
-			return 1;
-		}
-		catch(Exception e)
-		{
-			return LuaDLL.toluaL_exception(L, e);
-		}
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int System_Action_string_string(IntPtr L)
-	{
-		try
-		{
-			int count = LuaDLL.lua_gettop(L);
-			LuaFunction func = ToLua.CheckLuaFunction(L, 1);
-
-			if (count == 1)
-			{
-				Delegate arg1 = DelegateTraits<System.Action<string,string>>.Create(func);
-				ToLua.Push(L, arg1);
-			}
-			else
-			{
-				LuaTable self = ToLua.CheckLuaTable(L, 2);
-				Delegate arg1 = DelegateTraits<System.Action<string,string>>.Create(func, self);
 				ToLua.Push(L, arg1);
 			}
 			return 1;

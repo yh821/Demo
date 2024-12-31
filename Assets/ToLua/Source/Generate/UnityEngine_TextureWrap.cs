@@ -31,6 +31,7 @@ public class UnityEngine_TextureWrap
 		L.RegVar("mipMapBias", get_mipMapBias, set_mipMapBias);
 		L.RegVar("texelSize", get_texelSize, null);
 		L.RegVar("updateCount", get_updateCount, null);
+		L.RegVar("isDataSRGB", get_isDataSRGB, null);
 		L.RegVar("totalTextureMemory", get_totalTextureMemory, null);
 		L.RegVar("desiredTextureMemory", get_desiredTextureMemory, null);
 		L.RegVar("targetTextureMemory", get_targetTextureMemory, null);
@@ -455,6 +456,25 @@ public class UnityEngine_TextureWrap
 		catch(Exception e)
 		{
 			return LuaDLL.toluaL_exception(L, e, o, "attempt to index updateCount on a nil value");
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int get_isDataSRGB(IntPtr L)
+	{
+		object o = null;
+
+		try
+		{
+			o = ToLua.ToObject(L, 1);
+			UnityEngine.Texture obj = (UnityEngine.Texture)o;
+			bool ret = obj.isDataSRGB;
+			LuaDLL.lua_pushboolean(L, ret);
+			return 1;
+		}
+		catch(Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e, o, "attempt to index isDataSRGB on a nil value");
 		}
 	}
 

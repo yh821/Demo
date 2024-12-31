@@ -1,4 +1,3 @@
-
 ---@class CtrlManager : BaseClass
 CtrlManager = CtrlManager or BaseClass();
 
@@ -14,6 +13,7 @@ function CtrlManager:__init()
         "controller/EventSystem", --事件系统
         "controller/TimerQuest", --定时器
         "controller/BaseController", --管理类基类
+        "controller/ConfigManager", --配置管理类
 
         "loader/ResMgr",
         "loader/ResPoolMgr",
@@ -31,6 +31,7 @@ function CtrlManager:__init()
 
         "quality/ShieldMgr", --屏蔽管理器
 
+        "game/message/MessageCtrl",
         "game/login/LoginCtrl",
         "game/scene/Scene",
         "game/mainui/MainUiCtrl",

@@ -133,7 +133,7 @@ public sealed class GameRoot : MonoBehaviour
 			eventDispatcher.ProjectileSingleEffectFunc = LuaState.GetFunction("ProjectileSingleEffectEvent");
 
 			luaPlayAudio = LuaState.GetFunction("PlayAudio");
-			ClickSound.OnClick = LuaPlayAudio;
+			UIClickSound.OnClick = LuaPlayAudio;
 		}
 		catch (Exception e)
 		{

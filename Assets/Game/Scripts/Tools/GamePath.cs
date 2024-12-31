@@ -59,25 +59,6 @@ namespace Common
 		/// </summary>
 		public static string cachePath { get; private set; }
 
-		/// <summary>
-		/// 项目根目录
-		/// </summary>
-		public static string rootPath
-		{
-			get
-			{
-				if (string.IsNullOrEmpty(_rootPath))
-				{
-					_rootPath = Application.dataPath.Replace("\\", "/");
-					_rootPath = _rootPath.Replace("/Assets", "");
-				}
-
-				return _rootPath;
-			}
-		}
-
-		private static string _rootPath = string.Empty;
-
 #if UNITY_EDITOR
 		/// <summary>
 		/// Lua根目录
@@ -88,7 +69,7 @@ namespace Common
 			{
 				if (string.IsNullOrEmpty(_luaPath))
 				{
-					_luaPath = Path.Combine(rootPath, ProjectPathOption.Option.luaPath);
+					_luaPath = Path.Combine(IOHelper.ProjPath, ProjectPathOption.Option.luaPath);
 					_luaPath = _luaPath.Replace("\\", "/");
 				}
 
@@ -110,11 +91,11 @@ namespace Common
 #if UNITY_EDITOR
 			streamingAssetsPath = Application.streamingAssetsPath;
 			streamingAssetsUrl = "file://" + streamingAssetsPath;
-			writablePath = Path.Combine(rootPath, ProjectPathOption.Option.writablePath);
+			writablePath = Path.Combine(IOHelper.ProjPath, ProjectPathOption.Option.writablePath);
 			writableAssetUrl = "file://" + writablePath;
 
-			logPath = Path.Combine(rootPath, ProjectPathOption.Option.logPath);
-			cachePath = Path.Combine(rootPath, ProjectPathOption.Option.cachePath);
+			logPath = Path.Combine(IOHelper.ProjPath, ProjectPathOption.Option.logPath);
+			cachePath = Path.Combine(IOHelper.ProjPath, ProjectPathOption.Option.cachePath);
 #else
 		    streamingAssetsPath = Application.streamingAssetsPath;
 		    streamingAssetsUrl = Application.streamingAssetsPath;

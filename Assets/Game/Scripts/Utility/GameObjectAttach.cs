@@ -10,6 +10,7 @@ namespace Game
 		public float delayTime = 0;
 		public int attachLayer = -1;
 
+		[SerializeField] private bool autoSyncLayer = false;
 		private bool isDisableEffect = false;
 
 		// private SRPEffect srpEffect;
@@ -98,6 +99,8 @@ namespace Game
 		public void OnLoadComplete(GameObject effect)
 		{
 			Loaded = true;
+			if (autoSyncLayer && attachLayer < 0)
+				attachLayer = gameObject.layer;
 			if (attachLayer >= 0)
 			{
 				var renderers = ListPool<Renderer>.Get();

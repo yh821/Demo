@@ -1,6 +1,6 @@
 require("logic/CtrlManager")
 require("common/BindTool")
-require("common/BaseView")
+require("game/widget/BaseView")
 
 Game = Game or {}
 
@@ -11,6 +11,8 @@ function Game.Start()
 
     MainUiCtrl.Instance:Open()
 
+    local scene_id = 10001
+    --EventSystem.Instance:Fire(SceneEventType.SCENE_START_LOAD, scene_id)
     Scene.Instance:CreateCamera()
     Scene.Instance:CreateMainRole()
 

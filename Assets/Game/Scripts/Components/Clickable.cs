@@ -1,41 +1,44 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-[DisallowMultipleComponent]
-[RequireComponent(typeof(Collider))]
-public sealed class Clickable : MonoBehaviour
+namespace Game
 {
-	[SerializeField] private ClickableObject owner;
-	private Collider[] colliders;
-	private LinkedListNode<Clickable> node;
-
-	public ClickableObject Owner
+	[DisallowMultipleComponent]
+	[RequireComponent(typeof(Collider))]
+	public sealed class Clickable : MonoBehaviour
 	{
-		get => owner;
-		set => owner = value;
-	}
+		[SerializeField] private ClickableObject owner;
+		private Collider[] colliders;
+		private LinkedListNode<Clickable> node;
 
-	public void SetClickable(bool enable)
-	{
-		if (colliders != null)
+		public ClickableObject Owner
 		{
-			foreach (var collider in colliders)
+			get => owner;
+			set => owner = value;
+		}
+
+		public void SetClickable(bool enable)
+		{
+			if (colliders != null)
 			{
-				collider.enabled = enable;
+				foreach (var collider in colliders)
+				{
+					collider.enabled = enable;
+				}
 			}
 		}
-	}
 
-	private void Awake()
-	{
-		colliders = GetComponents<Collider>();
-		if (owner)
-			node = owner.AddClickable(this);
-	}
+		private void Awake()
+		{
+			colliders = GetComponents<Collider>();
+			if (owner)
+				node = owner.AddClickable(this);
+		}
 
-	private void OnDestroy()
-	{
-		if (owner != null && node != null)
-			owner.RemoveClickable(node);
+		private void OnDestroy()
+		{
+			if (owner != null && node != null)
+				owner.RemoveClickable(node);
+		}
 	}
 }

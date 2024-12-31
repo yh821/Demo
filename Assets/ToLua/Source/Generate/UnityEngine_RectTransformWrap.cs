@@ -12,6 +12,12 @@ public class UnityEngine_RectTransformWrap
 		L.RegFunction("GetWorldCorners", GetWorldCorners);
 		L.RegFunction("SetInsetAndSizeFromParentEdge", SetInsetAndSizeFromParentEdge);
 		L.RegFunction("SetSizeWithCurrentAnchors", SetSizeWithCurrentAnchors);
+		L.RegFunction("SetPivot", SetPivot);
+		L.RegFunction("SetAnchorMax", SetAnchorMax);
+		L.RegFunction("SetAnchorMin", SetAnchorMin);
+		L.RegFunction("SetLocalScale", SetLocalScale);
+		L.RegFunction("SetAnchoredPosition", SetAnchoredPosition);
+		L.RegFunction("SetSizeDelta", SetSizeDelta);
 		L.RegFunction("New", _CreateUnityEngine_RectTransform);
 		L.RegFunction("__eq", op_Equality);
 		L.RegFunction("__tostring", ToLua.op_ToString);
@@ -24,6 +30,7 @@ public class UnityEngine_RectTransformWrap
 		L.RegVar("anchoredPosition3D", get_anchoredPosition3D, set_anchoredPosition3D);
 		L.RegVar("offsetMin", get_offsetMin, set_offsetMin);
 		L.RegVar("offsetMax", get_offsetMax, set_offsetMax);
+		L.RegVar("drivenByObject", get_drivenByObject, null);
 		L.RegVar("reapplyDrivenProperties", get_reapplyDrivenProperties, set_reapplyDrivenProperties);
 		L.RegFunction("ReapplyDrivenProperties", UnityEngine_RectTransform_ReapplyDrivenProperties);
 		L.EndClass();
@@ -164,6 +171,115 @@ public class UnityEngine_RectTransformWrap
 			UnityEngine.RectTransform.Axis arg0 = (UnityEngine.RectTransform.Axis)ToLua.CheckObject(L, 2, typeof(UnityEngine.RectTransform.Axis));
 			float arg1 = (float)LuaDLL.luaL_checknumber(L, 3);
 			obj.SetSizeWithCurrentAnchors(arg0, arg1);
+			return 0;
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int SetPivot(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 3);
+			UnityEngine.RectTransform obj = (UnityEngine.RectTransform)ToLua.CheckObject(L, 1, typeof(UnityEngine.RectTransform));
+			float arg0 = (float)LuaDLL.luaL_checknumber(L, 2);
+			float arg1 = (float)LuaDLL.luaL_checknumber(L, 3);
+			obj.SetPivot(arg0, arg1);
+			return 0;
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int SetAnchorMax(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 3);
+			UnityEngine.RectTransform obj = (UnityEngine.RectTransform)ToLua.CheckObject(L, 1, typeof(UnityEngine.RectTransform));
+			float arg0 = (float)LuaDLL.luaL_checknumber(L, 2);
+			float arg1 = (float)LuaDLL.luaL_checknumber(L, 3);
+			obj.SetAnchorMax(arg0, arg1);
+			return 0;
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int SetAnchorMin(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 3);
+			UnityEngine.RectTransform obj = (UnityEngine.RectTransform)ToLua.CheckObject(L, 1, typeof(UnityEngine.RectTransform));
+			float arg0 = (float)LuaDLL.luaL_checknumber(L, 2);
+			float arg1 = (float)LuaDLL.luaL_checknumber(L, 3);
+			obj.SetAnchorMin(arg0, arg1);
+			return 0;
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int SetLocalScale(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 4);
+			UnityEngine.RectTransform obj = (UnityEngine.RectTransform)ToLua.CheckObject(L, 1, typeof(UnityEngine.RectTransform));
+			float arg0 = (float)LuaDLL.luaL_checknumber(L, 2);
+			float arg1 = (float)LuaDLL.luaL_checknumber(L, 3);
+			float arg2 = (float)LuaDLL.luaL_checknumber(L, 4);
+			obj.SetLocalScale(arg0, arg1, arg2);
+			return 0;
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int SetAnchoredPosition(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 3);
+			UnityEngine.RectTransform obj = (UnityEngine.RectTransform)ToLua.CheckObject(L, 1, typeof(UnityEngine.RectTransform));
+			float arg0 = (float)LuaDLL.luaL_checknumber(L, 2);
+			float arg1 = (float)LuaDLL.luaL_checknumber(L, 3);
+			obj.SetAnchoredPosition(arg0, arg1);
+			return 0;
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int SetSizeDelta(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 3);
+			UnityEngine.RectTransform obj = (UnityEngine.RectTransform)ToLua.CheckObject(L, 1, typeof(UnityEngine.RectTransform));
+			float arg0 = (float)LuaDLL.luaL_checknumber(L, 2);
+			float arg1 = (float)LuaDLL.luaL_checknumber(L, 3);
+			obj.SetSizeDelta(arg0, arg1);
 			return 0;
 		}
 		catch (Exception e)
@@ -358,6 +474,25 @@ public class UnityEngine_RectTransformWrap
 		catch(Exception e)
 		{
 			return LuaDLL.toluaL_exception(L, e, o, "attempt to index offsetMax on a nil value");
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int get_drivenByObject(IntPtr L)
+	{
+		object o = null;
+
+		try
+		{
+			o = ToLua.ToObject(L, 1);
+			UnityEngine.RectTransform obj = (UnityEngine.RectTransform)o;
+			UnityEngine.Object ret = obj.drivenByObject;
+			ToLua.Push(L, ret);
+			return 1;
+		}
+		catch(Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e, o, "attempt to index drivenByObject on a nil value");
 		}
 	}
 

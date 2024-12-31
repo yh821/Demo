@@ -23,7 +23,7 @@ function BindTool.Bind(func, ...)
     end
 
     local count = select('#', ...)
-    local params = { ... }
+    local params = count == 0 and EmptyTable or { ... }
     local new_func = nil
 
     if count == 0 then

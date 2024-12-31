@@ -24,6 +24,7 @@ public class UnityEngine_AssetBundleWrap
 		L.RegFunction("LoadAllAssets", LoadAllAssets);
 		L.RegFunction("LoadAllAssetsAsync", LoadAllAssetsAsync);
 		L.RegFunction("Unload", Unload);
+		L.RegFunction("UnloadAsync", UnloadAsync);
 		L.RegFunction("GetAllAssetNames", GetAllAssetNames);
 		L.RegFunction("GetAllScenePaths", GetAllScenePaths);
 		L.RegFunction("RecompressAssetBundleAsync", RecompressAssetBundleAsync);
@@ -550,6 +551,24 @@ public class UnityEngine_AssetBundleWrap
 			bool arg0 = LuaDLL.luaL_checkboolean(L, 2);
 			obj.Unload(arg0);
 			return 0;
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int UnloadAsync(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 2);
+			UnityEngine.AssetBundle obj = (UnityEngine.AssetBundle)ToLua.CheckObject<UnityEngine.AssetBundle>(L, 1);
+			bool arg0 = LuaDLL.luaL_checkboolean(L, 2);
+			UnityEngine.AsyncOperation o = obj.UnloadAsync(arg0);
+			ToLua.PushObject(L, o);
+			return 1;
 		}
 		catch (Exception e)
 		{

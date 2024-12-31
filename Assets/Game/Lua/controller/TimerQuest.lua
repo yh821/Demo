@@ -31,17 +31,17 @@ function TimerQuest:__delete()
     TimerQuest.Instance = nil
 end
 
-function TimerQuest:Update(realtime, unscaledDeltaTime)
+function TimerQuest:Update(now_time, delta_time)
     local execute_num = 0
     for k, v in pairs(self.quest_list) do
         if v[4] <= 0 then
             self.quest_list[k] = nil
             self:DelCheckQuest(k)
         else
-            if v[3] <= realtime then
+            if v[3] <= now_time then
                 execute_num = execute_num + 1
                 self.execute_callback_list[execute_num] = k
-                v[3] = realtime + v[2]
+                v[3] = now_time + v[2]
                 v[4] = v[4] - 1
             end
         end

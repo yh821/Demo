@@ -118,7 +118,7 @@ function BundleCacheMgr:IsRefersAllBeUnload(bundle_name)
     return true
 end
 
-function BundleCacheMgr:IsBundleRefing(bundle_name)
+function BundleCacheMgr:IsBundleInRef(bundle_name)
     if self.v_caches[bundle_name] and self.v_refs[bundle_name] and self.v_refs[bundle_name] > 0 then
         return true
     end

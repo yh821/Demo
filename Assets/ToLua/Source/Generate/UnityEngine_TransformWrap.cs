@@ -10,6 +10,9 @@ public class UnityEngine_TransformWrap
 		L.BeginClass(typeof(UnityEngine.Transform), typeof(UnityEngine.Component));
 		L.RegFunction("SetParent", SetParent);
 		L.RegFunction("SetPositionAndRotation", SetPositionAndRotation);
+		L.RegFunction("SetLocalPositionAndRotation", SetLocalPositionAndRotation);
+		L.RegFunction("GetPositionAndRotation", GetPositionAndRotation);
+		L.RegFunction("GetLocalPositionAndRotation", GetLocalPositionAndRotation);
 		L.RegFunction("Translate", Translate);
 		L.RegFunction("Rotate", Rotate);
 		L.RegFunction("RotateAround", RotateAround);
@@ -29,6 +32,9 @@ public class UnityEngine_TransformWrap
 		L.RegFunction("IsChildOf", IsChildOf);
 		L.RegFunction("GetEnumerator", GetEnumerator);
 		L.RegFunction("GetChild", GetChild);
+		L.RegFunction("SetLocalScale", SetLocalScale);
+		L.RegFunction("SetLocalPosition", SetLocalPosition);
+		L.RegFunction("SetPosition", SetPosition);
 		L.RegFunction("DOTogglePause", DOTogglePause);
 		L.RegFunction("DOSmoothRewind", DOSmoothRewind);
 		L.RegFunction("DORewind", DORewind);
@@ -143,6 +149,64 @@ public class UnityEngine_TransformWrap
 			UnityEngine.Quaternion arg1 = ToLua.ToQuaternion(L, 3);
 			obj.SetPositionAndRotation(arg0, arg1);
 			return 0;
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int SetLocalPositionAndRotation(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 3);
+			UnityEngine.Transform obj = (UnityEngine.Transform)ToLua.CheckObject<UnityEngine.Transform>(L, 1);
+			UnityEngine.Vector3 arg0 = ToLua.ToVector3(L, 2);
+			UnityEngine.Quaternion arg1 = ToLua.ToQuaternion(L, 3);
+			obj.SetLocalPositionAndRotation(arg0, arg1);
+			return 0;
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int GetPositionAndRotation(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 3);
+			UnityEngine.Transform obj = (UnityEngine.Transform)ToLua.CheckObject<UnityEngine.Transform>(L, 1);
+			UnityEngine.Vector3 arg0;
+			UnityEngine.Quaternion arg1;
+			obj.GetPositionAndRotation(out arg0, out arg1);
+			ToLua.Push(L, arg0);
+			ToLua.Push(L, arg1);
+			return 2;
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int GetLocalPositionAndRotation(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 3);
+			UnityEngine.Transform obj = (UnityEngine.Transform)ToLua.CheckObject<UnityEngine.Transform>(L, 1);
+			UnityEngine.Vector3 arg0;
+			UnityEngine.Quaternion arg1;
+			obj.GetLocalPositionAndRotation(out arg0, out arg1);
+			ToLua.Push(L, arg0);
+			ToLua.Push(L, arg1);
+			return 2;
 		}
 		catch (Exception e)
 		{
@@ -718,6 +782,63 @@ public class UnityEngine_TransformWrap
 			UnityEngine.Transform o = obj.GetChild(arg0);
 			ToLua.Push(L, o);
 			return 1;
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int SetLocalScale(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 4);
+			UnityEngine.Transform obj = (UnityEngine.Transform)ToLua.CheckObject<UnityEngine.Transform>(L, 1);
+			float arg0 = (float)LuaDLL.luaL_checknumber(L, 2);
+			float arg1 = (float)LuaDLL.luaL_checknumber(L, 3);
+			float arg2 = (float)LuaDLL.luaL_checknumber(L, 4);
+			obj.SetLocalScale(arg0, arg1, arg2);
+			return 0;
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int SetLocalPosition(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 4);
+			UnityEngine.Transform obj = (UnityEngine.Transform)ToLua.CheckObject<UnityEngine.Transform>(L, 1);
+			float arg0 = (float)LuaDLL.luaL_checknumber(L, 2);
+			float arg1 = (float)LuaDLL.luaL_checknumber(L, 3);
+			float arg2 = (float)LuaDLL.luaL_checknumber(L, 4);
+			obj.SetLocalPosition(arg0, arg1, arg2);
+			return 0;
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int SetPosition(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 4);
+			UnityEngine.Transform obj = (UnityEngine.Transform)ToLua.CheckObject<UnityEngine.Transform>(L, 1);
+			float arg0 = (float)LuaDLL.luaL_checknumber(L, 2);
+			float arg1 = (float)LuaDLL.luaL_checknumber(L, 3);
+			float arg2 = (float)LuaDLL.luaL_checknumber(L, 4);
+			obj.SetPosition(arg0, arg1, arg2);
+			return 0;
 		}
 		catch (Exception e)
 		{

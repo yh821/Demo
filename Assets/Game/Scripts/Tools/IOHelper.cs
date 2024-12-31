@@ -6,9 +6,45 @@ namespace Common
 {
 	public static class IOHelper
 	{
-		public static readonly int RED_LIMIT = (int) UnityEngine.Mathf.Pow(2, 21);
-		public static readonly int ORANGE_LIMIT = (int) UnityEngine.Mathf.Pow(2, 20);
-		public static readonly int YELLOW_LIMIT = (int) UnityEngine.Mathf.Pow(2, 19);
+		public static readonly int RED_LIMIT = (int) Mathf.Pow(2, 21);
+		public static readonly int ORANGE_LIMIT = (int) Mathf.Pow(2, 20);
+		public static readonly int YELLOW_LIMIT = (int) Mathf.Pow(2, 19);
+
+		public static string DataPath
+		{
+			get
+			{
+				if (string.IsNullOrEmpty(mDataPath))
+					mDataPath = Application.dataPath.Replace("\\", "/");
+				return mDataPath;
+			}
+		}
+
+		private static string mDataPath = "";
+
+		public static string ProjPath
+		{
+			get
+			{
+				if (string.IsNullOrEmpty(mProjPath))
+					mProjPath = DataPath.Replace("/Assets", "");
+				return mProjPath;
+			}
+		}
+
+		private static string mProjPath = "";
+
+		public static string RootPath
+		{
+			get
+			{
+				if (string.IsNullOrEmpty(mRootPath))
+					mRootPath = ProjPath.Substring(0, ProjPath.LastIndexOf('/'));
+				return mRootPath;
+			}
+		}
+
+		private static string mRootPath = "";
 
 		public static void OpenFolder(string path)
 		{

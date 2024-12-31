@@ -85,7 +85,7 @@ public static class CustomSettings
 		_GT(typeof(PathType)),
 		_GT(typeof(RotateMode)),
 		_GT(typeof(Component)).AddExtendType(typeof(ComponentExtension)).AddExtendType(typeof(ShortcutExtensions)),
-		_GT(typeof(Transform)).AddExtendType(typeof(ShortcutExtensions)),
+		_GT(typeof(Transform)).AddExtendType(typeof(TransformExtension)).AddExtendType(typeof(ShortcutExtensions)),
 		_GT(typeof(Light)).AddExtendType(typeof(ShortcutExtensions)),
 		_GT(typeof(Material)).AddExtendType(typeof(ShortcutExtensions)),
 		_GT(typeof(Rigidbody)).AddExtendType(typeof(ShortcutExtensions)),
@@ -170,8 +170,7 @@ public static class CustomSettings
 
 		#region UGUI
 
-		//_GT(typeof()),
-		_GT(typeof(RectTransform)),
+		_GT(typeof(RectTransform)).AddExtendType(typeof(RectTransformExtension)),
 		_GT(typeof(Canvas)),
 		_GT(typeof(CanvasGroup)),
 		_GT(typeof(Button)).AddExtendType(typeof(ButtonExtension)),
@@ -182,29 +181,35 @@ public static class CustomSettings
 		_GT(typeof(Image.Type)),
 		_GT(typeof(RawImage)),
 		_GT(typeof(RectTransformUtility)),
+		_GT(typeof(RectMask2D)),
 
 		#endregion
 
 
 		#region Game
 
-		_GT(typeof(SimpleCamera)),
-		_GT(typeof(UIJoystick)),
-		_GT(typeof(MovableObject)),
-		_GT(typeof(EditorResourceMgr)),
+		_GT(typeof(SimpleCamera)).SetNameSpace(null),
+		_GT(typeof(MovableObject)).SetNameSpace(null),
+		_GT(typeof(EditorResourceMgr)).SetNameSpace(null),
 		_GT(typeof(EasyTouch)).SetNameSpace(null),
 		_GT(typeof(Gesture)).SetNameSpace(null),
-		_GT(typeof(UINameTable)).SetNameSpace(null),
 		_GT(typeof(AssetID)).SetNameSpace(null),
-		_GT(typeof(ClickableObject)),
-		_GT(typeof(ZipUtil)),
-		_GT(typeof(Projectile)),
+		_GT(typeof(ClickManager)).SetNameSpace(null),
+		_GT(typeof(ClickableObject)).SetNameSpace(null),
+		_GT(typeof(ZipUtil)).SetNameSpace(null),
+		_GT(typeof(Projectile)).SetNameSpace(null),
 		_GT(typeof(EffectController)).SetNameSpace(null),
-		_GT(typeof(LoadRawImage)),
-		_GT(typeof(GameObjectAttach)),
-		_GT(typeof(StreamingAssets)),
+		_GT(typeof(LoadRawImage)).SetNameSpace(null),
+		_GT(typeof(GameObjectAttach)).SetNameSpace(null),
+		_GT(typeof(StreamingAssets)).SetNameSpace(null),
 		_GT(typeof(AudioItem)).SetNameSpace(null),
 		_GT(typeof(AudioSourcePool)).SetNameSpace(null),
+		//Game.UI
+		_GT(typeof(UINameTable)).SetNameSpace(null),
+		_GT(typeof(UIJoystick)).SetNameSpace(null),
+		_GT(typeof(UI3DModel)).SetNameSpace(null),
+		_GT(typeof(UIEffect)).SetNameSpace(null),
+		_GT(typeof(UIOverrideOrder)).SetNameSpace(null),
 
 		#endregion
 	};
@@ -227,12 +232,10 @@ public static class CustomSettings
 
 	//重载函数，相同参数个数，相同位置out参数匹配出问题时, 需要强制匹配解决
 	//使用方法参见例子14
-	public static List<Type> outList = new List<Type>()
-		{ };
+	public static List<Type> outList = new List<Type>();
 
 	//ngui优化，下面的类没有派生类，可以作为sealed class
-	public static List<Type> sealedList = new List<Type>()
-		{ };
+	public static List<Type> sealedList = new List<Type>();
 
 	public static BindType _GT(Type t)
 	{

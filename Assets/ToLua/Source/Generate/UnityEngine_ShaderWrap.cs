@@ -11,12 +11,16 @@ public class UnityEngine_ShaderWrap
 		L.RegFunction("EnableKeyword", EnableKeyword);
 		L.RegFunction("DisableKeyword", DisableKeyword);
 		L.RegFunction("IsKeywordEnabled", IsKeywordEnabled);
+		L.RegFunction("SetKeyword", SetKeyword);
 		L.RegFunction("WarmupAllShaders", WarmupAllShaders);
 		L.RegFunction("PropertyToID", PropertyToID);
 		L.RegFunction("GetDependency", GetDependency);
+		L.RegFunction("GetPassCountInSubshader", GetPassCountInSubshader);
 		L.RegFunction("FindPassTagValue", FindPassTagValue);
-		L.RegFunction("SetGlobalFloat", SetGlobalFloat);
+		L.RegFunction("FindSubshaderTagValue", FindSubshaderTagValue);
 		L.RegFunction("SetGlobalInt", SetGlobalInt);
+		L.RegFunction("SetGlobalFloat", SetGlobalFloat);
+		L.RegFunction("SetGlobalInteger", SetGlobalInteger);
 		L.RegFunction("SetGlobalVector", SetGlobalVector);
 		L.RegFunction("SetGlobalColor", SetGlobalColor);
 		L.RegFunction("SetGlobalMatrix", SetGlobalMatrix);
@@ -26,8 +30,9 @@ public class UnityEngine_ShaderWrap
 		L.RegFunction("SetGlobalFloatArray", SetGlobalFloatArray);
 		L.RegFunction("SetGlobalVectorArray", SetGlobalVectorArray);
 		L.RegFunction("SetGlobalMatrixArray", SetGlobalMatrixArray);
-		L.RegFunction("GetGlobalFloat", GetGlobalFloat);
 		L.RegFunction("GetGlobalInt", GetGlobalInt);
+		L.RegFunction("GetGlobalFloat", GetGlobalFloat);
+		L.RegFunction("GetGlobalInteger", GetGlobalInteger);
 		L.RegFunction("GetGlobalVector", GetGlobalVector);
 		L.RegFunction("GetGlobalColor", GetGlobalColor);
 		L.RegFunction("GetGlobalMatrix", GetGlobalMatrix);
@@ -51,12 +56,17 @@ public class UnityEngine_ShaderWrap
 		L.RegFunction("FindTextureStack", FindTextureStack);
 		L.RegFunction("__eq", op_Equality);
 		L.RegFunction("__tostring", ToLua.op_ToString);
+		L.RegVar("maximumChunksOverride", get_maximumChunksOverride, set_maximumChunksOverride);
 		L.RegVar("maximumLOD", get_maximumLOD, set_maximumLOD);
 		L.RegVar("globalMaximumLOD", get_globalMaximumLOD, set_globalMaximumLOD);
 		L.RegVar("isSupported", get_isSupported, null);
 		L.RegVar("globalRenderPipeline", get_globalRenderPipeline, set_globalRenderPipeline);
+		L.RegVar("enabledGlobalKeywords", get_enabledGlobalKeywords, null);
+		L.RegVar("globalKeywords", get_globalKeywords, null);
+		L.RegVar("keywordSpace", get_keywordSpace, null);
 		L.RegVar("renderQueue", get_renderQueue, null);
 		L.RegVar("passCount", get_passCount, null);
+		L.RegVar("subshaderCount", get_subshaderCount, null);
 		L.EndClass();
 	}
 
@@ -82,10 +92,25 @@ public class UnityEngine_ShaderWrap
 	{
 		try
 		{
-			ToLua.CheckArgsCount(L, 1);
-			string arg0 = ToLua.CheckString(L, 1);
-			UnityEngine.Shader.EnableKeyword(arg0);
-			return 0;
+			int count = LuaDLL.lua_gettop(L);
+
+			if (count == 1 && TypeChecker.CheckTypes<string>(L, 1))
+			{
+				string arg0 = ToLua.ToString(L, 1);
+				UnityEngine.Shader.EnableKeyword(arg0);
+				return 0;
+			}
+			else if (count == 1 && TypeChecker.CheckTypes<UnityEngine.Rendering.GlobalKeyword>(L, 1))
+			{
+				UnityEngine.Rendering.GlobalKeyword arg0 = StackTraits<UnityEngine.Rendering.GlobalKeyword>.To(L, 1);
+				UnityEngine.Shader.EnableKeyword(arg0);
+				ToLua.PushValue(L, arg0);
+				return 1;
+			}
+			else
+			{
+				return LuaDLL.luaL_throw(L, "invalid arguments to method: UnityEngine.Shader.EnableKeyword");
+			}
 		}
 		catch (Exception e)
 		{
@@ -98,10 +123,25 @@ public class UnityEngine_ShaderWrap
 	{
 		try
 		{
-			ToLua.CheckArgsCount(L, 1);
-			string arg0 = ToLua.CheckString(L, 1);
-			UnityEngine.Shader.DisableKeyword(arg0);
-			return 0;
+			int count = LuaDLL.lua_gettop(L);
+
+			if (count == 1 && TypeChecker.CheckTypes<string>(L, 1))
+			{
+				string arg0 = ToLua.ToString(L, 1);
+				UnityEngine.Shader.DisableKeyword(arg0);
+				return 0;
+			}
+			else if (count == 1 && TypeChecker.CheckTypes<UnityEngine.Rendering.GlobalKeyword>(L, 1))
+			{
+				UnityEngine.Rendering.GlobalKeyword arg0 = StackTraits<UnityEngine.Rendering.GlobalKeyword>.To(L, 1);
+				UnityEngine.Shader.DisableKeyword(arg0);
+				ToLua.PushValue(L, arg0);
+				return 1;
+			}
+			else
+			{
+				return LuaDLL.luaL_throw(L, "invalid arguments to method: UnityEngine.Shader.DisableKeyword");
+			}
 		}
 		catch (Exception e)
 		{
@@ -114,10 +154,44 @@ public class UnityEngine_ShaderWrap
 	{
 		try
 		{
-			ToLua.CheckArgsCount(L, 1);
-			string arg0 = ToLua.CheckString(L, 1);
-			bool o = UnityEngine.Shader.IsKeywordEnabled(arg0);
-			LuaDLL.lua_pushboolean(L, o);
+			int count = LuaDLL.lua_gettop(L);
+
+			if (count == 1 && TypeChecker.CheckTypes<string>(L, 1))
+			{
+				string arg0 = ToLua.ToString(L, 1);
+				bool o = UnityEngine.Shader.IsKeywordEnabled(arg0);
+				LuaDLL.lua_pushboolean(L, o);
+				return 1;
+			}
+			else if (count == 1 && TypeChecker.CheckTypes<UnityEngine.Rendering.GlobalKeyword>(L, 1))
+			{
+				UnityEngine.Rendering.GlobalKeyword arg0 = StackTraits<UnityEngine.Rendering.GlobalKeyword>.To(L, 1);
+				bool o = UnityEngine.Shader.IsKeywordEnabled(arg0);
+				LuaDLL.lua_pushboolean(L, o);
+				ToLua.PushValue(L, arg0);
+				return 2;
+			}
+			else
+			{
+				return LuaDLL.luaL_throw(L, "invalid arguments to method: UnityEngine.Shader.IsKeywordEnabled");
+			}
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int SetKeyword(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 2);
+			UnityEngine.Rendering.GlobalKeyword arg0 = StackTraits<UnityEngine.Rendering.GlobalKeyword>.Check(L, 1);
+			bool arg1 = LuaDLL.luaL_checkboolean(L, 2);
+			UnityEngine.Shader.SetKeyword(arg0, arg1);
+			ToLua.PushValue(L, arg0);
 			return 1;
 		}
 		catch (Exception e)
@@ -177,7 +251,62 @@ public class UnityEngine_ShaderWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int GetPassCountInSubshader(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 2);
+			UnityEngine.Shader obj = (UnityEngine.Shader)ToLua.CheckObject(L, 1, typeof(UnityEngine.Shader));
+			int arg0 = (int)LuaDLL.luaL_checknumber(L, 2);
+			int o = obj.GetPassCountInSubshader(arg0);
+			LuaDLL.lua_pushinteger(L, o);
+			return 1;
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int FindPassTagValue(IntPtr L)
+	{
+		try
+		{
+			int count = LuaDLL.lua_gettop(L);
+
+			if (count == 3)
+			{
+				UnityEngine.Shader obj = (UnityEngine.Shader)ToLua.CheckObject(L, 1, typeof(UnityEngine.Shader));
+				int arg0 = (int)LuaDLL.luaL_checknumber(L, 2);
+				UnityEngine.Rendering.ShaderTagId arg1 = StackTraits<UnityEngine.Rendering.ShaderTagId>.Check(L, 3);
+				UnityEngine.Rendering.ShaderTagId o = obj.FindPassTagValue(arg0, arg1);
+				ToLua.PushValue(L, o);
+				return 1;
+			}
+			else if (count == 4)
+			{
+				UnityEngine.Shader obj = (UnityEngine.Shader)ToLua.CheckObject(L, 1, typeof(UnityEngine.Shader));
+				int arg0 = (int)LuaDLL.luaL_checknumber(L, 2);
+				int arg1 = (int)LuaDLL.luaL_checknumber(L, 3);
+				UnityEngine.Rendering.ShaderTagId arg2 = StackTraits<UnityEngine.Rendering.ShaderTagId>.Check(L, 4);
+				UnityEngine.Rendering.ShaderTagId o = obj.FindPassTagValue(arg0, arg1, arg2);
+				ToLua.PushValue(L, o);
+				return 1;
+			}
+			else
+			{
+				return LuaDLL.luaL_throw(L, "invalid arguments to method: UnityEngine.Shader.FindPassTagValue");
+			}
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int FindSubshaderTagValue(IntPtr L)
 	{
 		try
 		{
@@ -185,9 +314,41 @@ public class UnityEngine_ShaderWrap
 			UnityEngine.Shader obj = (UnityEngine.Shader)ToLua.CheckObject(L, 1, typeof(UnityEngine.Shader));
 			int arg0 = (int)LuaDLL.luaL_checknumber(L, 2);
 			UnityEngine.Rendering.ShaderTagId arg1 = StackTraits<UnityEngine.Rendering.ShaderTagId>.Check(L, 3);
-			UnityEngine.Rendering.ShaderTagId o = obj.FindPassTagValue(arg0, arg1);
+			UnityEngine.Rendering.ShaderTagId o = obj.FindSubshaderTagValue(arg0, arg1);
 			ToLua.PushValue(L, o);
 			return 1;
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int SetGlobalInt(IntPtr L)
+	{
+		try
+		{
+			int count = LuaDLL.lua_gettop(L);
+
+			if (count == 2 && TypeChecker.CheckTypes<string, int>(L, 1))
+			{
+				string arg0 = ToLua.ToString(L, 1);
+				int arg1 = (int)LuaDLL.lua_tonumber(L, 2);
+				UnityEngine.Shader.SetGlobalInt(arg0, arg1);
+				return 0;
+			}
+			else if (count == 2 && TypeChecker.CheckTypes<int, int>(L, 1))
+			{
+				int arg0 = (int)LuaDLL.lua_tonumber(L, 1);
+				int arg1 = (int)LuaDLL.lua_tonumber(L, 2);
+				UnityEngine.Shader.SetGlobalInt(arg0, arg1);
+				return 0;
+			}
+			else
+			{
+				return LuaDLL.luaL_throw(L, "invalid arguments to method: UnityEngine.Shader.SetGlobalInt");
+			}
 		}
 		catch (Exception e)
 		{
@@ -228,7 +389,7 @@ public class UnityEngine_ShaderWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int SetGlobalInt(IntPtr L)
+	static int SetGlobalInteger(IntPtr L)
 	{
 		try
 		{
@@ -238,19 +399,19 @@ public class UnityEngine_ShaderWrap
 			{
 				string arg0 = ToLua.ToString(L, 1);
 				int arg1 = (int)LuaDLL.lua_tonumber(L, 2);
-				UnityEngine.Shader.SetGlobalInt(arg0, arg1);
+				UnityEngine.Shader.SetGlobalInteger(arg0, arg1);
 				return 0;
 			}
 			else if (count == 2 && TypeChecker.CheckTypes<int, int>(L, 1))
 			{
 				int arg0 = (int)LuaDLL.lua_tonumber(L, 1);
 				int arg1 = (int)LuaDLL.lua_tonumber(L, 2);
-				UnityEngine.Shader.SetGlobalInt(arg0, arg1);
+				UnityEngine.Shader.SetGlobalInteger(arg0, arg1);
 				return 0;
 			}
 			else
 			{
-				return LuaDLL.luaL_throw(L, "invalid arguments to method: UnityEngine.Shader.SetGlobalInt");
+				return LuaDLL.luaL_throw(L, "invalid arguments to method: UnityEngine.Shader.SetGlobalInteger");
 			}
 		}
 		catch (Exception e)
@@ -642,6 +803,38 @@ public class UnityEngine_ShaderWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int GetGlobalInt(IntPtr L)
+	{
+		try
+		{
+			int count = LuaDLL.lua_gettop(L);
+
+			if (count == 1 && TypeChecker.CheckTypes<string>(L, 1))
+			{
+				string arg0 = ToLua.ToString(L, 1);
+				int o = UnityEngine.Shader.GetGlobalInt(arg0);
+				LuaDLL.lua_pushinteger(L, o);
+				return 1;
+			}
+			else if (count == 1 && TypeChecker.CheckTypes<int>(L, 1))
+			{
+				int arg0 = (int)LuaDLL.lua_tonumber(L, 1);
+				int o = UnityEngine.Shader.GetGlobalInt(arg0);
+				LuaDLL.lua_pushinteger(L, o);
+				return 1;
+			}
+			else
+			{
+				return LuaDLL.luaL_throw(L, "invalid arguments to method: UnityEngine.Shader.GetGlobalInt");
+			}
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int GetGlobalFloat(IntPtr L)
 	{
 		try
@@ -674,7 +867,7 @@ public class UnityEngine_ShaderWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int GetGlobalInt(IntPtr L)
+	static int GetGlobalInteger(IntPtr L)
 	{
 		try
 		{
@@ -683,20 +876,20 @@ public class UnityEngine_ShaderWrap
 			if (count == 1 && TypeChecker.CheckTypes<string>(L, 1))
 			{
 				string arg0 = ToLua.ToString(L, 1);
-				int o = UnityEngine.Shader.GetGlobalInt(arg0);
+				int o = UnityEngine.Shader.GetGlobalInteger(arg0);
 				LuaDLL.lua_pushinteger(L, o);
 				return 1;
 			}
 			else if (count == 1 && TypeChecker.CheckTypes<int>(L, 1))
 			{
 				int arg0 = (int)LuaDLL.lua_tonumber(L, 1);
-				int o = UnityEngine.Shader.GetGlobalInt(arg0);
+				int o = UnityEngine.Shader.GetGlobalInteger(arg0);
 				LuaDLL.lua_pushinteger(L, o);
 				return 1;
 			}
 			else
 			{
-				return LuaDLL.luaL_throw(L, "invalid arguments to method: UnityEngine.Shader.GetGlobalInt");
+				return LuaDLL.luaL_throw(L, "invalid arguments to method: UnityEngine.Shader.GetGlobalInteger");
 			}
 		}
 		catch (Exception e)
@@ -1245,6 +1438,20 @@ public class UnityEngine_ShaderWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int get_maximumChunksOverride(IntPtr L)
+	{
+		try
+		{
+			LuaDLL.lua_pushinteger(L, UnityEngine.Shader.maximumChunksOverride);
+			return 1;
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int get_maximumLOD(IntPtr L)
 	{
 		object o = null;
@@ -1311,6 +1518,53 @@ public class UnityEngine_ShaderWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int get_enabledGlobalKeywords(IntPtr L)
+	{
+		try
+		{
+			ToLua.Push(L, UnityEngine.Shader.enabledGlobalKeywords);
+			return 1;
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int get_globalKeywords(IntPtr L)
+	{
+		try
+		{
+			ToLua.Push(L, UnityEngine.Shader.globalKeywords);
+			return 1;
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int get_keywordSpace(IntPtr L)
+	{
+		object o = null;
+
+		try
+		{
+			o = ToLua.ToObject(L, 1);
+			UnityEngine.Shader obj = (UnityEngine.Shader)o;
+			UnityEngine.Rendering.LocalKeywordSpace ret = obj.keywordSpace;
+			ToLua.PushValue(L, ret);
+			return 1;
+		}
+		catch(Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e, o, "attempt to index keywordSpace on a nil value");
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int get_renderQueue(IntPtr L)
 	{
 		object o = null;
@@ -1345,6 +1599,40 @@ public class UnityEngine_ShaderWrap
 		catch(Exception e)
 		{
 			return LuaDLL.toluaL_exception(L, e, o, "attempt to index passCount on a nil value");
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int get_subshaderCount(IntPtr L)
+	{
+		object o = null;
+
+		try
+		{
+			o = ToLua.ToObject(L, 1);
+			UnityEngine.Shader obj = (UnityEngine.Shader)o;
+			int ret = obj.subshaderCount;
+			LuaDLL.lua_pushinteger(L, ret);
+			return 1;
+		}
+		catch(Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e, o, "attempt to index subshaderCount on a nil value");
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int set_maximumChunksOverride(IntPtr L)
+	{
+		try
+		{
+			int arg0 = (int)LuaDLL.luaL_checknumber(L, 2);
+			UnityEngine.Shader.maximumChunksOverride = arg0;
+			return 0;
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
 		}
 	}
 

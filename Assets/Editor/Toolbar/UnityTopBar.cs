@@ -92,7 +92,7 @@ public class UnityTopBar
 			var canvasGo = new GameObject("Canvas", typeof(CanvasScaler));
 			var scaler = canvasGo.GetComponent<CanvasScaler>();
 			scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-			scaler.referenceResolution = new Vector2(SafeAreaAdpater.ReferenceWidth, SafeAreaAdpater.ReferenceHeight);
+			scaler.referenceResolution = new Vector2(GameConst.ReferenceWidth, GameConst.ReferenceHeight);
 			scaler.matchWidthOrHeight = 1;
 			var canvas = canvasGo.GetComponent<Canvas>();
 			canvas.renderMode = RenderMode.ScreenSpaceOverlay;

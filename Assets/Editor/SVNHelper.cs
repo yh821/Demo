@@ -40,8 +40,8 @@ namespace Common
 			{
 				if (string.IsNullOrEmpty(_defaultProjectPath))
 				{
-					var dir = new DirectoryInfo(Application.dataPath + "../");
-					_defaultProjectPath = dir.Parent.FullName.Replace('/', '\\');
+					var dir = new DirectoryInfo(IOHelper.RootPath);
+					_defaultProjectPath = dir.FullName.Replace('/', '\\');
 				}
 
 				return _defaultProjectPath;

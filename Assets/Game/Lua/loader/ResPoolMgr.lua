@@ -72,9 +72,9 @@ function ResPoolMgr:GetRoot()
     return self.v_root
 end
 
-function ResPoolMgr:Update(realtime, unscaledDeltaTime)
+function ResPoolMgr:Update(now_time, delta_time)
     self:QueueGetGameObject()
-    self:UpdateAllPool(realtime)
+    self:UpdateAllPool(now_time)
 end
 
 function ResPoolMgr:GetSprite(bundle_name, asset_name, callback, cb_data, load_priority, is_async)

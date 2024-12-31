@@ -1,28 +1,31 @@
 using UnityEngine;
 
-public class UIGrey : MonoBehaviour
+namespace Game
 {
-	private bool isGrey = false;
-
-	public bool GetGrey() => isGrey;
-
-	public void SetGrey(bool isGrey, Material greyMat)
+	public class UIGrey : MonoBehaviour
 	{
-		if (this.isGrey == isGrey) return;
-		if (isGrey && greyMat == null) return;
-		this.isGrey = isGrey;
+		private bool isGrey = false;
 
-		var graphics = ListPool<UnityEngine.UI.Graphic>.Get();
-		GetComponentsInChildren(true, graphics);
-		foreach (var graphic in graphics)
+		public bool GetGrey() => isGrey;
+
+		public void SetGrey(bool isGrey, Material greyMat)
 		{
-			var layer = graphic.gameObject.layer;
-			if (graphic is UIEffect
-			    || layer == LayerMask.NameToLayer("UIEffect")
-			    || layer == LayerMask.NameToLayer("UI3DEffect"))
-				continue;
-			graphic.material = isGrey ? greyMat : null;
+			if (this.isGrey == isGrey) return;
+			if (isGrey && greyMat == null) return;
+			this.isGrey = isGrey;
+
+			var graphics = ListPool<UnityEngine.UI.Graphic>.Get();
+			GetComponentsInChildren(true, graphics);
+			foreach (var graphic in graphics)
+			{
+				var layer = graphic.gameObject.layer;
+				if (graphic is UIEffect
+				    || layer == LayerMask.NameToLayer("UIEffect")
+				    || layer == LayerMask.NameToLayer("UI3DEffect"))
+					continue;
+				graphic.material = isGrey ? greyMat : null;
+			}
+			ListPool<UnityEngine.UI.Graphic>.Release(graphics);
 		}
-		ListPool<UnityEngine.UI.Graphic>.Release(graphics);
 	}
 }
