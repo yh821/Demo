@@ -2,11 +2,22 @@
   [
     "添加物品",
     "/gm additem:101 1 0",
-    "0"
+    "0",
+    "",
+    "物品id, 数量, 是否绑定"
   ],
   [
     "添加buff",
     "/gm addbuff:102",
-    "0"
+    "0",
+    "buff",
+    ""
+  ],
+  [
+    "中级号",
+    "/gm changemaxhp:10000000000\n/gm changespeed:1000\n/cmd fastcross on",
+    "0",
+    "",
+    ""
   ]
 ]

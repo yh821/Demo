@@ -188,6 +188,7 @@ public static class CustomSettings
 
 		#region Game
 
+		_GT(typeof(GameRoot)),
 		_GT(typeof(SimpleCamera)).SetNameSpace(null),
 		_GT(typeof(MovableObject)).SetNameSpace(null),
 		_GT(typeof(EditorResourceMgr)).SetNameSpace(null),
@@ -196,7 +197,7 @@ public static class CustomSettings
 		_GT(typeof(AssetID)).SetNameSpace(null),
 		_GT(typeof(ClickManager)).SetNameSpace(null),
 		_GT(typeof(ClickableObject)).SetNameSpace(null),
-		_GT(typeof(ZipUtil)).SetNameSpace(null),
+		_GT(typeof(Common.ZipUtil)).SetNameSpace(null),
 		_GT(typeof(Projectile)).SetNameSpace(null),
 		_GT(typeof(EffectController)).SetNameSpace(null),
 		_GT(typeof(LoadRawImage)).SetNameSpace(null),

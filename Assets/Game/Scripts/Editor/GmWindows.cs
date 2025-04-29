@@ -14,27 +14,70 @@ namespace Game.Editor
 			GetWindow<GmWindows>(false, "GmView");
 		}
 
+		private class GmGroupData
+		{
+			public string name;
+			public bool foldout = true;
+			public List<List<string>> children;
+
+			public GmGroupData(string name)
+			{
+				this.name = name;
+				children = new List<List<string>>();
+			}
+
+			public void AddChild(List<string> child)
+			{
+				children.Add(child);
+			}
+		}
+
+		private static readonly string[] TAB =
+		{
+			"所有指令",
+			"分组显示",
+		};
+
+		private int Tab
+		{
+			get => mTab;
+			set
+			{
+				if (mTab != value) RefreshGmShowList(value);
+				mTab = value;
+			}
+		}
+
+		private int mTab = 0;
+
 		private const string GmFile = "Assets/Game/Scripts/Editor/CommonGM.json";
 		private const string GmUserFile = "UserSettings/CommonGM.json";
-		private const int ICON_WIDTH = 26;
-		private const int LAB_WIDTH = 50;
+		private const int WIDTH_NO2 = 26;
+		private const int WIDTH_NO3 = 36;
+		private const int WIDTH_NO4 = 50;
+		private const int WIDTH_NO5 = 60;
 		private const int BTN_WIDTH = 80;
-		private const int Column = 5;
+		private const int VIEW_HEIGHT = 256;
 
 		private List<List<string>> mShowGmList = new List<List<string>>();
-		private List<List<string>> mGmList = new List<List<string>>();
+		private List<List<string>> mAllGmList = new List<List<string>>();
+		private List<GmGroupData> mGmGroupList = new List<GmGroupData>();
 		private bool mSettingMode = false;
 		private string mSearchKey = "";
 		private string mCmContent = "";
 		private string mNewGmName = "";
 		private string mNewGmCmd = "";
+		private string mNewGmGroup = "";
+		private string mNewGmDesc = "";
 		private bool mNewGmAuto = false;
 
-		private Vector2 mGmScrollPos = Vector2.zero;
+		private int mColumn = 5;
+		private Vector2 mAllGmScrollPos = Vector2.zero;
+		private Vector2 mGmGroupScrollPos = Vector2.zero;
 
 		private void OnEnable()
 		{
-			mGmList = IOHelper.LoadOrCreate<List<List<string>>>(File.Exists(GmUserFile) ? GmUserFile : GmFile);
+			mAllGmList = IOHelper.LoadOrCreate<List<List<string>>>(File.Exists(GmUserFile) ? GmUserFile : GmFile);
 			RefreshGmShowList();
 		}
 
@@ -45,7 +88,7 @@ namespace Game.Editor
 			EditorGUILayout.BeginHorizontal();
 			{
 				EditorGUILayout.LabelField("GM:", GUILayout.Width(25));
-				mCmContent = EditorGUILayout.TextField(mCmContent);
+				mCmContent = EditorGUILayout.TextArea(mCmContent);
 				GUI.color = Color.green;
 				if (GUILayout.Button("发送命令", GUILayout.MaxWidth(120)))
 				{
@@ -55,47 +98,84 @@ namespace Game.Editor
 			}
 			EditorGUILayout.EndHorizontal();
 
-			DrawCommonGmList();
+			mColumn = Mathf.FloorToInt((position.width - 3) / (BTN_WIDTH + 3));
+			Tab = GUILayout.Toolbar(Tab, TAB);
+			switch (Tab)
+			{
+				case 0:
+					DrawAllGmList();
+					break;
+				case 1:
+					DrawGmGroupList();
+					break;
+			}
+			DrawEditorGm();
 		}
 
-		private void DrawCommonGmList()
+		private void DrawAllGmList()
 		{
-			mGmScrollPos = EditorGUILayout.BeginScrollView(mGmScrollPos, "Box");
+			GUI.color = mSettingMode ? Color.grey : Color.white;
+			mAllGmScrollPos = EditorGUILayout.BeginScrollView(mAllGmScrollPos, GUILayout.MaxHeight(VIEW_HEIGHT));
 			{
-				for (var i = 0; i < mShowGmList.Count; i += Column)
+				DrawGmButtonList(mShowGmList);
+			}
+			EditorGUILayout.EndScrollView();
+			GUI.color = Color.white;
+		}
+
+		private void DrawGmGroupList()
+		{
+			GUI.color = mSettingMode ? Color.grey : Color.white;
+			mGmGroupScrollPos = EditorGUILayout.BeginScrollView(mGmGroupScrollPos, GUILayout.MaxHeight(VIEW_HEIGHT));
+			{
+				foreach (var gmGroup in mGmGroupList)
 				{
-					EditorGUILayout.BeginHorizontal();
-					for (var j = 0; j < Column; j++)
-					{
-						var index = i + j;
-						if (index >= mShowGmList.Count) continue;
-						var gm = mShowGmList[index];
-						if (GUILayout.Button(gm[0], GUILayout.Width(BTN_WIDTH)))
-						{
-							if (mSettingMode)
-							{
-								mNewGmName = gm[0];
-								mNewGmCmd = gm[1];
-								mNewGmAuto = gm[2] == "1";
-								mCmContent = mNewGmCmd;
-							}
-							else SetGmCmd(gm[1], gm[2] == "1");
-						}
-					}
-					EditorGUILayout.EndHorizontal();
+					var groupName = string.IsNullOrEmpty(gmGroup.name) ? "未分组" : gmGroup.name;
+					gmGroup.foldout = EditorGUILayout.Foldout(gmGroup.foldout, groupName, true);
+					if (!gmGroup.foldout) continue;
+					DrawGmButtonList(gmGroup.children);
 				}
 			}
 			EditorGUILayout.EndScrollView();
 			GUI.color = Color.white;
+		}
 
+		private void DrawGmButtonList(List<List<string>> gmList)
+		{
+			for (var i = 0; i < gmList.Count; i += mColumn)
+			{
+				EditorGUILayout.BeginHorizontal();
+				for (var j = 0; j < mColumn; j++)
+				{
+					var index = i + j;
+					if (index >= gmList.Count) continue;
+					var gm = gmList[index];
+					if (GUILayout.Button(gm[0], GUILayout.Width(BTN_WIDTH)))
+					{
+						mNewGmName = gm[0];
+						mNewGmCmd = gm[1];
+						mNewGmAuto = gm[2] == "1";
+						mNewGmGroup = gm[3];
+						mNewGmDesc = gm[4];
+						mCmContent = mNewGmCmd;
+						if (!mSettingMode)
+							SetGmCmd(mNewGmCmd, mNewGmAuto);
+					}
+				}
+				EditorGUILayout.EndHorizontal();
+			}
+		}
+
+		private void DrawEditorGm()
+		{
 			EditorGUILayout.BeginHorizontal();
 			{
 				GUI.enabled = mSettingMode;
-				EditorGUILayout.LabelField("GM名:", GUILayout.Width(LAB_WIDTH));
+				EditorGUILayout.LabelField("GM名:", GUILayout.Width(WIDTH_NO4));
 				mNewGmName = EditorGUILayout.TextField(mNewGmName);
-				EditorGUILayout.LabelField("自动发送:", GUILayout.Width(LAB_WIDTH));
+				EditorGUILayout.LabelField("自动发送:", GUILayout.Width(WIDTH_NO4));
 				mNewGmAuto = EditorGUILayout.Toggle(mNewGmAuto, GUILayout.Width(14));
-				if (GUILayout.Button(EditorGUIUtility.IconContent("Toolbar Plus"), GUILayout.Width(ICON_WIDTH)))
+				if (GUILayout.Button(EditorGUIUtility.IconContent("Toolbar Plus"), GUILayout.Width(WIDTH_NO2)))
 				{
 					if (string.IsNullOrEmpty(mNewGmName))
 					{
@@ -112,27 +192,35 @@ namespace Game.Editor
 						ShowNotification(new GUIContent("GM指令格式有误"));
 						return;
 					}
-					foreach (var list in mGmList)
+					var isExist = false;
+					foreach (var list in mAllGmList)
 					{
 						if (list[0] == mNewGmName)
 						{
 							list[1] = mNewGmCmd;
 							list[2] = mNewGmAuto ? "1" : "0";
+							list[3] = mNewGmGroup;
+							list[4] = mNewGmDesc;
 							ShowNotification(new GUIContent($"已修改GM:{mNewGmName}"));
-							return;
+							isExist = true;
+							break;
 						}
 					}
-					mGmList.Add(new List<string> {mNewGmName, mNewGmCmd, mNewGmAuto ? "1" : "0"});
-					ShowNotification(new GUIContent($"已添加GM:{mNewGmName}"));
-					RefreshGmShowList();
+					if (!isExist)
+					{
+						mAllGmList.Add(new List<string>
+							{mNewGmName, mNewGmCmd, mNewGmAuto ? "1" : "0", mNewGmGroup, mNewGmDesc});
+						ShowNotification(new GUIContent($"已添加GM:{mNewGmName}"));
+						RefreshGmShowList();
+					}
 				}
-				if (GUILayout.Button(EditorGUIUtility.IconContent("Toolbar Minus"), GUILayout.Width(ICON_WIDTH)))
+				if (GUILayout.Button(EditorGUIUtility.IconContent("Toolbar Minus"), GUILayout.Width(WIDTH_NO2)))
 				{
-					foreach (var list in mGmList)
+					foreach (var list in mAllGmList)
 					{
 						if (list[0] == mNewGmName)
 						{
-							mGmList.Remove(list);
+							mAllGmList.Remove(list);
 							ShowNotification(new GUIContent($"已删除GM名:{mNewGmName}"));
 							break;
 						}
@@ -144,7 +232,7 @@ namespace Game.Editor
 				if (GUILayout.Button(mSettingMode ? "保存指令" : "编辑指令", GUILayout.Width(BTN_WIDTH)))
 				{
 					mSettingMode = !mSettingMode;
-					if (!mSettingMode) IOHelper.SaveJson(GmUserFile, mGmList);
+					if (!mSettingMode) IOHelper.SaveJson(GmUserFile, mAllGmList);
 				}
 				GUI.color = Color.white;
 			}
@@ -153,10 +241,19 @@ namespace Game.Editor
 			if (mSettingMode)
 			{
 				EditorGUILayout.BeginHorizontal();
-				EditorGUILayout.LabelField("GM指令:", GUILayout.Width(LAB_WIDTH));
-				mNewGmCmd = EditorGUILayout.TextField(mNewGmCmd);
+				EditorGUILayout.LabelField("GM指令:", GUILayout.Width(WIDTH_NO4));
+				mNewGmCmd = EditorGUILayout.TextArea(mNewGmCmd);
 				EditorGUILayout.EndHorizontal();
 			}
+
+			GUI.enabled = mSettingMode;
+			EditorGUILayout.BeginHorizontal();
+			EditorGUILayout.LabelField("GM组:", GUILayout.Width(WIDTH_NO3));
+			mNewGmGroup = EditorGUILayout.TextField(mNewGmGroup, GUILayout.Width(WIDTH_NO5));
+			EditorGUILayout.LabelField("说明:", GUILayout.Width(WIDTH_NO3));
+			mNewGmDesc = EditorGUILayout.TextArea(mNewGmDesc);
+			EditorGUILayout.EndHorizontal();
+			GUI.enabled = true;
 		}
 
 		//TODO 设置当前指令
@@ -167,19 +264,33 @@ namespace Game.Editor
 		}
 
 		//TODO 执行当前指令
-		private void ExecuteGm(string cmd)
+		private void ExecuteGm(string gmContent)
 		{
-			Debug.Log("ExecuteGm: " + cmd);
+			if (gmContent.Contains('\n'))
+			{
+				var gmList = gmContent.Split('\n');
+				foreach (var g in gmList)
+				{
+					var gm = g.Trim();
+					if (!string.IsNullOrEmpty(gm))
+						Debug.Log("ExecuteGm:" + gm);
+				}
+			}
+			else Debug.Log("ExecuteGm: " + gmContent);
 		}
 
-		private void RefreshGmShowList()
+		private void RefreshGmShowList(int tab = -1)
 		{
 			mShowGmList.Clear();
-			var list = mGmList;
+			mGmGroupList.Clear();
+			var list = mAllGmList;
 			if (string.IsNullOrEmpty(mSearchKey))
 			{
 				foreach (var item in list)
+				{
 					mShowGmList.Add(item);
+					AddGmInGroup(item);
+				}
 			}
 			else
 			{
@@ -190,6 +301,18 @@ namespace Game.Editor
 						mShowGmList.Add(item);
 				}
 			}
+		}
+
+		private void AddGmInGroup(List<string> data)
+		{
+			var groupName = data[3];
+			var item = mGmGroupList.Find(a => a.name == groupName);
+			if (item == null)
+			{
+				item = new GmGroupData(groupName);
+				mGmGroupList.Add(item);
+			}
+			item.AddChild(data);
 		}
 	}
 }

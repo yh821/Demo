@@ -29,7 +29,7 @@ public sealed class LuaBundleLoader : LuaFileUtils
 
 #if UNITY_ANDROID
 		if (!GameRoot.IsAndroid64())
-			AssetPref = "Assets/Game/LuaBundleJit32/";
+			AssetPrefix = "Assets/Game/LuaBundleJit32/";
 #endif
 	}
 

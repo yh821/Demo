@@ -1,6 +1,5 @@
 using System.IO;
 using UnityEditor;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -23,8 +22,11 @@ namespace Game
 				Error = $"There is no scene with name \"{sceneName}\" in \"{bundleName}\"";
 			else
 			{
+#if UNITY_EDITOR
 				var parameters = new LoadSceneParameters {loadSceneMode = loadMode};
-				asyncOpt = EditorSceneManager.LoadSceneAsyncInPlayMode(abNames[0], parameters);
+				asyncOpt = UnityEditor.SceneManagement.EditorSceneManager.LoadSceneAsyncInPlayMode(abNames[0],
+					parameters);
+#endif
 			}
 		}
 

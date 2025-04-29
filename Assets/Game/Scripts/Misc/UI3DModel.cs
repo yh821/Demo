@@ -58,10 +58,10 @@ namespace Game
 			}
 		}
 
-		protected override void Reset()
-		{
 #if UNITY_EDITOR
-			base.Reset();
+		protected override void Reset() { base.Reset();
+#else
+		protected void Reset() {
 #endif
 			Clear();
 			animatorCullingModeDic.Clear();

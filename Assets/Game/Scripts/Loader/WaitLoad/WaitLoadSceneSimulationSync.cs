@@ -1,7 +1,5 @@
 using System.IO;
 using UnityEditor;
-using UnityEditor.SceneManagement;
-using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Game
@@ -20,8 +18,10 @@ namespace Game
 				Error = $"There is no scene with name \"{levelName}\" in \"{bundleName}\"";
 			else
 			{
+#if UNITY_EDITOR
 				var parameters = new LoadSceneParameters {loadSceneMode = loadMode};
-				EditorSceneManager.LoadSceneInPlayMode(abNames[0], parameters);
+				UnityEditor.SceneManagement.EditorSceneManager.LoadSceneInPlayMode(abNames[0], parameters);
+#endif
 			}
 		}
 

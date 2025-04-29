@@ -57,11 +57,13 @@ namespace Game
 			playings.Remove(ctrl);
 		}
 
+#if UNITY_EDITOR
 		[InitializeOnLoadMethod]
 		private static void EditorStartup()
 		{
 			EditorApplication.playmodeStateChanged += OnPlayModeStateChanged;
 		}
+#endif
 
 		private static void OnPlayModeStateChanged()
 		{

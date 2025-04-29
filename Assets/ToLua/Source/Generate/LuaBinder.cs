@@ -11,6 +11,7 @@ public static class LuaBinder
 		L.BeginModule(null);
 		LuaInterface_DebuggerWrap.Register(L);
 		LuaProfilerWrap.Register(L);
+		GameRootWrap.Register(L);
 		Game_SimpleCameraWrap.Register(L);
 		Game_MovableObjectWrap.Register(L);
 		Game_EditorResourceMgrWrap.Register(L);
@@ -19,7 +20,7 @@ public static class LuaBinder
 		Game_AssetIDWrap.Register(L);
 		Game_ClickManagerWrap.Register(L);
 		Game_ClickableObjectWrap.Register(L);
-		Game_ZipUtilWrap.Register(L);
+		Common_ZipUtilWrap.Register(L);
 		Game_ProjectileWrap.Register(L);
 		Game_EffectControllerWrap.Register(L);
 		Game_LoadRawImageWrap.Register(L);
