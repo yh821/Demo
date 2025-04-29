@@ -53,10 +53,10 @@ namespace Common
 				return;
 			}
 
-			if (Path.GetExtension(path) == string.Empty)
+			if (Path.GetExtension(path) == string.Empty) //文件夹
 				Process.Start(Path.GetFullPath(path));
 			else
-				Process.Start("explorer.exe", ".select," + Path.GetFullPath(path));
+				Process.Start("explorer.exe", "/select," + Path.GetFullPath(path));
 			e.Use();
 		}
 
