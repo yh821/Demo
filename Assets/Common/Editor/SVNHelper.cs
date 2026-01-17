@@ -299,12 +299,14 @@ namespace Common
 			public List<string> commitPaths;
 			public List<string> updatePaths;
 			public string customProjName;
+			public string toolBarVisible;
 
 			public PathOption()
 			{
 				commitPaths = new List<string>();
 				updatePaths = new List<string>();
 				customProjName = "";
+				toolBarVisible = "";
 			}
 		}
 
@@ -332,11 +334,15 @@ namespace Common
 			return option;
 		}
 
-		public static void SaveOption(List<string> commitPaths, List<string> updatePaths, string customProjName)
+		public static void SaveOption(List<string> commitPaths, List<string> updatePaths, string customProjName,
+			string toolBarVisible)
 		{
 			IOHelper.SaveJson(OptionFile, new PathOption
 			{
-				commitPaths = commitPaths, updatePaths = updatePaths, customProjName = customProjName
+				commitPaths = commitPaths,
+				updatePaths = updatePaths,
+				customProjName = customProjName,
+				toolBarVisible = toolBarVisible,
 			});
 		}
 
@@ -362,6 +368,60 @@ namespace Common
 			set => Option.customProjName = value;
 		}
 
+		private static bool[] mToolBarVisible;
+
+		public static bool[] ToolBarVisible
+		{
+			get
+			{
+				if (mToolBarVisible != null) return mToolBarVisible;
+				var option = Option.toolBarVisible;
+				const int len = (int) ToolBarType.Count;
+				mToolBarVisible = new bool[len];
+				if (string.IsNullOrEmpty(option))
+				{
+					mToolBarVisible[0] = true; //默认显示自定义文本
+					mToolBarVisible[1] = true; //默认显示提交更新按钮
+				}
+				else
+				{
+					var array = option.Split('|');
+					for (int i = 0; i < len; i++)
+					{
+						if (i < array.Length)
+						{
+							if (bool.TryParse(array[i], out var value)) mToolBarVisible[i] = value;
+							else mToolBarVisible[i] = false;
+						}
+						else mToolBarVisible[i] = false;
+					}
+				}
+				return mToolBarVisible;
+			}
+			set
+			{
+				mToolBarVisible = value;
+				Option.toolBarVisible = string.Join('|', value);
+			}
+		}
+
+		public static bool GetToolBarVisible(ToolBarType type)
+		{
+			return ToolBarVisible[(int) type];
+		}
+
+		#endregion
+
+		#region 工具显隐枚举
+
+		public enum ToolBarType
+		{
+			SvnButton,
+			CustomName,
+			SceneHistory,
+			Count,
+		}
+
 		#endregion
 	}
 
@@ -382,6 +442,14 @@ namespace Common
 		private bool isShowUpVer = false;
 		private bool isPauseOnUp = false;
 		private string customProjName = "";
+		private bool[] toolBarVisible;
+
+		private string[] toolBarVisibleName =
+		{
+			"显示自定义项目名",
+			"显示提交更新按钮",
+			"显示场景打开记录",
+		};
 
 		private void OnLostFocus()
 		{
@@ -408,23 +476,21 @@ namespace Common
 
 			EditorGUI.BeginChangeCheck();
 			isShowUpVer = GUILayout.Toggle(isShowUpVer, "更新指定版本");
-			if (EditorGUI.EndChangeCheck())
-			{
-				EditorPrefs.SetBool(SVNHelper.ShowUpVerKey, isShowUpVer);
-			}
+			if (EditorGUI.EndChangeCheck()) EditorPrefs.SetBool(SVNHelper.ShowUpVerKey, isShowUpVer);
 
 			EditorGUI.BeginChangeCheck();
 			isPauseOnUp = GUILayout.Toggle(isPauseOnUp, "更新时暂停游戏");
-			if (EditorGUI.EndChangeCheck())
-			{
-				EditorPrefs.SetBool(SVNHelper.PauseOnUpKey, isPauseOnUp);
-			}
+			if (EditorGUI.EndChangeCheck()) EditorPrefs.SetBool(SVNHelper.PauseOnUpKey, isPauseOnUp);
 
 			EditorGUI.BeginChangeCheck();
 			customProjName = EditorGUILayout.TextField("自定义项目名:", customProjName);
-			if (EditorGUI.EndChangeCheck())
+			if (EditorGUI.EndChangeCheck()) SVNHelper.CustomProjName = customProjName;
+
+			for (int i = 0, len = (int) SVNHelper.ToolBarType.Count; i < len; i++)
 			{
-				SVNHelper.CustomProjName = customProjName;
+				EditorGUI.BeginChangeCheck();
+				toolBarVisible[i] = EditorGUILayout.Toggle(toolBarVisibleName[i], toolBarVisible[i]);
+				if (EditorGUI.EndChangeCheck()) SVNHelper.ToolBarVisible = toolBarVisible;
 			}
 		}
 
@@ -514,6 +580,7 @@ namespace Common
 			};
 
 			customProjName = SVNHelper.CustomProjName;
+			toolBarVisible = SVNHelper.ToolBarVisible;
 		}
 
 		private void SetPath(string path, SerializedProperty element)
@@ -539,7 +606,7 @@ namespace Common
 					UpdatePathList.RemoveAt(i);
 			}
 
-			SVNHelper.SaveOption(CommitPathList, UpdatePathList, customProjName);
+			SVNHelper.SaveOption(CommitPathList, UpdatePathList, customProjName, string.Join('|', toolBarVisible));
 		}
 	}
 }

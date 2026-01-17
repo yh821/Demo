@@ -12,7 +12,7 @@ public partial class BuildInWindow
 	// 	win.Init();
 	// }
 
-	private const string IconFile = "Assets/Editor/Build-In/IconName.txt";
+	private const string IconFile = "Assets/Common/Editor/Build-In/IconName.txt";
 
 	private string[] allIcons;
 	private List<string> searchIcons;

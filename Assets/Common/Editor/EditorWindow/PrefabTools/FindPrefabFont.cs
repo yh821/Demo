@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System;
+using UnityEditor;
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEditor.SceneManagement;
@@ -16,11 +17,16 @@ namespace Common.Editor
 			public Font last_font;
 			public string guid;
 			public bool size_toggle;
-			public int size;
+			public int size = 18;
 			public bool line_toggle;
-			public float lineSpring;
+			public float lineSpring = 1;
 			public bool color_toggle;
 			public Color color;
+			public bool hor_toggle;
+			public HorizontalWrapMode horWrap;
+			public bool ver_toggle;
+			public VerticalWrapMode verWrap;
+			public int ver_range = 2;
 		}
 
 		private FontFilter mInputFont = new FontFilter();
@@ -83,18 +89,21 @@ namespace Common.Editor
 			{
 				EditorGUILayout.LabelField(title);
 				filter.font = EditorGUILayout.ObjectField(filter.font, typeof(Font), false) as Font;
+
 				EditorGUILayout.BeginHorizontal();
 				filter.line_toggle = EditorGUILayout.Toggle(filter.line_toggle, GUILayout.Width(PrefabTools.TGO_WIDTH));
 				GUI.enabled = filter.line_toggle;
 				filter.lineSpring = EditorGUILayout.FloatField("字体行距", filter.lineSpring);
 				GUI.enabled = true;
 				EditorGUILayout.EndHorizontal();
+
 				EditorGUILayout.BeginHorizontal();
 				filter.size_toggle = EditorGUILayout.Toggle(filter.size_toggle, GUILayout.Width(PrefabTools.TGO_WIDTH));
 				GUI.enabled = filter.size_toggle;
 				filter.size = EditorGUILayout.IntField("字体大小", filter.size);
 				GUI.enabled = true;
 				EditorGUILayout.EndHorizontal();
+
 				EditorGUILayout.BeginHorizontal();
 				filter.color_toggle =
 					EditorGUILayout.Toggle(filter.color_toggle, GUILayout.Width(PrefabTools.TGO_WIDTH));
@@ -102,6 +111,24 @@ namespace Common.Editor
 				filter.color = EditorGUILayout.ColorField("字体颜色", filter.color);
 				GUI.enabled = true;
 				EditorGUILayout.EndHorizontal();
+
+				EditorGUILayout.BeginHorizontal();
+				filter.hor_toggle = EditorGUILayout.Toggle(filter.hor_toggle, GUILayout.Width(PrefabTools.TGO_WIDTH));
+				GUI.enabled = filter.hor_toggle;
+				filter.horWrap = (HorizontalWrapMode) EditorGUILayout.Popup("横向模式", (int) filter.horWrap,
+					Enum.GetNames(typeof(HorizontalWrapMode)));
+				GUI.enabled = true;
+				EditorGUILayout.EndHorizontal();
+
+				EditorGUILayout.BeginHorizontal();
+				filter.ver_toggle = EditorGUILayout.Toggle(filter.ver_toggle, GUILayout.Width(PrefabTools.TGO_WIDTH));
+				GUI.enabled = filter.ver_toggle;
+				filter.verWrap = (VerticalWrapMode) EditorGUILayout.Popup("纵向模式", (int) filter.verWrap,
+					Enum.GetNames(typeof(VerticalWrapMode)));
+				filter.ver_range = EditorGUILayout.IntField("高度误差", filter.ver_range, GUILayout.MaxWidth(100));
+				GUI.enabled = true;
+				EditorGUILayout.EndHorizontal();
+
 				if (filter.last_font != filter.font)
 				{
 					filter.last_font = filter.font;
@@ -245,7 +272,10 @@ namespace Common.Editor
 			return text.font == filter.font
 			       && (!filter.size_toggle || filter.size == text.fontSize)
 			       && (!filter.line_toggle || filter.lineSpring == text.lineSpacing)
-			       && (!filter.color_toggle || filter.color == text.color);
+			       && (!filter.color_toggle || filter.color == text.color)
+			       && (!filter.hor_toggle || filter.horWrap == text.horizontalOverflow)
+			       && (!filter.ver_toggle || filter.verWrap == text.verticalOverflow
+				       && Mathf.Abs(text.fontSize - text.rectTransform.sizeDelta.y) <= filter.ver_range);
 		}
 
 		private void ReplaceAllFont()
@@ -311,6 +341,10 @@ namespace Common.Editor
 				text.fontSize = filter.size;
 			if (filter.color_toggle)
 				text.color = filter.color;
+			if (filter.hor_toggle)
+				text.horizontalOverflow = filter.horWrap;
+			if (filter.ver_toggle)
+				text.verticalOverflow = filter.verWrap;
 		}
 	}
 }

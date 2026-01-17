@@ -95,32 +95,35 @@ public class UnityTopBar
 	{
 		if (title_style == null) title_style = new GUIStyle("BoldLabel") {fontSize = 16};
 
-		if (EditorApplication.isPlaying) GUILayout.Space(POPUP_WIDTH);
-		else
+		if (SVNHelper.GetToolBarVisible(SVNHelper.ToolBarType.SceneHistory))
 		{
-			if (history == null)
-			{
-				if (GUILayout.Button("场景打开记录", GUILayout.MaxWidth(POPUP_WIDTH), GUILayout.Height(BTN_HEIGHT)))
-					MarkOpenScene(string.Empty);
-			}
+			if (EditorApplication.isPlaying) GUILayout.Space(POPUP_WIDTH);
 			else
 			{
-				openSceneIndex = EditorGUILayout.Popup(openSceneIndex, history,
-					GUILayout.MaxWidth(POPUP_WIDTH), GUILayout.Height(BTN_HEIGHT));
-				if (openSceneIndex != lastOpenSceneIndex)
+				if (history == null)
 				{
-					lastOpenSceneIndex = openSceneIndex;
-					var path = Option.history[openSceneIndex];
-					if (!string.IsNullOrEmpty(path) && File.Exists(path))
-						EditorSceneManager.OpenScene(path);
-					else
+					if (GUILayout.Button("场景打开记录", GUILayout.MaxWidth(POPUP_WIDTH), GUILayout.Height(BTN_HEIGHT)))
+						MarkOpenScene(string.Empty);
+				}
+				else
+				{
+					openSceneIndex = EditorGUILayout.Popup(openSceneIndex, history,
+						GUILayout.MaxWidth(POPUP_WIDTH), GUILayout.Height(BTN_HEIGHT));
+					if (openSceneIndex != lastOpenSceneIndex)
 					{
-						Option.history.RemoveAt(openSceneIndex);
-						IOHelper.SaveJson(OptionFile, Option);
-						openSceneIndex = Option.history.Count - 1;
 						lastOpenSceneIndex = openSceneIndex;
-						history = Option.GetHistory();
-						Debug.LogError("不存在场景: " + path);
+						var path = Option.history[openSceneIndex];
+						if (!string.IsNullOrEmpty(path) && File.Exists(path))
+							EditorSceneManager.OpenScene(path);
+						else
+						{
+							Option.history.RemoveAt(openSceneIndex);
+							IOHelper.SaveJson(OptionFile, Option);
+							openSceneIndex = Option.history.Count - 1;
+							lastOpenSceneIndex = openSceneIndex;
+							history = Option.GetHistory();
+							Debug.LogError("不存在场景: " + path);
+						}
 					}
 				}
 			}
@@ -131,22 +134,25 @@ public class UnityTopBar
 			SVNHelper.OpenPathOption();
 		}
 
-		if (GUILayout.Button(new GUIContent("提交", "提交unity工程svn"), GUILayout.Height(22)))
+		if (SVNHelper.GetToolBarVisible(SVNHelper.ToolBarType.SvnButton))
 		{
-			SVNHelper.SvnCommand(SVNHelper.Command.Commit, SVNHelper.GetCommitPaths());
-		}
+			if (GUILayout.Button(new GUIContent("提交", "提交unity工程svn"), GUILayout.Height(22)))
+			{
+				SVNHelper.SvnCommand(SVNHelper.Command.Commit, SVNHelper.GetCommitPaths());
+			}
 
-		GUI.color = new Color(0.33f, 0.75f, 1f);
-		if (GUILayout.Button(new GUIContent("更新", "更新unity工程svn"), GUILayout.Height(22)))
-		{
-			if (EditorApplication.isPlaying)
-				EditorApplication.isPaused = true;
-			if (UpVersion > 0) SVNHelper.SvnUpdate(SVNHelper.ProjectPath, UpVersion);
-			else SVNHelper.SvnCommand(SVNHelper.Command.Update, SVNHelper.GetUpdatePaths());
+			GUI.color = new Color(0.33f, 0.75f, 1f);
+			if (GUILayout.Button(new GUIContent("更新", "更新unity工程svn"), GUILayout.Height(22)))
+			{
+				if (EditorApplication.isPlaying)
+					EditorApplication.isPaused = true;
+				if (UpVersion > 0) SVNHelper.SvnUpdate(SVNHelper.ProjectPath, UpVersion);
+				else SVNHelper.SvnCommand(SVNHelper.Command.Update, SVNHelper.GetUpdatePaths());
+			}
+			if (EditorPrefs.GetBool(SVNHelper.ShowUpVerKey))
+				UpVersion = EditorGUILayout.IntField(UpVersion, GUILayout.MaxWidth(BTN_WIDTH));
+			GUI.color = Color.white;
 		}
-		if (EditorPrefs.GetBool(SVNHelper.ShowUpVerKey))
-			UpVersion = EditorGUILayout.IntField(UpVersion, GUILayout.MaxWidth(BTN_WIDTH));
-		GUI.color = Color.white;
 	}
 
 	private static void OnRightToolbarGUI()
@@ -169,8 +175,11 @@ public class UnityTopBar
 			camera.transform.position = new Vector3(0, 1, -10);
 		}
 
-		GUILayout.Space(10);
-		GUILayout.Label(SVNHelper.CustomProjName, title_style);
+		if (SVNHelper.GetToolBarVisible(SVNHelper.ToolBarType.CustomName))
+		{
+			GUILayout.Space(10);
+			GUILayout.Label(SVNHelper.CustomProjName, title_style);
+		}
 	}
 
 	private static void SceneCheckList()

@@ -68,12 +68,12 @@ namespace Common.Editor
 					StartSearchAsset(mGuid);
 				}
 				GUI.color = Color.white;
-				if (GUILayout.Button("刷新数据", GUILayout.Width(PrefabTools.BTN_WITCH)))
+				if (GUILayout.Button("刷新数据", GUILayout.Width(PrefabTools.BTN_WIDTH)))
 				{
 					ReadAllGuidInAsset();
 				}
 				GUI.color = Color.grey;
-				if (GUILayout.Button("删除数据", GUILayout.Width(PrefabTools.BTN_WITCH)))
+				if (GUILayout.Button("删除数据", GUILayout.Width(PrefabTools.BTN_WIDTH)))
 				{
 					AssetGuidData.Instance.Clear();
 				}

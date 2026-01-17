@@ -14,30 +14,18 @@ namespace Common.Editor
 	public class PrefabTools : EditorWindow
 	{
 		public const int SPACE = 10;
-		public const int BTN_WITCH = 100;
-		public const int SLT_WITCH = 160;
-		public const int WIN_WIDTH = 1080;
+		public const int BTN_WIDTH = 100;
+		public const int WIN_WIDTH = 1600;
 		public const int TGO_WIDTH = 14;
-
-		private static string[] TAB =
-		{
-			"查找图片",
-			"查找字体",
-			"查找文本",
-			// "查找组件",
-			// "查找错误",
-			"GUID引用",
-		};
-
-		private const int tab_column = 4;
 
 		[MenuItem("Tools/预制工具 %&s", false, 900)]
 		public static PrefabTools OpenWindow()
 		{
-			var winWidth = Mathf.Min(tab_column * (BTN_WITCH + 3) + 3, WIN_WIDTH);
+			var minWinWidth = Mathf.Min(3 * (BTN_WIDTH + 3) + 3, WIN_WIDTH);
+			var maxWinWidth = Mathf.Min(12 * (BTN_WIDTH + 3) + 3, WIN_WIDTH);
 			_win = GetWindow<PrefabTools>("预制工具");
-			_win.minSize = new Vector2(winWidth, 400);
-			_win.maxSize = new Vector2(WIN_WIDTH, 980);
+			_win.minSize = new Vector2(minWinWidth, 400);
+			_win.maxSize = new Vector2(maxWinWidth, 980);
 			_win.Init();
 			return _win;
 		}
@@ -45,12 +33,16 @@ namespace Common.Editor
 		private static PrefabTools _win;
 
 		public int Tab { get; set; }
+		private int tabColumn = 4;
 
 		public const string PathListKey = "FindPrefabImage.PrefabPathList";
 		public const string DefaultPath = "Assets/Game/UIs";
 		private SerializedObject mPathSerializedObject;
 		private ReorderableList mPathReorderableList;
 		public List<Object> PrefabPathList = null;
+
+		private readonly List<string> mToolNameList = new List<string>();
+		private readonly List<PageBase> mToolList = new List<PageBase>();
 
 		private Transform mTempParent = null;
 
@@ -69,19 +61,29 @@ namespace Common.Editor
 			}
 		}
 
-		public FindPrefabFont findFont { get; private set; }
-		public FindPrefabChar findChar { get; private set; }
 		public FindPrefabImage findImage { get; private set; }
 		public FindRefByGuid findRefByGuid { get; private set; }
 
 		private void Init()
 		{
-			findFont = new FindPrefabFont(this);
-			findChar = new FindPrefabChar(this);
-			findImage = new FindPrefabImage(this);
-			findRefByGuid = new FindRefByGuid(this);
-
 			InitPrefabPaths();
+
+			findImage = new FindPrefabImage(this);
+			AddTool("查找图片", findImage);
+
+			AddTool("查找字体", new FindPrefabFont(this));
+			AddTool("查找文字", new FindPrefabChar(this));
+
+			findRefByGuid = new FindRefByGuid(this);
+			AddTool("GUID引用", findRefByGuid);
+
+			AddTool("查找相同图片", new FindSameImage(this));
+		}
+
+		private void AddTool(string name, PageBase tool)
+		{
+			mToolNameList.Add(name);
+			mToolList.Add(tool);
 		}
 
 		public void SetFindImage(Sprite sprite)
@@ -94,7 +96,33 @@ namespace Common.Editor
 			SavePrefabPaths();
 		}
 
-		public void InitPrefabPaths()
+		private void OnGUI()
+		{
+			var oldColor = GUI.color;
+			tabColumn = Mathf.FloorToInt(position.width / (BTN_WIDTH + 3));
+			for (int i = 0, len = mToolList.Count; i < len; i += tabColumn)
+			{
+				GUILayout.BeginHorizontal();
+				for (int j = 0; j < tabColumn; j++)
+				{
+					var index = i + j;
+					if (index < len)
+					{
+						GUI.color = Tab == index ? Color.grey : Color.white;
+						if (GUILayout.Button(mToolNameList[index], GUILayout.MaxWidth(BTN_WIDTH)))
+							Tab = index;
+					}
+				}
+				GUILayout.EndHorizontal();
+			}
+			GUI.color = oldColor;
+
+			EditorGUIUtility.labelWidth = 64;
+			mPathReorderableList?.DoLayoutList();
+			mToolList[Tab].OnGUI();
+		}
+
+		private void InitPrefabPaths()
 		{
 			var pathStr = EditorPrefs.GetString(PathListKey, DefaultPath);
 			PrefabPathList = new List<Object>();
@@ -141,49 +169,6 @@ namespace Common.Editor
 
 			return paths.ToArray();
 		}
-
-		private void OnGUI()
-		{
-			var oldColor = GUI.color;
-			for (int i = 0, len = TAB.Length; i < len; i += tab_column)
-			{
-				GUILayout.BeginHorizontal();
-				for (int j = 0; j < tab_column; j++)
-				{
-					var index = i + j;
-					if (index < len)
-					{
-						GUI.color = Tab == index ? Color.grey : Color.white;
-						if (GUILayout.Button(TAB[index], GUILayout.MaxWidth(BTN_WITCH)))
-							Tab = index;
-					}
-				}
-
-				GUILayout.EndHorizontal();
-			}
-
-			GUI.color = oldColor;
-
-			EditorGUIUtility.labelWidth = 64;
-			mPathReorderableList?.DoLayoutList();
-
-			switch (Tab)
-			{
-				case 0:
-					findImage.OnGUI();
-					break;
-				case 1:
-					findFont.OnGUI();
-					break;
-				case 2:
-					findChar.OnGUI();
-					break;
-				case 3:
-					findRefByGuid.OnGUI();
-					break;
-			}
-		}
-
 
 		public GameObject GetSceneObject(string name)
 		{

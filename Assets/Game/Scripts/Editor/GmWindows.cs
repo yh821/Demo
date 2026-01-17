@@ -43,7 +43,7 @@ namespace Game.Editor
 			get => mTab;
 			set
 			{
-				if (mTab != value) RefreshGmShowList(value);
+				if (mTab != value) RefreshGmShowList();
 				mTab = value;
 			}
 		}
@@ -56,6 +56,7 @@ namespace Game.Editor
 		private const int WIDTH_NO3 = 36;
 		private const int WIDTH_NO4 = 50;
 		private const int WIDTH_NO5 = 60;
+		private const int BTN_HEIGHT = 20;
 		private const int BTN_WIDTH = 80;
 		private const int VIEW_HEIGHT = 256;
 
@@ -71,9 +72,12 @@ namespace Game.Editor
 		private string mNewGmDesc = "";
 		private bool mNewGmAuto = false;
 
+		private int mBtnWidth = BTN_WIDTH;
+		private int mBtnHeight = BTN_HEIGHT;
 		private int mColumn = 5;
 		private Vector2 mAllGmScrollPos = Vector2.zero;
 		private Vector2 mGmGroupScrollPos = Vector2.zero;
+		private Color mAutoSettingColor = new Color(0.75f, 0.75f, 0);
 
 		private void OnEnable()
 		{
@@ -98,7 +102,7 @@ namespace Game.Editor
 			}
 			EditorGUILayout.EndHorizontal();
 
-			mColumn = Mathf.FloorToInt((position.width - 3) / (BTN_WIDTH + 3));
+			mColumn = Mathf.FloorToInt((position.width - 3) / (mBtnWidth + 3));
 			Tab = GUILayout.Toolbar(Tab, TAB);
 			switch (Tab)
 			{
@@ -301,6 +305,7 @@ namespace Game.Editor
 						mShowGmList.Add(item);
 				}
 			}
+			if (tab >= 0) mTab = tab;
 		}
 
 		private void AddGmInGroup(List<string> data)

@@ -71,8 +71,7 @@ namespace Common
 
 		public static void CreateFolder(string path)
 		{
-			if (!Directory.Exists(path))
-				Directory.CreateDirectory(path);
+			if (!Directory.Exists(path)) Directory.CreateDirectory(path);
 		}
 
 		public static void SaveFile(string path, string content)

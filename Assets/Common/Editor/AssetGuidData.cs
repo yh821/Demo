@@ -36,7 +36,9 @@ namespace Common
 		}
 
 
-		private static readonly Regex GuidRegex = new Regex(@"\{fileID: \d+, guid: (\w+), type: \d+\}");
+		private static readonly Regex GuidRegex = new Regex(@"guid: (\w+)");
+		private static readonly Regex AttachGuidRegex = new Regex(@"assetGUID:: (\w+)");
+
 		private const string DataPath = "UserSettings/AssetGuidData.json";
 		private const string LastDataPath = "UserSettings/AssetGuidData_last.json";
 
@@ -71,6 +73,8 @@ namespace Common
 			var content = File.ReadAllText(path);
 			var guidMatches = GuidRegex.Matches(content);
 			foreach (Match mc in guidMatches) AddAsset(mc.Groups[1].Value, mainGuid);
+			var attachMatches = AttachGuidRegex.Matches(content);
+			foreach (Match mc in attachMatches) AddAsset(mc.Groups[1].Value, mainGuid);
 		}
 
 		private void ReadAllAssetGuid(params string[] searchPatterns)
